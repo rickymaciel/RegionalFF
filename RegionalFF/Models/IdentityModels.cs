@@ -29,5 +29,11 @@ namespace RegionalFF.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Oficina> Oficinas { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Funcionario> Funcionarios { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Menu> Menus { get; set; }
     }
 }
