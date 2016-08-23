@@ -12,20 +12,20 @@
     }
     else
     {
-        <li class="menu-item dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Html.DisplayFor(model => item.Nombre) <span class="caret"></span></a>
-            <ul class="dropdown-menu">
+        <li>
+            <a><i class="fa fa-chevron-right"></i> @Html.DisplayFor(model => item.Nombre) <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
                 @foreach (var subitem in item.Hijo())
                 {
                     var nodes = subitem.Hijo();
                     if (nodes.Count() > 0)
                     {
-                        <li class="menu-item dropdown dropdown-submenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Html.DisplayFor(model => subitem.Nombre) <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
+                        <li class="sub_menu">
+                            <a href="">@Html.DisplayFor(model => subitem.Nombre) <span class="caret"></span></a>
+                            <ul class="nav child_menu">
                                 @foreach (var node in nodes)
                                 {
-                                    <li class="menu-item">@Html.ActionLink(node.Nombre, node.Accion, node.Controlador)</li>
+                                    <li class="">@Html.ActionLink(node.Nombre, node.Accion, node.Controlador)</li>
                                 }
                             </ul>
                         </li>

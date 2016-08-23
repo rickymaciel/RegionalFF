@@ -20,12 +20,31 @@ namespace RegionalFF
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/fastclick.js",
+                      "~/Scripts/nprogress.js",
+                      "~/Scripts/icheck.min.js",
+                      "~/Scripts/jquery-jvectormap-2.0.3.min.js",
+                      "~/Scripts/nprogress.js",
+                      "~/Scripts/moment.min.js",
+                      "~/Scripts/daterangepicker.js",
+                      "~/Scripts/custom.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/green.css",
+                      "~/Content/bootstrap-progressbar-3.3.4.min.css",
+                      "~/Content/jquery-jvectormap-2.0.3.css",
+                      "~/Content/custom.min.css"));
+
+
+            bundles.Add(new StyleBundle("~/Content/login").Include(
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/animate.css",
+                      "~/Content/custom.min.css"));
         }
     }
 }
