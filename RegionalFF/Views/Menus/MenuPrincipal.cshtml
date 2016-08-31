@@ -1,0 +1,41 @@
+﻿@model  IEnumerable<RegionalFF.Models.Menu>
+
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    if (item.Accion != null && item.Controlador != null && item.Accion != "" && item.Controlador != "" && item.PadreId == 0)
+    {
+        <li>@Html.ActionLink(item.Nombre, item.Accion, item.Controlador)</li>
+    }
+    else
+    {
+        <li>
+            <a><i class="fa fa-chevron-right"></i> @Html.DisplayFor(model => item.Nombre) <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                @foreach (var subitem in item.Hijo())
+                {
+                    var nodes = subitem.Hijo();
+                    if (nodes.Count() > 0)
+                    {
+                        <li class="sub_menu">
+                            <a href="">@Html.DisplayFor(model => subitem.Nombre) <span class="caret"></span></a>
+                            <ul class="nav child_menu">
+                                @foreach (var node in nodes)
+                                {
+                                    <li class="">@Html.ActionLink(node.Nombre, node.Accion, node.Controlador)</li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink(subitem.Nombre, subitem.Accion, subitem.Controlador)</li>
+                    }
+                }
+            </ul>
+        </li>
+    }
+}
