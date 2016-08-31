@@ -7,6 +7,18 @@
 
 @{
     ViewBag.Denominacion = "RegionalFF";
+    string Email = "";
+    int Index = 0;
+    string Usuario = "";
+    if (Request.IsAuthenticated)
+    {
+        if (User.Identity.GetUserName() != "")
+        {
+            Email = User.Identity.GetUserName();
+            Index = Email.IndexOf("@");
+            Usuario = Email.Substring(0, Index);
+        }
+    }
 }
 
 <!DOCTYPE html>
@@ -16,6 +28,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/datatables")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -25,7 +38,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-pencil"></i> <span>@ViewBag.Denominacion</span></a>
+                        <a href="http://localhost:2491" class="site_title"><i class="fa fa-pencil"></i> <span>@ViewBag.Denominacion</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -33,11 +46,11 @@
                     <!-- menu profile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="~/Content/img/Default.gif" alt="..." class="img-circle profile_img">
+                            <img src="~/Content/img/user.png" alt="..." class="img-circle profile_img" />
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
-                            <h2>@User.Identity.GetUserName()</h2>
+                            <h2><strong class="text-uppercase">@Usuario</strong> </h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -47,6 +60,7 @@
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
+
                             @if (Request.IsAuthenticated)
                             {
                                 <h3>Administrador</h3>
@@ -56,14 +70,21 @@
                                 <h3>Usuario</h3>
                             }
                             <ul class="nav side-menu">
+                                @if (User.IsInRole("Administrador"))
+                                {
+                                    <li>
+                                        <a><i class="fa fa-certificate"></i> Administrador <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("Index", "Admin")">Administrador</a></li>
+                                        </ul>
+                                    </li>
+                                }
+
                                 @if (Request.IsAuthenticated)
                                 {
                                     Html.RenderAction("MenuPrincipal", "Menus");
                                 }
-                                @if (User.IsInRole("Administrador"))
-                                {
-                                    <li>@Html.ActionLink("Administrador", "Index", "Admin")</li>
-                                }
+
                             </ul>
                         </div>
 
@@ -80,7 +101,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Lock">
                             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout">
+                        <a href="javascript:document.getElementById('logoutForm').submit()" data-toggle="tooltip" data-placement="top" title="Logout">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -103,28 +124,7 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
-                <div class="">
-                    <div class="page-title">
-                        <div class="title_left">
-                            <h3>@ViewBag.Title</h3>
-                        </div>
-
-                        <div class="title_right">
-                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">Go!</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    @RenderBody()
-                </div>
+                @RenderBody()
             </div>
             <!-- /page content -->
             <!-- footer content -->
@@ -139,7 +139,88 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datatables")
     @RenderSection("scripts", required: false)
+    <!-- Datatables -->
+    <script>
+        $(document).ready(function () {
+            var handleDataTableButtons = function () {
+                if ($("#datatable-responsive").length) {
+                    $("#datatable-responsive").DataTable({
+                        dom: "Bfrtip",
+                        buttons: [
+                          {
+                              extend: "copy",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "csv",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "excel",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "pdfHtml5",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "print",
+                              className: "btn-sm"
+                          },
+                        ],
+                        //responsive: true,
+
+                        //fixedHeader: true,
+
+                        "bProcessing": true,
+                        "sPaginationType": "full_numbers",
+                        "paging": true,
+                        "iDisplayLength": 8,
+                        "bPaginate": true,
+                        "bSort": true,
+                        "oLanguage": {
+                            "oPaginate": {
+                                "sPrevious": "←",
+                                "sNext": "→",
+                                "sLast": "»",
+                                "sFirst": "«"
+                            },
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:     ",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            }
+                        }
+                    });
+                }
+            };
+
+            TableManageButtons = function () {
+                "use strict";
+                return {
+                    init: function () {
+                        handleDataTableButtons();
+                    }
+                };
+            }();
+
+            TableManageButtons.init();
+        });
+    </script>
+    <!-- /Datatables -->
 </body>
 
 </html>
