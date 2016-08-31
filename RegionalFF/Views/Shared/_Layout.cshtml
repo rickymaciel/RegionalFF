@@ -26,7 +26,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - @ViewBag.Denominacion</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/datatables")
     @Scripts.Render("~/bundles/modernizr")
@@ -73,7 +73,7 @@
                                 @if (User.IsInRole("Administrador"))
                                 {
                                     <li>
-                                        <a><i class="fa fa-certificate"></i> Administrador <span class="fa fa-chevron-down"></span></a>
+                                        <a><i class="fa fa-certificate"></i> Admin <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="@Url.Action("Index", "Admin")">Administrador</a></li>
                                         </ul>
