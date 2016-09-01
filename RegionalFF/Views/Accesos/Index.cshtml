@@ -1,7 +1,6 @@
-﻿@model IEnumerable<RegionalFF.Models.Menu>
-
+﻿@model IEnumerable<RegionalFF.Models.MenuAdmin>
 @{
-    ViewBag.Title = "Menú del Sistema";
+    ViewBag.Title = "Menú Administrador del Sistema";
     ViewBag.SubTitle = "Lista de Menus";
 }
 
@@ -14,7 +13,7 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Create", "Menus")" class="">
+                            <a href="@Url.Action("Create", "Accesos")" class="">
                                 <i class="fa fa-plus"></i>
                                 <strong>Crear Nuevo</strong>
                             </a>
@@ -77,9 +76,9 @@
                                         </td>
                                         <td>
                                             <div class="btn-group  btn-group-xs">
-                                                <a class="btn btn-warning" href="@Url.Action("Edit", "Menus", new { id = item.Id })"><i class="fa fa-edit"></i> </a>
-                                                <a class="btn btn-primary" href="@Url.Action("Details", "Menus", new { id = item.Id })"><i class="fa fa-list"></i></a>
-                                                <a class="btn btn-danger" href="@Url.Action("Delete", "Menus", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
+                                                <a class="btn btn-warning" href="@Url.Action("Edit", "Accesos", new { id = item.Id })"><i class="fa fa-edit"></i> </a>
+                                                <a class="btn btn-primary" href="@Url.Action("Details", "Accesos", new { id = item.Id })"><i class="fa fa-list"></i></a>
+                                                <a class="btn btn-danger" href="@Url.Action("Delete", "Accesos", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
                                             </div>
                                         </td>
                                     </tr>

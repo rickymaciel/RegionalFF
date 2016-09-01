@@ -166,6 +166,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccesosController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -182,11 +183,16 @@
     <Compile Include="Migrations\201608311617013_Menu.Designer.cs">
       <DependentUpon>201608311617013_Menu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609011830092_MenuAdmin.cs" />
+    <Compile Include="Migrations\201609011830092_MenuAdmin.Designer.cs">
+      <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\MenuAdmin.cs" />
     <Compile Include="Models\UserRolesDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -204,12 +210,21 @@
     <Content Include="Content\datatables\responsive.bootstrap.min.css" />
     <Content Include="Content\datatables\scroller.bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\RegionalFF.jpg" />
+    <Content Include="Content\img\RegionalFFlogin.png" />
     <Content Include="Content\img\user.png" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="RegionalFF.ico" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.min.js" />
     <Content Include="Scripts\datatables\buttons.bootstrap.min.js" />
@@ -288,6 +303,12 @@
     <Content Include="Views\Menus\Edit.cshtml" />
     <Content Include="Views\Menus\Index.cshtml" />
     <Content Include="Views\Menus\MenuPrincipal.cshtml" />
+    <Content Include="Views\Accesos\Create.cshtml" />
+    <Content Include="Views\Accesos\Delete.cshtml" />
+    <Content Include="Views\Accesos\Details.cshtml" />
+    <Content Include="Views\Accesos\Edit.cshtml" />
+    <Content Include="Views\Accesos\Index.cshtml" />
+    <Content Include="Views\Accesos\MenuAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -305,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608311617013_Menu.resx">
       <DependentUpon>201608311617013_Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609011830092_MenuAdmin.resx">
+      <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

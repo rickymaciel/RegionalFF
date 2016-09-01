@@ -32,5 +32,7 @@ namespace RegionalFF.Models
 
 
         public System.Data.Entity.DbSet<RegionalFF.Models.Menu> Menus { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.MenuAdmin> MenuAdmins { get; set; }
     }
 }

@@ -10,125 +10,132 @@ using RegionalFF.Models;
 
 namespace RegionalFF.Controllers
 {
-    public class MenusController : Controller
+    public class AccesosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Menus
+        // GET: Accesos
+        [Authorize(Roles = "Administrador")]
         public ActionResult Index()
         {
-            return View(db.Menus.ToList());
+            return View(db.MenuAdmins.ToList());
         }
 
+
         [ChildActionOnly]
-        public ActionResult MenuPrincipal()
+        [Authorize(Roles = "Administrador")]
+        public ActionResult MenuAdmin()
         {
-            List<Menu> menuItems = db.Menus.Where(b => b.PadreId == 0).Where(b => b.Activo == true).ToList();
+            List<MenuAdmin> menuadminItems = db.MenuAdmins.Where(b => b.PadreId == 0).Where(b => b.Activo == true).ToList();
 
             //Get the menuItems collection from somewhere
-            if (menuItems != null || menuItems.Count > 0)
+            if (menuadminItems != null || menuadminItems.Count > 0)
             {
-                return View(menuItems);
+                return View(menuadminItems);
             }
             TempData["notice"] = "Listado de menús vacíos";
             return View();
         }
 
-        // GET: Menus/Details/5
+
+        // GET: Accesos/Details/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Menu menu = db.Menus.Find(id);
-            if (menu == null)
+            MenuAdmin menuAdmin = db.MenuAdmins.Find(id);
+            if (menuAdmin == null)
             {
                 return HttpNotFound();
             }
-            return View(menu);
+            return View(menuAdmin);
         }
 
-        // GET: Menus/Create
+        // GET: Accesos/Create
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Menus/Create
+        // POST: Accesos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] Menu menu)
+        public ActionResult Create([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] MenuAdmin menuAdmin)
         {
             if (ModelState.IsValid)
             {
-                db.Menus.Add(menu);
+                db.MenuAdmins.Add(menuAdmin);
                 db.SaveChanges();
-                TempData["notice"] = "El Menú " + menu.Nombre + " fue creado correctamente";
                 return RedirectToAction("Index");
             }
 
-            return View(menu);
+            return View(menuAdmin);
         }
 
-        // GET: Menus/Edit/5
+        // GET: Accesos/Edit/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Menu menu = db.Menus.Find(id);
-            if (menu == null)
+            MenuAdmin menuAdmin = db.MenuAdmins.Find(id);
+            if (menuAdmin == null)
             {
                 return HttpNotFound();
             }
-            return View(menu);
+            return View(menuAdmin);
         }
 
-        // POST: Menus/Edit/5
+        // POST: Accesos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] Menu menu)
+        public ActionResult Edit([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] MenuAdmin menuAdmin)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(menu).State = EntityState.Modified;
+                db.Entry(menuAdmin).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["notice"] = "El Menú " + menu.Nombre + " fue modificado correctamente";
                 return RedirectToAction("Index");
             }
-            return View(menu);
+            return View(menuAdmin);
         }
 
-        // GET: Menus/Delete/5
+        // GET: Accesos/Delete/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Menu menu = db.Menus.Find(id);
-            if (menu == null)
+            MenuAdmin menuAdmin = db.MenuAdmins.Find(id);
+            if (menuAdmin == null)
             {
                 return HttpNotFound();
             }
-            return View(menu);
+            return View(menuAdmin);
         }
 
-        // POST: Menus/Delete/5
+        // POST: Accesos/Delete/5
+        [Authorize(Roles = "Administrador")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Menu menu = db.Menus.Find(id);
-            db.Menus.Remove(menu);
+            MenuAdmin menuAdmin = db.MenuAdmins.Find(id);
+            db.MenuAdmins.Remove(menuAdmin);
             db.SaveChanges();
-            TempData["notice"] = "El Menú " + menu.Nombre + " fue eliminado correctamente";
             return RedirectToAction("Index");
         }
 

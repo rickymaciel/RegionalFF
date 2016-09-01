@@ -38,7 +38,11 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="http://localhost:2491" class="site_title"><i class="fa fa-pencil-square-o"></i> <span>@ViewBag.Denominacion</span></a>
+                        <a href="http://localhost:2491" class="site_title">
+                            @*<i class="fa fa-pencil-square-o"></i>*@
+                            <img src="~/Content/img/RegionalFF.jpg" alt="@Usuario" class="image" width="50" title="@Usuario" />
+                            <span>@ViewBag.Denominacion</span>
+                        </a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -46,7 +50,7 @@
                     <!-- menu profile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="~/Content/img/user.png" alt="..." class="img-circle profile_img" />
+                            <img src="~/Content/img/user.png" alt="@Usuario" class="img-circle profile_img tip" title="@Usuario" />
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
@@ -55,28 +59,28 @@
                     </div>
                     <!-- /menu profile quick info -->
 
-                    <br /><br />
-                    <hr />
+                    <div class="clearfix"></div>
 
+                    <br />
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <div class="menu_section">
+                                <h3 class="text-red">Administrador</h3>
+                                <ul class="nav side-menu">
+                                    @{
+                                        Html.RenderAction("MenuAdmin", "Accesos");
+                                    }
+                                </ul>
+                            </div>
+                        }
                         <div class="menu_section">
-
-                            @if (Request.IsAuthenticated)
-                            {
-                                <h3>Administrador</h3>
-                            }
-                            else
-                            {
-                                <h3>Usuario</h3>
-                            }
+                            <h3>Menú</h3>
                             <ul class="nav side-menu">
-
-                                @if (Request.IsAuthenticated)
-                                {
+                                @{
                                     Html.RenderAction("MenuPrincipal", "Menus");
                                 }
-
                             </ul>
                         </div>
 
@@ -116,6 +120,19 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
+                @if (TempData["notice"] != null)
+                {
+                    <div class="row" id="mensaje">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <strong><i class="fa fa-check"></i></strong> @TempData["notice"]
+                            </div>
+                        </div>
+                    </div>
+                }
                 @RenderBody()
             </div>
             <!-- /page content -->
@@ -136,6 +153,9 @@
     <!-- Datatables -->
     <script>
         $(document).ready(function () {
+
+            $('#mensaje').delay(6000).fadeOut(2000);
+
             var handleDataTableButtons = function () {
                 if ($("#datatable-responsive").length) {
                     $("#datatable-responsive").DataTable({
@@ -162,14 +182,14 @@
                               className: "btn-sm"
                           },
                         ],
-                        //responsive: true,
+                        responsive: true,
 
-                        //fixedHeader: true,
+                        fixedHeader: true,
 
                         "bProcessing": true,
-                        "sPaginationType": "full_numbers",
+                        //"sPaginationType": "full_numbers",
                         "paging": true,
-                        "iDisplayLength": 8,
+                        "iDisplayLength": 10,
                         "bPaginate": true,
                         "bSort": true,
                         "oLanguage": {

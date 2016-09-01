@@ -1,7 +1,6 @@
-﻿@model RegionalFF.Models.Menu
-
+﻿@model RegionalFF.Models.MenuAdmin
 @{
-    ViewBag.Title = "Menú del Sistema";
+    ViewBag.Title = "Menú Administrador del Sistema";
     ViewBag.SubTitle = "Crear Nuevo";
 }
 
@@ -14,7 +13,7 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Index", "Menus")" class="">
+                            <a href="@Url.Action("Index", "Accesos")" class="">
                                 <i class="fa fa-reply"></i>
                                 Volver al listado
                             </a>
@@ -24,7 +23,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    @using (Html.BeginForm("Create", "Menus", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    @using (Html.BeginForm("Create", "Accesos", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
                     {
                         @Html.AntiForgeryToken()
 
