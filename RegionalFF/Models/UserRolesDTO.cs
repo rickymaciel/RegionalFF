@@ -7,7 +7,7 @@ namespace RegionalFF.Models
     public class ExpandedUserDTO
     {
         [Key]
-        [Display(Name = "Usuario")]
+        [Display(Name = "Nombre de Usuario")]
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -21,16 +21,16 @@ namespace RegionalFF.Models
     public class UserRolesDTO
     {
         [Key]
-        [Display(Name = "Rol")]
+        [Display(Name = "Nombre del Rol")]
         public string RoleName { get; set; }
     }
 
     public class UserRoleDTO
     {
         [Key]
-        [Display(Name = "Usuario")]
+        [Display(Name = "Nombre de Usuario")]
         public string UserName { get; set; }
-        [Display(Name = "Rol")]
+        [Display(Name = "Nombre del Rol")]
         public string RoleName { get; set; }
     }
 
@@ -38,14 +38,14 @@ namespace RegionalFF.Models
     {
         [Key]
         public string Id { get; set; }
-        [Display(Name = "Rol")]
+        [Display(Name = "Nombre del Rol")]
         public string RoleName { get; set; }
     }
 
     public class UserAndRolesDTO
     {
         [Key]
-        [Display(Name = "Usuario")]
+        [Display(Name = "Nombre de Usuario")]
         public string UserName { get; set; }
         public List<UserRoleDTO> colUserRoleDTO { get; set; }
     }

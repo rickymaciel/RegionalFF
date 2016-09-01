@@ -16,12 +16,12 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="@Url.Action("Index", "Admin")" class="">
-                                <i class="fa fa-chevron-left"></i>
+                                <i class="fa fa-reply"></i>
                                 Volver al listado de usuarios
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("EditRoles", "Admin", new { UserName = Model.UserName })" class="">
+                            <a href="@Url.Action("EditarRoles", "Admin", new { UserName = Model.UserName })" class="">
                                 <i class="fa fa-edit"></i>
                                 Editar Roles
                             </a>
@@ -47,6 +47,15 @@
                         </div>
 
                         <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Telefono" } })
+
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-3 " })
                             <div class="col-lg-6">
                                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Usuario" } })
@@ -54,12 +63,12 @@
                             </div>
                         </div>
                         @*<div class="form-group">
-                            @Html.LabelFor(model => model.LockoutEndDateUtc, htmlAttributes: new { @class = "control-label col-lg-3" })
-                            <div class="col-lg-6">
-                                @Html.EditorFor(model => model.LockoutEndDateUtc, new { htmlAttributes = new { @class = "form-control col-lg-12", @placeholder = "Fecha" } })
-                                @Html.ValidationMessageFor(model => model.LockoutEndDateUtc, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+                                @Html.LabelFor(model => model.LockoutEndDateUtc, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                <div class="col-lg-6">
+                                    @Html.EditorFor(model => model.LockoutEndDateUtc, new { htmlAttributes = new { @class = "form-control col-lg-12", @placeholder = "Fecha" } })
+                                    @Html.ValidationMessageFor(model => model.LockoutEndDateUtc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-lg-3" })
                             <div class="col-lg-6">

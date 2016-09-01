@@ -74,6 +74,7 @@ namespace RegionalFF.Controllers
                     objUserDTO.UserName = item.UserName;
                     objUserDTO.Email = item.Email;
                     objUserDTO.LockoutEndDateUtc = item.LockoutEndDateUtc;
+                    objUserDTO.PhoneNumber = item.PhoneNumber;
 
                     col_UserDTO.Add(objUserDTO);
                 }
@@ -128,6 +129,7 @@ namespace RegionalFF.Controllers
 
                 var Email = paramExpandedUserDTO.Email.Trim();
                 var UserName = paramExpandedUserDTO.Email.Trim();
+                var PhoneNumber = paramExpandedUserDTO.PhoneNumber.Trim();
                 var Password = paramExpandedUserDTO.Password.Trim();
 
                 if (Email == "")
@@ -145,7 +147,7 @@ namespace RegionalFF.Controllers
 
                 // Create user
 
-                var objNewAdminUser = new ApplicationUser { UserName = UserName, Email = Email };
+                var objNewAdminUser = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber };
                 var AdminUserCreateResult = UserManager.Create(objNewAdminUser, Password);
 
                 if (AdminUserCreateResult.Succeeded == true)
@@ -164,7 +166,7 @@ namespace RegionalFF.Controllers
                 {
                     ViewBag.Roles = GetAllRolesAsSelectList();
                     ModelState.AddModelError(string.Empty,
-                        "Error: Failed to create the user. Check password requirements.");
+                        "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
                     return View(paramExpandedUserDTO);
                 }
             }
@@ -241,7 +243,7 @@ namespace RegionalFF.Controllers
                 if (UserName.ToLower() == this.User.Identity.Name.ToLower())
                 {
                     ModelState.AddModelError(
-                        string.Empty, "Error: Cannot delete the current user");
+                        string.Empty, "Error : No se puede suprimir la función de administrador para el usuario actual");
 
                     return View("EditUser");
                 }
@@ -267,10 +269,10 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        // GET: /Admin/EditRoles/TestUser 
+        // GET: /Admin/EditarRoles/TestUser 
         [Authorize(Roles = "Administrador")]
-        #region ActionResult EditRoles(string UserName)
-        public ActionResult EditRoles(string UserName)
+        #region ActionResult EditarRoles(string UserName)
+        public ActionResult EditarRoles(string UserName)
         {
             if (UserName == null)
             {
@@ -294,12 +296,12 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        // PUT: /Admin/EditRoles/TestUser 
+        // PUT: /Admin/EditarRoles/TestUser 
         [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        #region public ActionResult EditRoles(UserAndRolesDTO paramUserAndRolesDTO)
-        public ActionResult EditRoles(UserAndRolesDTO paramUserAndRolesDTO)
+        #region public ActionResult EditarRoles(UserAndRolesDTO paramUserAndRolesDTO)
+        public ActionResult EditarRoles(UserAndRolesDTO paramUserAndRolesDTO)
         {
             try
             {
@@ -309,9 +311,9 @@ namespace RegionalFF.Controllers
                 }
 
                 string UserName = paramUserAndRolesDTO.UserName;
-                string strNewRole = Convert.ToString(Request.Form["AddRole"]);
+                string strNewRole = Convert.ToString(Request.Form["NuevoRol"]);
 
-                if (strNewRole != "No Roles Found")
+                if (strNewRole != "No se encontraron roles")
                 {
                     // Go get the User
                     ApplicationUser user = UserManager.FindByName(UserName);
@@ -320,7 +322,7 @@ namespace RegionalFF.Controllers
                     UserManager.AddToRole(user.Id, strNewRole);
                 }
 
-                ViewBag.AddRole = new SelectList(RolesUserIsNotIn(UserName));
+                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
                 UserAndRolesDTO objUserAndRolesDTO =
                     GetUserAndRoles(UserName);
@@ -330,7 +332,7 @@ namespace RegionalFF.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
-                return View("EditRoles");
+                return View("EditarRoles");
             }
         }
         #endregion
@@ -361,7 +363,7 @@ namespace RegionalFF.Controllers
                     this.User.Identity.Name.ToLower() && RoleName == "Administrator")
                 {
                     ModelState.AddModelError(string.Empty,
-                        "Error: Cannot delete Administrator Role for the current user");
+                        "Error : No se puede suprimir la función de administrador para el usuario actual");
                 }
 
                 // Go get the User
@@ -370,30 +372,30 @@ namespace RegionalFF.Controllers
                 UserManager.RemoveFromRoles(user.Id, RoleName);
                 UserManager.Update(user);
 
-                ViewBag.AddRole = new SelectList(RolesUserIsNotIn(UserName));
+                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
-                return RedirectToAction("EditRoles", new { UserName = UserName });
+                return RedirectToAction("EditarRoles", new { UserName = UserName });
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
 
-                ViewBag.AddRole = new SelectList(RolesUserIsNotIn(UserName));
+                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
                 UserAndRolesDTO objUserAndRolesDTO =
                     GetUserAndRoles(UserName);
 
-                return View("EditRoles", objUserAndRolesDTO);
+                return View("EditarRoles", objUserAndRolesDTO);
             }
         }
         #endregion
 
         // Roles *****************************
 
-        // GET: /Admin/ViewAllRoles
+        // GET: /Admin/Roles
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult ViewAllRoles()
-        public ActionResult ViewAllRoles()
+        #region public ActionResult Roles()
+        public ActionResult Roles()
         {
             var roleManager =
                 new RoleManager<IdentityRole>
@@ -412,10 +414,10 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        // GET: /Admin/AddRole
+        // GET: /Admin/NuevoRol
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult AddRole()
-        public ActionResult AddRole()
+        #region public ActionResult NuevoRol()
+        public ActionResult NuevoRol()
         {
             RoleDTO objRoleDTO = new RoleDTO();
 
@@ -423,12 +425,12 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        // PUT: /Admin/AddRole
+        // PUT: /Admin/NuevoRol
         [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        #region public ActionResult AddRole(RoleDTO paramRoleDTO)
-        public ActionResult AddRole(RoleDTO paramRoleDTO)
+        #region public ActionResult NuevoRol(RoleDTO paramRoleDTO)
+        public ActionResult NuevoRol(RoleDTO paramRoleDTO)
         {
             try
             {
@@ -441,7 +443,7 @@ namespace RegionalFF.Controllers
 
                 if (RoleName == "")
                 {
-                    throw new Exception("No RoleName");
+                    throw new Exception("Sin Nombre de rol");
                 }
 
                 // Create Role
@@ -455,12 +457,12 @@ namespace RegionalFF.Controllers
                     roleManager.Create(new IdentityRole(RoleName));
                 }
 
-                return Redirect("~/Admin/ViewAllRoles");
+                return Redirect("~/Admin/Roles");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
-                return View("AddRole");
+                return View("NuevoRol");
             }
         }
         #endregion
@@ -479,7 +481,7 @@ namespace RegionalFF.Controllers
 
                 if (RoleName.ToLower() == "administrator")
                 {
-                    throw new Exception(String.Format("Cannot delete {0} Role.", RoleName));
+                    throw new Exception(String.Format("No se puede eliminar {0} Rol.", RoleName));
                 }
 
                 var roleManager =
@@ -491,7 +493,7 @@ namespace RegionalFF.Controllers
                 {
                     throw new Exception(
                         String.Format(
-                            "Canot delete {0} Role because it still has users.",
+                            "No se puede eliminar {0} clases, porque todavía tiene usuarios",
                             RoleName)
                             );
                 }
@@ -507,7 +509,7 @@ namespace RegionalFF.Controllers
                 {
                     throw new Exception(
                         String.Format(
-                            "Canot delete {0} Role does not exist.",
+                            "No se puede eliminar {0} El Rol no existe.",
                             RoleName)
                             );
                 }
@@ -519,7 +521,7 @@ namespace RegionalFF.Controllers
                                                 RoleName = objRole.Name
                                             }).ToList();
 
-                return View("ViewAllRoles", colRoleDTO);
+                return View("Roles", colRoleDTO);
             }
             catch (Exception ex)
             {
@@ -536,7 +538,7 @@ namespace RegionalFF.Controllers
                                                 RoleName = objRole.Name
                                             }).ToList();
 
-                return View("ViewAllRoles", colRoleDTO);
+                return View("Roles", colRoleDTO);
             }
         }
         #endregion
@@ -617,7 +619,7 @@ namespace RegionalFF.Controllers
             var result = UserManager.FindByName(paramUserName);
 
             // If we could not find the user, throw an exception
-            if (result == null) throw new Exception("Could not find the User");
+            if (result == null) throw new Exception("No se pudo encontrar el usuario");
 
             objExpandedUserDTO.UserName = result.UserName;
             objExpandedUserDTO.Email = result.Email;
@@ -638,10 +640,11 @@ namespace RegionalFF.Controllers
             // If we could not find the user, throw an exception
             if (result == null)
             {
-                throw new Exception("Could not find the User");
+                throw new Exception("No se pudo encontrar el usuario");
             }
 
             result.Email = paramExpandedUserDTO.Email;
+            result.PhoneNumber = paramExpandedUserDTO.PhoneNumber;
 
             // Lets check if the account needs to be unlocked
             if (UserManager.IsLockedOut(result.Id))
@@ -686,7 +689,7 @@ namespace RegionalFF.Controllers
             // If we could not find the user, throw an exception
             if (user == null)
             {
-                throw new Exception("Could not find the User");
+                throw new Exception("No se pudo encontrar el usuario");
             }
 
             UserManager.RemoveFromRoles(user.Id, UserManager.GetRoles(user.Id).ToArray());
@@ -711,10 +714,10 @@ namespace RegionalFF.Controllers
 
             if (colUserRoleDTO.Count() == 0)
             {
-                colUserRoleDTO.Add(new UserRoleDTO { RoleName = "No Roles Found" });
+                colUserRoleDTO.Add(new UserRoleDTO { RoleName = "No se encontraron roles" });
             }
 
-            ViewBag.AddRole = new SelectList(RolesUserIsNotIn(UserName));
+            ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
             // Create UserRolesAndPermissionsDTO
             UserAndRolesDTO objUserAndRolesDTO =
@@ -737,7 +740,7 @@ namespace RegionalFF.Controllers
             // If we could not find the user, throw an exception
             if (user == null)
             {
-                throw new Exception("Could not find the User");
+                throw new Exception("No se pudo encontrar el usuario");
             }
 
             var colRolesForUser = UserManager.GetRoles(user.Id).ToList();
@@ -747,7 +750,7 @@ namespace RegionalFF.Controllers
 
             if (colRolesUserInNotIn.Count() == 0)
             {
-                colRolesUserInNotIn.Add("No Roles Found");
+                colRolesUserInNotIn.Add("No se encontraron roles");
             }
 
             return colRolesUserInNotIn;

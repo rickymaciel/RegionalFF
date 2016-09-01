@@ -275,12 +275,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Admin\AddRole.cshtml" />
+    <Content Include="Views\Admin\NuevoRol.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\Admin\EditRoles.cshtml" />
+    <Content Include="Views\Admin\EditarRoles.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\ViewAllRoles.cshtml" />
+    <Content Include="Views\Admin\Roles.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Menus\Create.cshtml" />
     <Content Include="Views\Menus\Delete.cshtml" />

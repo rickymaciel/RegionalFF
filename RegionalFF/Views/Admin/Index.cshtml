@@ -19,19 +19,19 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="@Url.Action("Create", "Admin")" class="">
-                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-plus-circle"></i>
                                 Nuevo Usuario
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("AddRole", "Admin")" class="">
-                                <i class="fa fa-plus"></i>
+                            <a href="@Url.Action("NuevoRol", "Admin")" class="">
+                                <i class="fa fa-plus-circle"></i>
                                 Nuevo Rol
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("ViewAllRoles", "Admin")" class="">
-                                <i class="fa fa-th"></i>
+                            <a href="@Url.Action("Roles", "Admin")" class="">
+                                <i class="fa fa-shield"></i>
                                 Ver Roles
                             </a>
                         </li>
@@ -90,7 +90,7 @@
 
                                             <div class="btn-group  btn-group-xs">
                                                 <a class="btn btn-warning" href="@Url.Action("EditUser", "Admin", new { UserName = item.UserName })"><i class="fa fa-edit"></i> </a>
-                                                <a class="btn btn-danger" onclick="return confirm('Are you sure you wish to delete this user?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})"><i class="fa fa-list"></i></a>
+                                                <a class="btn btn-danger" onclick="return confirm('Are you sure you wish to delete this user?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})"><i class="fa fa-times"></i></a>
                                             </div>
                                         </td>
                                     </tr>

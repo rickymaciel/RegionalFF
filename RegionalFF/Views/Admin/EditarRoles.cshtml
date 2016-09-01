@@ -22,13 +22,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("AddRole", "Admin")" class="">
+                            <a href="@Url.Action("NuevoRol", "Admin")" class="">
                                 <i class="fa fa-plus"></i>
                                 Nuevo Rol
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("ViewAllRoles", "Admin")" class="">
+                            <a href="@Url.Action("Roles", "Admin")" class="">
                                 <i class="fa fa-th"></i>
                                 Ver Roles
                             </a>
@@ -47,7 +47,7 @@
                                 Roles sin asignar a <small class="text-primary">@Model.UserName</small> 
                             </label>
                             <div class="col-lg-3">
-                                @Html.DropDownList("AddRole", null, "Seleccionar rol", new { @class = "form-control col-md-12", @required = "required" })
+                                @Html.DropDownList("NuevoRol", null, "Seleccionar rol", new { @class = "form-control col-md-12", @required = "required" })
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Asignar al usuario </button>

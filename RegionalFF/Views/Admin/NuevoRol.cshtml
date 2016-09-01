@@ -16,8 +16,8 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("ViewAllRoles", "Admin")" class="">
-                                <i class="fa fa-chevron-left"></i>
+                            <a href="@Url.Action("Roles", "Admin")" class="">
+                                <i class="fa fa-reply"></i>
                                 Volver a Roles
                             </a>
                         </li>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    @using (Html.BeginForm("AddRole", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    @using (Html.BeginForm("NuevoRol", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
-                                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Nombre" } })
+                                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Nombre", @required = "required" } })
                                 @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
                             </div>
                         </div>

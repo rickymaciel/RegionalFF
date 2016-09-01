@@ -11,7 +11,24 @@
                     <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="@Url.Action("Index", "Manage")"> Administrar</a></li>
+                    <li>
+                        <a href="@Url.Action("Index", "Manage")">
+                            <i class="fa fa-user"></i>
+                            <span> Cuenta</span>
+                            
+                        </a>
+                    </li>
+                    
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Admin")">
+                                <span class="badge bg-red pull-right">Administrador</span>
+                                <i class="fa fa-cog"></i>
+                                <span> Ajustes</span>
+                            </a>
+                        </li>
+                    }
                     <li>
                         <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out pull-right"></i> Salir</a>
                     </li>

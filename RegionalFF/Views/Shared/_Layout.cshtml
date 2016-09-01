@@ -38,7 +38,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="http://localhost:2491" class="site_title"><i class="fa fa-pencil"></i> <span>@ViewBag.Denominacion</span></a>
+                        <a href="http://localhost:2491" class="site_title"><i class="fa fa-pencil-square-o"></i> <span>@ViewBag.Denominacion</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -55,7 +55,8 @@
                     </div>
                     <!-- /menu profile quick info -->
 
-                    <br />
+                    <br /><br />
+                    <hr />
 
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -70,15 +71,6 @@
                                 <h3>Usuario</h3>
                             }
                             <ul class="nav side-menu">
-                                @if (User.IsInRole("Administrador"))
-                                {
-                                    <li>
-                                        <a><i class="fa fa-certificate"></i> Admin <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="@Url.Action("Index", "Admin")">Administrador</a></li>
-                                        </ul>
-                                    </li>
-                                }
 
                                 @if (Request.IsAuthenticated)
                                 {
