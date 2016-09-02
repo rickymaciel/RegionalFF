@@ -106,7 +106,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.OficinaId, "OficinaId", htmlAttributes: new { @class = "control-label col-md-3" })
+                            @Html.LabelFor(model => model.Oficina, "Oficina", htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
                                 @Html.DropDownList("OficinaId", null, new { @class = "form-control col-md-12", @placeholder = "Oficina", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.OficinaId, "", new { @class = "text-danger" })

@@ -24,45 +24,109 @@ namespace RegionalFF.Migrations
               {
                   //1
                   PadreId = 0,
-                  Nombre = "Admin",
-                  Descripcion = "Módulos del Administrador del Sistema",
+                  Nombre = "Navegación",
+                  Descripcion = "Menú de Navegación del Sistema <Usuario>",
+                  Accion = "",
+                  Controlador = "",
+                  Activo = true
+              });
+
+            //Crear MenuAdmins
+            context.MenuAdmins.AddOrUpdate(
+                p => p.Nombre,
+              new Models.MenuAdmin
+              {
+                  //1
+                  PadreId = 0,
+                  Nombre = "Menú Administrador",
+                  Descripcion = "Módulo Administrador del Menú Admin del Sistema",
                   Accion = "",
                   Controlador = "",
                   Activo = true
               },
-              new Models.Menu
+              new Models.MenuAdmin
               {
-                  //1
+                  //2
+                  PadreId = 0,
+                  Nombre = "Menú Usuario",
+                  Descripcion = "Módulo Administrador del Menú Usuario del Sistema",
+                  Accion = "",
+                  Controlador = "",
+                  Activo = true
+              },
+              new Models.MenuAdmin
+              {
+                  //3
                   PadreId = 1,
-                  Nombre = "Menú",
-                  Descripcion = "Menu del Sistema",
+                  Nombre = "Menú Administrador",
+                  Descripcion = "Listado del Menú Administrador del Sistema",
+                  Accion = "Index",
+                  Controlador = "Accesos",
+                  Activo = true
+              },
+              new Models.MenuAdmin
+              {
+                  //4
+                  PadreId = 2,
+                  Nombre = "Menú Usuario",
+                  Descripcion = "Listado del Menú Usuario del Sistema",
                   Accion = "Index",
                   Controlador = "Menus",
                   Activo = true
               },
-              new Models.Menu
+              new Models.MenuAdmin
               {
-                  //1
+                  //5
                   PadreId = 1,
-                  Nombre = "Crear Usuario",
-                  Descripcion = "Crear usuario del Usuario del Sistema",
+                  Nombre = "Crear Menú",
+                  Descripcion = "Crear Menú Administrador del Sistema",
                   Accion = "Create",
+                  Controlador = "Accesos",
+                  Activo = true
+              },
+              new Models.MenuAdmin
+              {
+                  //6
+                  PadreId = 1,
+                  Nombre = "Oficinas",
+                  Descripcion = "Gestionar Oficinas",
+                  Accion = "Index",
+                  Controlador = "Oficinas",
+                  Activo = true
+              },
+              new Models.MenuAdmin
+              {
+                  //7
+                  PadreId = 1,
+                  Nombre = "Roles",
+                  Descripcion = "Gestionar Roles",
+                  Accion = "Roles",
                   Controlador = "Admin",
                   Activo = true
               },
-              new Models.Menu
+              new Models.MenuAdmin
               {
-                  //1
+                  //8
                   PadreId = 1,
-                  Nombre = "Nuevo Rol",
-                  Descripcion = "Crear Roles",
-                  Accion = "AddRole",
+                  Nombre = "Usuarios",
+                  Descripcion = "Gestionar Usuarios del Sistema",
+                  Accion = "Index",
                   Controlador = "Admin",
+                  Activo = true
+              },
+              new Models.MenuAdmin
+              {
+                  //9
+                  PadreId = 2,
+                  Nombre = "Crear Menú",
+                  Descripcion = "Crear Menú Usuario del Sistema",
+                  Accion = "Create",
+                  Controlador = "Menus",
                   Activo = true
               });
 
-            //Crear si no existe Oficina Direccion
-            if (!context.Oficinas.Any(r => r.Nombre == "Direccion"))
+            //Crear si no existe Administración del Sistema
+            if (!context.Oficinas.Any(r => r.Nombre == "Administración del Sistema"))
             {
                 context.Oficinas.AddOrUpdate(
                     p => p.Nombre,
@@ -70,12 +134,31 @@ namespace RegionalFF.Migrations
                     {
                         //1
                         Id = 1,
-                        Nombre = "Direccion General",
-                        Sigla = "D",
-                        Departamento = "Administrador",
+                        Nombre = "Administración del Sistema",
+                        Sigla = "AS",
+                        Departamento = "'",
                         Ciudad = "-",
                         Direccion = "-",
                         Telefono = "-"
+                    }
+                );
+            }
+
+            //Crear si no existe Oficina Regional de Encarnación
+            if (!context.Oficinas.Any(r => r.Nombre == "Oficina Regional de Encarnación"))
+            {
+                context.Oficinas.AddOrUpdate(
+                    p => p.Nombre,
+                    new Models.Oficina
+                    {
+                        //1
+                        Id = 1,
+                        Nombre = "Oficina Regional de Encarnación",
+                        Sigla = "ORE",
+                        Departamento = "Itapúa",
+                        Ciudad = "Encarnación",
+                        Direccion = "Costanera Padre Bolik",
+                        Telefono = "071202889"
                     }
                 );
             }
