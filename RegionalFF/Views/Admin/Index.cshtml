@@ -58,10 +58,22 @@
                             <thead>
                                 <tr>
                                     <th>
+                                        Nombre y Apellido
+                                    </th>
+                                    <th>
                                         Email
                                     </th>
                                     <th>
+                                        Pertenece a:
+                                    </th>
+                                    <th>
                                         Nombre de Usuario
+                                    </th>
+                                    <th>
+                                        Nº Funcionario
+                                    </th>
+                                    <th>
+                                        Nº Documento
                                     </th>
                                     <th>
                                         Telefono
@@ -78,10 +90,22 @@
                                 {
                                     <tr>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
+                                        </td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.Email)
                                         </td>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.Oficina.Nombre)
+                                        </td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Numero)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Documento)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.PhoneNumber)

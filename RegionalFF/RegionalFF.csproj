@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenusController.cs" />
+    <Compile Include="Controllers\OficinasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -187,12 +188,17 @@
     <Compile Include="Migrations\201609011830092_MenuAdmin.Designer.cs">
       <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609020547037_OficinaUsers.cs" />
+    <Compile Include="Migrations\201609020547037_OficinaUsers.Designer.cs">
+      <DependentUpon>201609020547037_OficinaUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuAdmin.cs" />
+    <Compile Include="Models\Oficina.cs" />
     <Compile Include="Models\UserRolesDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -309,6 +315,11 @@
     <Content Include="Views\Accesos\Edit.cshtml" />
     <Content Include="Views\Accesos\Index.cshtml" />
     <Content Include="Views\Accesos\MenuAdmin.cshtml" />
+    <Content Include="Views\Oficinas\Create.cshtml" />
+    <Content Include="Views\Oficinas\Delete.cshtml" />
+    <Content Include="Views\Oficinas\Details.cshtml" />
+    <Content Include="Views\Oficinas\Edit.cshtml" />
+    <Content Include="Views\Oficinas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -329,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609011830092_MenuAdmin.resx">
       <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609020547037_OficinaUsers.resx">
+      <DependentUpon>201609020547037_OficinaUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

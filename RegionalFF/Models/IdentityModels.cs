@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RegionalFF.Models
 {
@@ -16,6 +18,26 @@ namespace RegionalFF.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        [Required(ErrorMessage = "El Nº Funcionario es requerido")]
+        [Display(Name = "Nº Funcionario")]
+        public int Numero { get; set; }
+
+        [Required(ErrorMessage = "La Oficina es requerida")]
+        [Display(Name = "Oficina")]
+        public int OficinaId { get; set; }
+
+        [Required(ErrorMessage = "El Documento es requerido")]
+        [Display(Name = "Documento")]
+        public int Documento { get; set; }
+
+        public string Nombre { get; set; }
+
+        public string Apellido { get; set; }
+
+        [ForeignKey("OficinaId")]
+        public virtual Oficina Oficina { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -34,5 +56,7 @@ namespace RegionalFF.Models
         public System.Data.Entity.DbSet<RegionalFF.Models.Menu> Menus { get; set; }
 
         public System.Data.Entity.DbSet<RegionalFF.Models.MenuAdmin> MenuAdmins { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Oficina> Oficinas { get; set; }
     }
 }

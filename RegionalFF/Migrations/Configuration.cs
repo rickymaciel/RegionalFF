@@ -61,6 +61,25 @@ namespace RegionalFF.Migrations
                   Activo = true
               });
 
+            //Crear si no existe Oficina Direccion
+            if (!context.Oficinas.Any(r => r.Nombre == "Direccion"))
+            {
+                context.Oficinas.AddOrUpdate(
+                    p => p.Nombre,
+                    new Models.Oficina
+                    {
+                        //1
+                        Id = 1,
+                        Nombre = "Direccion General",
+                        Sigla = "D",
+                        Departamento = "Administrador",
+                        Ciudad = "-",
+                        Direccion = "-",
+                        Telefono = "-"
+                    }
+                );
+            }
+
 
             //Crear si no existe Rol Administrador
             if (!context.Roles.Any(r => r.Name == "Administrador"))
@@ -72,12 +91,33 @@ namespace RegionalFF.Migrations
                 manager.Create(role);
             }
 
+
+            //Crear si no existe Rol Facilitador
+            if (!context.Roles.Any(r => r.Name == "Facilitador"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Facilitador" };
+
+                manager.Create(role);
+            }
+
+            //Crear si no existe Rol Fiscalizador
+            if (!context.Roles.Any(r => r.Name == "Fiscalizador"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Fiscalizador" };
+
+                manager.Create(role);
+            }
+
             //Crear Usuario
             if (!context.Users.Any(u => u.Email == "rmacielb3@gmail.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com" };
+                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 1, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Administrador a usuario

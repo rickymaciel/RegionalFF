@@ -72,6 +72,13 @@ namespace RegionalFF.Controllers
                     ExpandedUserDTO objUserDTO = new ExpandedUserDTO();
 
                     objUserDTO.UserName = item.UserName;
+                    objUserDTO.Nombre = item.Nombre;
+                    objUserDTO.Apellido = item.Apellido;
+                    objUserDTO.Numero = item.Numero;
+                    objUserDTO.OficinaId = item.OficinaId;
+                    objUserDTO.Oficina = item.Oficina;
+                    objUserDTO.UserName = item.UserName;
+                    objUserDTO.Documento = item.Documento;
                     objUserDTO.Email = item.Email;
                     objUserDTO.LockoutEndDateUtc = item.LockoutEndDateUtc;
                     objUserDTO.PhoneNumber = item.PhoneNumber;
@@ -109,6 +116,8 @@ namespace RegionalFF.Controllers
 
             ViewBag.Roles = GetAllRolesAsSelectList();
 
+            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
+
             return View(objExpandedUserDTO);
         }
         #endregion
@@ -129,17 +138,22 @@ namespace RegionalFF.Controllers
 
                 var Email = paramExpandedUserDTO.Email.Trim();
                 var UserName = paramExpandedUserDTO.Email.Trim();
+                var Nombre = paramExpandedUserDTO.Nombre.Trim();
+                var Apellido = paramExpandedUserDTO.Apellido.Trim();
+                var Documento = paramExpandedUserDTO.Documento;
+                var Numero = paramExpandedUserDTO.Numero;
                 var PhoneNumber = paramExpandedUserDTO.PhoneNumber.Trim();
                 var Password = paramExpandedUserDTO.Password.Trim();
+                var OficinaId = paramExpandedUserDTO.OficinaId;
 
                 if (Email == "")
                 {
-                    throw new Exception("No Email");
+                    throw new Exception("El Email es requerido");
                 }
 
                 if (Password == "")
                 {
-                    throw new Exception("No Password");
+                    throw new Exception("El Password es requerido");
                 }
 
                 // UserName is LowerCase of the Email
@@ -147,7 +161,7 @@ namespace RegionalFF.Controllers
 
                 // Create user
 
-                var objNewAdminUser = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber };
+                var objNewAdminUser = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId };
                 var AdminUserCreateResult = UserManager.Create(objNewAdminUser, Password);
 
                 if (AdminUserCreateResult.Succeeded == true)
@@ -165,6 +179,8 @@ namespace RegionalFF.Controllers
                 else
                 {
                     ViewBag.Roles = GetAllRolesAsSelectList();
+
+                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
                     ModelState.AddModelError(string.Empty,
                         "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
                     return View(paramExpandedUserDTO);
@@ -189,6 +205,7 @@ namespace RegionalFF.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ExpandedUserDTO objExpandedUserDTO = GetUser(UserName);
+            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
             if (objExpandedUserDTO == null)
             {
                 return HttpNotFound();
@@ -212,6 +229,7 @@ namespace RegionalFF.Controllers
                 }
 
                 ExpandedUserDTO objExpandedUserDTO = UpdateDTOUser(paramExpandedUserDTO);
+                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
 
                 if (objExpandedUserDTO == null)
                 {
@@ -360,7 +378,7 @@ namespace RegionalFF.Controllers
                 }
 
                 if (UserName.ToLower() ==
-                    this.User.Identity.Name.ToLower() && RoleName == "Administrator")
+                    this.User.Identity.Name.ToLower() && RoleName == "Administrador")
                 {
                     ModelState.AddModelError(string.Empty,
                         "Error : No se puede suprimir la función de administrador para el usuario actual");
@@ -611,6 +629,38 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        #region private List<SelectListItem> GetAllOficinassAsSelectList()
+        private List<SelectListItem> GetAllOficinassAsSelectList()
+        {
+            List<SelectListItem> SelectOficinaListItems = new List<SelectListItem>();
+
+
+            var colOficinaSelectList = db.Oficinas.OrderBy(x => x.Nombre).ToList();
+
+            SelectOficinaListItems.Add(
+                new SelectListItem
+                {
+                    Text = "Seleccionar Oficina",
+                    Value = "0"
+                });
+
+            foreach (var item in colOficinaSelectList)
+            {
+                SelectOficinaListItems.Add(
+                    new SelectListItem
+                    {
+                        Text = item.Nombre.ToString(),
+                        Value = item.Id.ToString()
+                    });
+            }
+
+            return SelectOficinaListItems;
+        }
+        #endregion
+
+
         #region private ExpandedUserDTO GetUser(string paramUserName)
         private ExpandedUserDTO GetUser(string paramUserName)
         {
@@ -622,10 +672,15 @@ namespace RegionalFF.Controllers
             if (result == null) throw new Exception("No se pudo encontrar el usuario");
 
             objExpandedUserDTO.UserName = result.UserName;
+            objExpandedUserDTO.Nombre = result.Nombre;
+            objExpandedUserDTO.Apellido = result.Apellido;
+            objExpandedUserDTO.Documento = result.Documento;
+            objExpandedUserDTO.Numero = result.Numero;
             objExpandedUserDTO.Email = result.Email;
             objExpandedUserDTO.LockoutEndDateUtc = result.LockoutEndDateUtc;
             objExpandedUserDTO.AccessFailedCount = result.AccessFailedCount;
             objExpandedUserDTO.PhoneNumber = result.PhoneNumber;
+            objExpandedUserDTO.OficinaId = result.OficinaId;
 
             return objExpandedUserDTO;
         }
@@ -645,6 +700,12 @@ namespace RegionalFF.Controllers
 
             result.Email = paramExpandedUserDTO.Email;
             result.PhoneNumber = paramExpandedUserDTO.PhoneNumber;
+            result.Nombre = paramExpandedUserDTO.Nombre;
+            result.Apellido = paramExpandedUserDTO.Apellido;
+            result.Numero = paramExpandedUserDTO.Numero;
+            result.Documento = paramExpandedUserDTO.Documento;
+            result.UserName = paramExpandedUserDTO.UserName;
+            result.OficinaId = paramExpandedUserDTO.OficinaId;
 
             // Lets check if the account needs to be unlocked
             if (UserManager.IsLockedOut(result.Id))
