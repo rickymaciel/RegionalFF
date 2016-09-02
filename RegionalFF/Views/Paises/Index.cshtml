@@ -1,0 +1,64 @@
+﻿@model IEnumerable<RegionalFF.Models.Pais>
+@{
+    ViewBag.Title = "Países";
+    ViewBag.SubTitle = "Lista de Países";
+}
+
+
+
+<div class="">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a href="@Url.Action("Create", "Paises")" class="">
+                                <i class="fa fa-plus"></i>
+                                <strong>Crear Nuevo</strong>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                        Administrar los Países <code></code>
+                    </p>
+                    <div class="">
+                        <table id="datatable-responsive" class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Nombre)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nombre)
+                                        </td>
+                                        <td>
+                                            <div class="btn-group  btn-group-xs">
+                                                <a class="btn btn-warning" href="@Url.Action("Edit", "Paises", new { id = item.Id })"><i class="fa fa-edit"></i> </a>
+                                                <a class="btn btn-primary" href="@Url.Action("Details", "Paises", new { id = item.Id })"><i class="fa fa-list"></i></a>
+                                                <a class="btn btn-danger" href="@Url.Action("Delete", "Paises", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

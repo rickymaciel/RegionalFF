@@ -58,5 +58,7 @@ namespace RegionalFF.Models
         public System.Data.Entity.DbSet<RegionalFF.Models.MenuAdmin> MenuAdmins { get; set; }
 
         public System.Data.Entity.DbSet<RegionalFF.Models.Oficina> Oficinas { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Pais> Pais { get; set; }
     }
 }
