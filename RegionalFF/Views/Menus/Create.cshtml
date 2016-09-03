@@ -14,7 +14,7 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Index", "Menus")" class="">
+                            <a href="@Url.Action("Index", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver al listado">
                                 <i class="fa fa-reply"></i>
                                 Volver al listado
                             </a>
@@ -76,11 +76,10 @@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button type="reset" class="btn btn-default">Limpiar</button>
-                                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                                <a href="@Url.Action("Index", "Menus")" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</a>
+                                <button type="submit" class="btn btn-default"><i class="fa fa-check"></i> Guardar</button>
                             </div>
                         </div>
-
                     }
                 </div>
             </div>

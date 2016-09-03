@@ -13,9 +13,15 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Index", "Menus")" class="">
-                                <i class="fa fa-chevron-left"></i>
+                            <a href="@Url.Action("Index", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                                <i class="fa fa-reply"></i>
                                 Volver al listado
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                                <i class="fa fa-plus"></i>
+                                Crear Nuevo
                             </a>
                         </li>
                     </ul>

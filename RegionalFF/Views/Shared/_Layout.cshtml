@@ -35,7 +35,7 @@
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
-            <div class="col-md-3 left_col">
+            <div class="col-md-3 left_col menu_fixed">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
                         <a href="http://localhost:2491" class="site_title">
@@ -70,7 +70,7 @@
                                 <h3 class="text-red">Administrador</h3>
                                 <ul class="nav side-menu">
                                     @{
-                                        Html.RenderAction("MenuAdmin", "Accesos");
+                            Html.RenderAction("MenuAdmin", "Accesos");
                                     }
                                 </ul>
                             </div>
@@ -120,23 +120,8 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
-                @if (TempData["notice"] != null)
-                {
-                    <div class="row" id="mensaje">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="alert alert-success alert-dismissible fade in" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                <strong><i class="fa fa-check"></i></strong> @TempData["notice"]
-                            </div>
-                        </div>
-                    </div>
-                }
                 @RenderBody()
             </div>
-            <!-- /page content -->
-            <!-- footer content -->
             <footer>
                 <div class="pull-right">
                     &copy; @DateTime.Now.Year - @ViewBag.Denominacion
@@ -152,87 +137,92 @@
     @RenderSection("scripts", required: false)
     <!-- Datatables -->
     <script>
-        $(document).ready(function () {
+        $(function () {
 
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'icheckbox_minimal-blue',
+                increaseArea: '20%' // optional
+            });
             $('#mensaje').delay(6000).fadeOut(2000);
 
-            var handleDataTableButtons = function () {
-                if ($("#datatable-responsive").length) {
-                    $("#datatable-responsive").DataTable({
-                        dom: "Bfrtip",
-                        buttons: [
-                          {
-                              extend: "copy",
-                              className: "btn-sm"
-                          },
-                          {
-                              extend: "csv",
-                              className: "btn-sm"
-                          },
-                          {
-                              extend: "excel",
-                              className: "btn-sm"
-                          },
-                          {
-                              extend: "pdfHtml5",
-                              className: "btn-sm"
-                          },
-                          {
-                              extend: "print",
-                              className: "btn-sm"
-                          },
-                        ],
-                        responsive: true,
-
-                        fixedHeader: true,
-
-                        "bProcessing": true,
-                        //"sPaginationType": "full_numbers",
-                        "paging": true,
-                        "iDisplayLength": 10,
-                        "bPaginate": true,
-                        "bSort": true,
-                        "oLanguage": {
-                            "oPaginate": {
-                                "sPrevious": "←",
-                                "sNext": "→",
-                                "sLast": "»",
-                                "sFirst": "«"
-                            },
-                            "sProcessing": "Procesando...",
-                            "sLengthMenu": "Mostrar _MENU_ registros",
-                            "sZeroRecords": "No se encontraron resultados",
-                            "sEmptyTable": "Ningún dato disponible en esta tabla",
-                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                            "sInfoPostFix": "",
-                            "sSearch": "Buscar:     ",
-                            "sUrl": "",
-                            "sInfoThousands": ",",
-                            "sLoadingRecords": "Cargando...",
-                            "oAria": {
-                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                            }
-                        }
-                    });
-                }
-            };
-
-            TableManageButtons = function () {
-                "use strict";
-                return {
-                    init: function () {
-                        handleDataTableButtons();
+            var oTable = $('#datatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                  {
+                      extend: "copy",
+                      className: "btn-sm"
+                  },
+                  {
+                      extend: "csv",
+                      className: "btn-sm"
+                  },
+                  {
+                      extend: "excel",
+                      className: "btn-sm"
+                  },
+                  {
+                      extend: "pdfHtml5",
+                      className: "btn-sm"
+                  },
+                  {
+                      extend: "print",
+                      className: "btn-sm"
+                  },
+                ],
+                "bProcessing": true,
+                //"sPaginationType": "full_numbers",
+                "paging": true,
+                "iDisplayLength": 10,
+                "bPaginate": true,
+                "bSort": true,
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "←",
+                        "sNext": "→",
+                        "sLast": "»",
+                        "sFirst": "«"
+                    },
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:   ",
+                    "sUrl": "",
+                    "sInfoThousands": ".",
+                    "sLoadingRecords": "Cargando...",
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
-                };
-            }();
+                }
+            });
 
-            TableManageButtons.init();
+            oTable.buttons().container().appendTo('#tablaMenu .col-md-6:eq(0)');
         });
     </script>
     <!-- /Datatables -->
+    @if (TempData["notice"] != null)
+    {
+        <script>
+            $(function () {
+                new PNotify({
+                    title: "Realizado",
+                    type: "success",
+                    text: "@TempData["notice"].",
+                    addclass: 'success',
+                    styling: 'bootstrap3',
+                });
+
+            });
+        </script>
+    }
 </body>
+
+
 
 </html>

@@ -1,72 +1,106 @@
 ﻿@model RegionalFF.Models.Menu
-
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Menú del Sistema";
+    ViewBag.SubTitle = "Eliminar Menú";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<!-- page content -->
 <div>
-    <h4>Menu</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PadreId)
-        </dt>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a href="@Url.Action("Index", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                                <i class="fa fa-reply"></i>
+                                Volver al listado
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                                <i class="fa fa-plus"></i>
+                                Crear Nuevo
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong><i class="fa fa-times"></i></strong> ¿Estás seguro que quieres eliminar este ítem?.
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.PadreId)
-        </dd>
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PadreId, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                <div class="form-control-static col-md-12">
+                                    @Html.DisplayFor(model => model.PadreId)
+                                </div>
+                            </div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                <div class="form-control-static col-md-12">
+                                    @Html.DisplayFor(model => model.Nombre)
+                                </div>
+                            </div>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Accion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Accion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Controlador)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Controlador)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-6">
+                                <div class="form-control-static col-md-12">
+                                    @Html.DisplayFor(model => model.Descripcion)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Accion, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-6">
+                                <div class="form-control-static col-md-12">
+                                    @Html.DisplayFor(model => model.Accion)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Controlador, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-6">
+                                <div class="form-control-static col-md-12">
+                                    @Html.DisplayFor(model => model.Controlador)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-6">
+                                <div class="form-control-static col-md-12">
+                                    @Html.DisplayFor(model => model.Activo)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-actions no-color">
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>

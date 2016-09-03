@@ -86,7 +86,8 @@ namespace RegionalFF.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    //ModelState.AddModelError("", "Intento de acceso no válido.");
+                    TempData["notice"] = "Intento de acceso no válido";
                     return View(model);
             }
         }
@@ -129,7 +130,8 @@ namespace RegionalFF.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    //ModelState.AddModelError("", "Invalid code.");
+                    TempData["notice"] = "Codigo inválido";
                     return View(model);
             }
         }

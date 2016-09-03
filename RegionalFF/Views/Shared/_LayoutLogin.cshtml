@@ -27,8 +27,38 @@
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/icheck.min.js"></script>
+    <!-- Datatables -->
+    <script>
+        $(document).ready(function () {
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'icheckbox_minimal-blue',
+                increaseArea: '20%' // optional
+            });
+        })
+    </script>
+    @if (TempData["notice"] != null)
+    {
+        <script>
+            $(function () {
+                new PNotify({
+                    title: "Informe: ",
+                    type: "error",
+                    text: "@TempData["notice"].",
+                    addclass: 'error',
+                    styling: 'bootstrap3',
+                });
+
+                $('#Email').focus();
+                $('#Password').focus();
+
+            });
+        </script>
+    }
 </body>
 
 </html>
