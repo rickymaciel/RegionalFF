@@ -12,7 +12,7 @@ namespace RegionalFF.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(RegionalFF.Models.ApplicationDbContext context)
@@ -25,9 +25,59 @@ namespace RegionalFF.Migrations
                   //1
                   PadreId = 0,
                   Nombre = "Navegación",
-                  Descripcion = "Menú de Navegación del Sistema <Usuario>",
+                  Descripcion = "Menú de Navegación del Sistema Usuario",
                   Accion = "",
                   Controlador = "",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //2
+                  PadreId = 1,
+                  Nombre = "Ajustes",
+                  Descripcion = "Configuracióones",
+                  Accion = "",
+                  Controlador = "",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //3
+                  PadreId = 2,
+                  Nombre = "Paises",
+                  Descripcion = "Gestionar Paises",
+                  Accion = "Index",
+                  Controlador = "Paises",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //4
+                  PadreId = 2,
+                  Nombre = "Ciudades",
+                  Descripcion = "Gestionar Ciudades",
+                  Accion = "Index",
+                  Controlador = "Ciudades",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //5
+                  PadreId = 2,
+                  Nombre = "Años",
+                  Descripcion = "Gestionar Años",
+                  Accion = "Index",
+                  Controlador = "Años",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //6
+                  PadreId = 2,
+                  Nombre = "Meses",
+                  Descripcion = "Gestionar Meses",
+                  Accion = "Index",
+                  Controlador = "Meses",
                   Activo = true
               });
 

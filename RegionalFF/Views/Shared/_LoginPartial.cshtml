@@ -15,10 +15,10 @@
                         <a href="@Url.Action("Index", "Manage")">
                             <i class="fa fa-user"></i>
                             <span> Cuenta</span>
-                            
+
                         </a>
                     </li>
-                    
+
                     @if (User.IsInRole("Administrador"))
                     {
                         <li>
@@ -33,6 +33,14 @@
                         <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out pull-right"></i> Salir</a>
                     </li>
                 </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="javascript:;" class="info-number">
+                    <i class="fa fa-home"></i> 
+                    @ViewBag.Oficina
+                    @*<span class="badge bg-green">6</span>*@
+                </a>
             </li>
         </ul>
     }

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace RegionalFF.Models
 {
@@ -17,10 +18,26 @@ namespace RegionalFF.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+
         }
+        public ApplicationUser()
+        {
+            Meses = new List<Meses>();
+            Años = new List<Año>();
+            Origenes = new List<Pais>();
+            Destinos = new List<Ciudad>();
+            Facilitaciones = new List<Facilitacion>();
+        }
+
+        public virtual ICollection<Año> Años { get; set; }
+        public virtual ICollection<Meses> Meses { get; set; }
+        public virtual ICollection<Pais> Origenes { get; set; }
+        public virtual ICollection<Ciudad> Destinos { get; set; }
+        public virtual ICollection<Facilitacion> Facilitaciones { get; set; }
 
         [Required(ErrorMessage = "El Nº Funcionario es requerido")]
         [Display(Name = "Nº Funcionario")]
+
         public int Numero { get; set; }
 
         [Required(ErrorMessage = "La Oficina es requerida")]
@@ -32,12 +49,10 @@ namespace RegionalFF.Models
         public int Documento { get; set; }
 
         public string Nombre { get; set; }
-
         public string Apellido { get; set; }
 
         [ForeignKey("OficinaId")]
         public virtual Oficina Oficina { get; set; }
-
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -60,5 +75,13 @@ namespace RegionalFF.Models
         public System.Data.Entity.DbSet<RegionalFF.Models.Oficina> Oficinas { get; set; }
 
         public System.Data.Entity.DbSet<RegionalFF.Models.Pais> Pais { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Ciudad> Ciudads { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Año> Año { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Meses> Meses { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Facilitacion> Facilitacions { get; set; }
     }
 }

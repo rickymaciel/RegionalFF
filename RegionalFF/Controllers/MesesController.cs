@@ -10,115 +10,107 @@ using RegionalFF.Models;
 
 namespace RegionalFF.Controllers
 {
-    public class OficinasController : Controller
+    public class MesesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Oficinas
+        // GET: Meses
         public ActionResult Index()
         {
-            return View(db.Oficinas.ToList());
+            return View(db.Meses.ToList());
         }
 
-        // GET: Oficinas/Details/5
+        // GET: Meses/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Meses meses = db.Meses.Find(id);
+            if (meses == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(meses);
         }
 
-
-        public String getEmpresaUsers(string term)
-        {
-            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Nombre).FirstOrDefault();
-            return mostrar;
-        }
-
-
-        // GET: Oficinas/Create
+        // GET: Meses/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Oficinas/Create
+        // POST: Meses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
+        public ActionResult Create([Bind(Include = "Id,Nombre,Activo")] Meses meses)
         {
             if (ModelState.IsValid)
             {
-                db.Oficinas.Add(oficina);
+                db.Meses.Add(meses);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(oficina);
+            return View(meses);
         }
 
-        // GET: Oficinas/Edit/5
+        // GET: Meses/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Meses meses = db.Meses.Find(id);
+            if (meses == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(meses);
         }
 
-        // POST: Oficinas/Edit/5
+        // POST: Meses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
+        public ActionResult Edit([Bind(Include = "Id,Nombre,Activo")] Meses meses)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(oficina).State = EntityState.Modified;
+                db.Entry(meses).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(oficina);
+            return View(meses);
         }
 
-        // GET: Oficinas/Delete/5
+        // GET: Meses/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Meses meses = db.Meses.Find(id);
+            if (meses == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(meses);
         }
 
-        // POST: Oficinas/Delete/5
+        // POST: Meses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Oficina oficina = db.Oficinas.Find(id);
-            db.Oficinas.Remove(oficina);
+            Meses meses = db.Meses.Find(id);
+            db.Meses.Remove(meses);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

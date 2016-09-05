@@ -1,7 +1,7 @@
-﻿@model IEnumerable<RegionalFF.Models.Pais>
+﻿@model IEnumerable<RegionalFF.Models.Ciudad>
 @{
-    ViewBag.Title = "Países";
-    ViewBag.SubTitle = "Lista de Países";
+    ViewBag.Title = "Ciudades";
+    ViewBag.SubTitle = "Lista de Ciudades";
 }
 
 
@@ -14,7 +14,7 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Create", "Paises")" class="btn btn-default">
+                            <a href="@Url.Action("Create", "Ciudades")" class="btn btn-default">
                                 <i class="fa fa-plus"></i>
                                 <strong>Crear Nuevo</strong>
                             </a>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                        Administrar los Países <code></code>
+                        Administrar los Ciudades <code></code>
                     </p>
                     <div class="table-responsive">
                         <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
@@ -47,9 +47,9 @@
                                         </td>
                                         <td>
                                             <div class="btn-group  btn-group-xs">
-                                                <a class="btn btn-warning" href="@Url.Action("Edit", "Paises", new { id = item.Id })"><i class="fa fa-edit"></i> </a>
-                                                <a class="btn btn-primary" href="@Url.Action("Details", "Paises", new { id = item.Id })"><i class="fa fa-list"></i></a>
-                                                <a class="btn btn-danger" href="@Url.Action("Delete", "Paises", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
+                                                <a class="btn btn-warning" href="@Url.Action("Edit", "Ciudades", new { id = item.Id })"><i class="fa fa-edit"></i> </a>
+                                                <a class="btn btn-primary" href="@Url.Action("Details", "Ciudades", new { id = item.Id })"><i class="fa fa-list"></i></a>
+                                                <a class="btn btn-danger" href="@Url.Action("Delete", "Ciudades", new { id = item.Id })"><i class="fa fa-trash-o"></i></a>
                                             </div>
                                         </td>
                                     </tr>

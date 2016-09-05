@@ -1,0 +1,98 @@
+﻿@model RegionalFF.Models.Facilitacion
+<div class="modal fade" id="crearFacilitacion" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroFacilitacion", "Facilitaciones", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Facilitacion" 
+            
+        }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear Marca</h4>
+                </div>
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.Mes, "Mes", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.DropDownList("MesId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                @Html.ValidationMessageFor(model => model.MesId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.AñoId, "AñoId", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.DropDownList("AñoId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
+                                @Html.ValidationMessageFor(model => model.AñoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.PaisId, "PaisId", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.DropDownList("PaisId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
+                                @Html.ValidationMessageFor(model => model.PaisId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.CiudadId, "CiudadId", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.DropDownList("CiudadId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
+                                @Html.ValidationMessageFor(model => model.CiudadId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" } })
+                                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.FechaEdicion, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.EditorFor(model => model.FechaEdicion, new { htmlAttributes = new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" } })
+                                @Html.ValidationMessageFor(model => model.FechaEdicion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6 has-feedback">
+                            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" } })
+                                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->

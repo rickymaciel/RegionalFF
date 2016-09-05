@@ -10,115 +10,107 @@ using RegionalFF.Models;
 
 namespace RegionalFF.Controllers
 {
-    public class OficinasController : Controller
+    public class CiudadesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Oficinas
+        // GET: Ciudades
         public ActionResult Index()
         {
-            return View(db.Oficinas.ToList());
+            return View(db.Ciudads.ToList());
         }
 
-        // GET: Oficinas/Details/5
+        // GET: Ciudades/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Ciudad ciudad = db.Ciudads.Find(id);
+            if (ciudad == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(ciudad);
         }
 
-
-        public String getEmpresaUsers(string term)
-        {
-            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Nombre).FirstOrDefault();
-            return mostrar;
-        }
-
-
-        // GET: Oficinas/Create
+        // GET: Ciudades/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Oficinas/Create
+        // POST: Ciudades/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
+        public ActionResult Create([Bind(Include = "Id,Nombre")] Ciudad ciudad)
         {
             if (ModelState.IsValid)
             {
-                db.Oficinas.Add(oficina);
+                db.Ciudads.Add(ciudad);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(oficina);
+            return View(ciudad);
         }
 
-        // GET: Oficinas/Edit/5
+        // GET: Ciudades/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Ciudad ciudad = db.Ciudads.Find(id);
+            if (ciudad == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(ciudad);
         }
 
-        // POST: Oficinas/Edit/5
+        // POST: Ciudades/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
+        public ActionResult Edit([Bind(Include = "Id,Nombre")] Ciudad ciudad)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(oficina).State = EntityState.Modified;
+                db.Entry(ciudad).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(oficina);
+            return View(ciudad);
         }
 
-        // GET: Oficinas/Delete/5
+        // GET: Ciudades/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Ciudad ciudad = db.Ciudads.Find(id);
+            if (ciudad == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(ciudad);
         }
 
-        // POST: Oficinas/Delete/5
+        // POST: Ciudades/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Oficina oficina = db.Oficinas.Find(id);
-            db.Oficinas.Remove(oficina);
+            Ciudad ciudad = db.Ciudads.Find(id);
+            db.Ciudads.Remove(ciudad);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -10,115 +10,107 @@ using RegionalFF.Models;
 
 namespace RegionalFF.Controllers
 {
-    public class OficinasController : Controller
+    public class AñosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Oficinas
+        // GET: Años
         public ActionResult Index()
         {
-            return View(db.Oficinas.ToList());
+            return View(db.Año.ToList());
         }
 
-        // GET: Oficinas/Details/5
+        // GET: Años/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Año año = db.Año.Find(id);
+            if (año == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(año);
         }
 
-
-        public String getEmpresaUsers(string term)
-        {
-            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Nombre).FirstOrDefault();
-            return mostrar;
-        }
-
-
-        // GET: Oficinas/Create
+        // GET: Años/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Oficinas/Create
+        // POST: Años/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
+        public ActionResult Create([Bind(Include = "Id,Anho,Activo")] Año año)
         {
             if (ModelState.IsValid)
             {
-                db.Oficinas.Add(oficina);
+                db.Año.Add(año);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(oficina);
+            return View(año);
         }
 
-        // GET: Oficinas/Edit/5
+        // GET: Años/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Año año = db.Año.Find(id);
+            if (año == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(año);
         }
 
-        // POST: Oficinas/Edit/5
+        // POST: Años/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
+        public ActionResult Edit([Bind(Include = "Id,Anho,Activo")] Año año)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(oficina).State = EntityState.Modified;
+                db.Entry(año).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(oficina);
+            return View(año);
         }
 
-        // GET: Oficinas/Delete/5
+        // GET: Años/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Oficina oficina = db.Oficinas.Find(id);
-            if (oficina == null)
+            Año año = db.Año.Find(id);
+            if (año == null)
             {
                 return HttpNotFound();
             }
-            return View(oficina);
+            return View(año);
         }
 
-        // POST: Oficinas/Delete/5
+        // POST: Años/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Oficina oficina = db.Oficinas.Find(id);
-            db.Oficinas.Remove(oficina);
+            Año año = db.Año.Find(id);
+            db.Año.Remove(año);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

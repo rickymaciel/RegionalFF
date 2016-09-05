@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
 
 @if (!Request.IsAuthenticated)
 {
@@ -6,6 +7,9 @@
 }
 
 @{
+    OficinasController oficinacurrent = new OficinasController();
+    ViewBag.Oficina = oficinacurrent.getEmpresaUsers(User.Identity.GetUserName());
+    
     ViewBag.Denominacion = "RegionalFF";
     string Email = "";
     int Index = 0;
@@ -55,6 +59,7 @@
                         <div class="profile_info">
                             <span>Bienvenido,</span>
                             <h2><strong class="text-uppercase">@Usuario</strong> </h2>
+                            
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -70,7 +75,7 @@
                                 <h3 class="text-red">Administrador</h3>
                                 <ul class="nav side-menu">
                                     @{
-                            Html.RenderAction("MenuAdmin", "Accesos");
+                                        Html.RenderAction("MenuAdmin", "Accesos");
                                     }
                                 </ul>
                             </div>
@@ -124,7 +129,7 @@
             </div>
             <footer>
                 <div class="pull-right">
-                    &copy; @DateTime.Now.Year - @ViewBag.Denominacion
+                    &copy; @DateTime.Now.Year - @ViewBag.Denominacion | @ViewBag.Oficina
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -138,6 +143,10 @@
     <!-- Datatables -->
     <script>
         $(function () {
+
+            $('#compose, .compose-close').click(function () {
+                $('.compose').slideToggle();
+            });
 
             $('input').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
