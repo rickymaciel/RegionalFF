@@ -169,13 +169,11 @@
     <Compile Include="Controllers\AccesosController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AñosController.cs" />
     <Compile Include="Controllers\CiudadesController.cs" />
     <Compile Include="Controllers\FacilitacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenusController.cs" />
-    <Compile Include="Controllers\MesesController.cs" />
     <Compile Include="Controllers\OficinasController.cs" />
     <Compile Include="Controllers\PaisesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -193,32 +191,18 @@
     <Compile Include="Migrations\201609011830092_MenuAdmin.Designer.cs">
       <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609020547037_OficinaUsers.cs" />
-    <Compile Include="Migrations\201609020547037_OficinaUsers.Designer.cs">
-      <DependentUpon>201609020547037_OficinaUsers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609032352013_Ciudad.cs" />
-    <Compile Include="Migrations\201609032352013_Ciudad.Designer.cs">
-      <DependentUpon>201609032352013_Ciudad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609041517176_MesAnho.cs" />
-    <Compile Include="Migrations\201609041517176_MesAnho.Designer.cs">
-      <DependentUpon>201609041517176_MesAnho.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609051948262_Facilitacion.cs" />
-    <Compile Include="Migrations\201609051948262_Facilitacion.Designer.cs">
-      <DependentUpon>201609051948262_Facilitacion.cs</DependentUpon>
+    <Compile Include="Migrations\201609062103555_Migracion2.cs" />
+    <Compile Include="Migrations\201609062103555_Migracion2.Designer.cs">
+      <DependentUpon>201609062103555_Migracion2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Año.cs" />
     <Compile Include="Models\Ciudad.cs" />
     <Compile Include="Models\Facilitacion.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuAdmin.cs" />
-    <Compile Include="Models\Meses.cs" />
     <Compile Include="Models\Oficina.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Models\Parametrizacion.cs" />
@@ -237,6 +221,7 @@
     <Content Include="Content\datatables\buttons.bootstrap.min.css" />
     <Content Include="Content\datatables\dataTables.bootstrap4.min.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\info_turistica.png" />
     <Content Include="Content\img\RegionalFF.jpg" />
     <Content Include="Content\img\RegionalFFlogin.png" />
     <Content Include="Content\img\user.png" />
@@ -357,27 +342,17 @@
     <Content Include="Views\Oficinas\Details.cshtml" />
     <Content Include="Views\Oficinas\Edit.cshtml" />
     <Content Include="Views\Oficinas\Index.cshtml" />
-    <Content Include="Views\Paises\Create.cshtml" />
-    <Content Include="Views\Paises\Delete.cshtml" />
-    <Content Include="Views\Paises\Details.cshtml" />
-    <Content Include="Views\Paises\Edit.cshtml" />
-    <Content Include="Views\Paises\Index.cshtml" />
     <Content Include="Views\Ciudades\Create.cshtml" />
     <Content Include="Views\Ciudades\Delete.cshtml" />
     <Content Include="Views\Ciudades\Details.cshtml" />
     <Content Include="Views\Ciudades\Edit.cshtml" />
     <Content Include="Views\Ciudades\Index.cshtml" />
-    <Content Include="Views\Años\Create.cshtml" />
-    <Content Include="Views\Años\Delete.cshtml" />
-    <Content Include="Views\Años\Details.cshtml" />
-    <Content Include="Views\Años\Edit.cshtml" />
-    <Content Include="Views\Años\Index.cshtml" />
-    <Content Include="Views\Meses\Create.cshtml" />
-    <Content Include="Views\Meses\Delete.cshtml" />
-    <Content Include="Views\Meses\Details.cshtml" />
-    <Content Include="Views\Meses\Edit.cshtml" />
-    <Content Include="Views\Meses\Index.cshtml" />
     <Content Include="Views\Shared\_registro_facilitacion.cshtml" />
+    <Content Include="Views\Paises\Create.cshtml" />
+    <Content Include="Views\Paises\Delete.cshtml" />
+    <Content Include="Views\Paises\Details.cshtml" />
+    <Content Include="Views\Paises\Edit.cshtml" />
+    <Content Include="Views\Paises\Index.cshtml" />
     <Content Include="Views\Facilitaciones\Create.cshtml" />
     <Content Include="Views\Facilitaciones\Delete.cshtml" />
     <Content Include="Views\Facilitaciones\Details.cshtml" />
@@ -404,17 +379,8 @@
     <EmbeddedResource Include="Migrations\201609011830092_MenuAdmin.resx">
       <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609020547037_OficinaUsers.resx">
-      <DependentUpon>201609020547037_OficinaUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609032352013_Ciudad.resx">
-      <DependentUpon>201609032352013_Ciudad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609041517176_MesAnho.resx">
-      <DependentUpon>201609041517176_MesAnho.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609051948262_Facilitacion.resx">
-      <DependentUpon>201609051948262_Facilitacion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609062103555_Migracion2.resx">
+      <DependentUpon>201609062103555_Migracion2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

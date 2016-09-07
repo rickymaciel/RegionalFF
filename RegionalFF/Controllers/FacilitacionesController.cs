@@ -17,7 +17,11 @@ namespace RegionalFF.Controllers
         // GET: Facilitaciones
         public ActionResult Index()
         {
-            var facilitacions = db.Facilitacions.Include(f => f.Año).Include(f => f.Ciudad).Include(f => f.Mes).Include(f => f.Pais).Include(f => f.Usuario);
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+
+            var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
             return View(facilitacions.ToList());
         }
 
@@ -26,13 +30,26 @@ namespace RegionalFF.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjaxRegistroFacilitacion(Facilitacion facilitacion)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Facilitacions.Add(facilitacion);
-                db.SaveChanges();
-                TempData["notice"] = "La Facilitación fue registrada correctamente";
+                if (ModelState.IsValid)
+                {
+                    db.Facilitacions.Add(facilitacion);
+                    db.SaveChanges();
+                    TempData["notice"] = "La Facilitación fue registrada correctamente";
+                    return RedirectToAction("Index", "Facilitaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Facilitaciones");
+                }
             }
-            return RedirectToAction("Index", "Facilitaciones");
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
         }
 
         // GET: Facilitaciones/Details/5
@@ -53,9 +70,7 @@ namespace RegionalFF.Controllers
         // GET: Facilitaciones/Create
         public ActionResult Create()
         {
-            ViewBag.AñoId = new SelectList(db.Año, "Id", "Anho");
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
-            ViewBag.MesId = new SelectList(db.Meses, "Id", "Nombre");
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre");
             return View();
@@ -66,7 +81,7 @@ namespace RegionalFF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,MesId,AñoId,PaisId,CiudadId,Fecha,FechaEdicion,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
+        public ActionResult Create([Bind(Include = "Id,UserId,Mes,Año,PaisId,CiudadId,Fecha,FechaEdicion,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
         {
             if (ModelState.IsValid)
             {
@@ -75,9 +90,7 @@ namespace RegionalFF.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AñoId = new SelectList(db.Año, "Id", "Anho", facilitacion.AñoId);
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
-            ViewBag.MesId = new SelectList(db.Meses, "Id", "Nombre", facilitacion.MesId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
             return View(facilitacion);
@@ -95,9 +108,7 @@ namespace RegionalFF.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AñoId = new SelectList(db.Año, "Id", "Anho", facilitacion.AñoId);
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
-            ViewBag.MesId = new SelectList(db.Meses, "Id", "Nombre", facilitacion.MesId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
             return View(facilitacion);
@@ -108,7 +119,7 @@ namespace RegionalFF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,MesId,AñoId,PaisId,CiudadId,Fecha,FechaEdicion,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
+        public ActionResult Edit([Bind(Include = "Id,UserId,Mes,Año,PaisId,CiudadId,Fecha,FechaEdicion,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
         {
             if (ModelState.IsValid)
             {
@@ -116,9 +127,7 @@ namespace RegionalFF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AñoId = new SelectList(db.Año, "Id", "Anho", facilitacion.AñoId);
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
-            ViewBag.MesId = new SelectList(db.Meses, "Id", "Nombre", facilitacion.MesId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
             return View(facilitacion);
@@ -148,6 +157,11 @@ namespace RegionalFF.Controllers
             db.Facilitacions.Remove(facilitacion);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public enum Mes
+        {
+            ENERO, FEBREO, MARZO, ABRIL, JUNIO, JULIO, AGOSTO, SETIEMBRE, OCTUBRE, NOVIEMBRE, DICIEMBRE
         }
 
         protected override void Dispose(bool disposing)

@@ -21,15 +21,11 @@ namespace RegionalFF.Models
 
         [Required(ErrorMessage = "Debe seleccionar el Mes")]
         [Display(Name = "Mes")]
-        public int MesId { get; set; }
-        [ForeignKey("MesId")]
-        public virtual Meses Mes { get; set; }
+        public string Mes { get; set; }
 
         [Required(ErrorMessage = "Debe seleccionar el Año")]
-        public int AñoId { get; set; }
         [Display(Name = "Año")]
-        [ForeignKey("AñoId")]
-        public virtual Año Año { get; set; }
+        public int Año { get; set; }
 
         [Required(ErrorMessage = "Debe seleccionar el Origen")]
         [Display(Name = "Origen")]

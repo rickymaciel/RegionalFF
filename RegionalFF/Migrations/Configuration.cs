@@ -24,8 +24,8 @@ namespace RegionalFF.Migrations
               {
                   //1
                   PadreId = 0,
-                  Nombre = "Navegación",
-                  Descripcion = "Menú de Navegación del Sistema Usuario",
+                  Nombre = "Ajustes",
+                  Descripcion = "Gestionar recursos",
                   Accion = "",
                   Controlador = "",
                   Activo = true
@@ -34,16 +34,6 @@ namespace RegionalFF.Migrations
               {
                   //2
                   PadreId = 1,
-                  Nombre = "Ajustes",
-                  Descripcion = "Configuracióones",
-                  Accion = "",
-                  Controlador = "",
-                  Activo = true
-              },
-              new Models.Menu
-              {
-                  //3
-                  PadreId = 2,
                   Nombre = "Paises",
                   Descripcion = "Gestionar Paises",
                   Accion = "Index",
@@ -52,8 +42,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //4
-                  PadreId = 2,
+                  //3
+                  PadreId = 1,
                   Nombre = "Ciudades",
                   Descripcion = "Gestionar Ciudades",
                   Accion = "Index",
@@ -62,22 +52,22 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //5
-                  PadreId = 2,
-                  Nombre = "Años",
-                  Descripcion = "Gestionar Años",
-                  Accion = "Index",
-                  Controlador = "Años",
+                  //4
+                  PadreId = 0,
+                  Nombre = "Facilitaciones",
+                  Descripcion = "Módulo Facilitacion",
+                  Accion = "",
+                  Controlador = "",
                   Activo = true
               },
               new Models.Menu
               {
-                  //6
-                  PadreId = 2,
-                  Nombre = "Meses",
-                  Descripcion = "Gestionar Meses",
+                  //5
+                  PadreId = 4,
+                  Nombre = "Listado",
+                  Descripcion = "Módulo Facilitacion | Listado",
                   Accion = "Index",
-                  Controlador = "Meses",
+                  Controlador = "Facilitaciones",
                   Activo = true
               });
 

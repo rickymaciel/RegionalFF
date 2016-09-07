@@ -22,15 +22,11 @@ namespace RegionalFF.Models
         }
         public ApplicationUser()
         {
-            Meses = new List<Meses>();
-            Años = new List<Año>();
             Origenes = new List<Pais>();
             Destinos = new List<Ciudad>();
             Facilitaciones = new List<Facilitacion>();
         }
 
-        public virtual ICollection<Año> Años { get; set; }
-        public virtual ICollection<Meses> Meses { get; set; }
         public virtual ICollection<Pais> Origenes { get; set; }
         public virtual ICollection<Ciudad> Destinos { get; set; }
         public virtual ICollection<Facilitacion> Facilitaciones { get; set; }
@@ -77,10 +73,6 @@ namespace RegionalFF.Models
         public System.Data.Entity.DbSet<RegionalFF.Models.Pais> Pais { get; set; }
 
         public System.Data.Entity.DbSet<RegionalFF.Models.Ciudad> Ciudads { get; set; }
-
-        public System.Data.Entity.DbSet<RegionalFF.Models.Año> Año { get; set; }
-
-        public System.Data.Entity.DbSet<RegionalFF.Models.Meses> Meses { get; set; }
 
         public System.Data.Entity.DbSet<RegionalFF.Models.Facilitacion> Facilitacions { get; set; }
     }

@@ -7,13 +7,13 @@ namespace RegionalFF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MesAnho : IMigrationMetadata
+    public sealed partial class Migracion2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MesAnho));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Migracion2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609041517176_MesAnho"; }
+            get { return "201609062103555_Migracion2"; }
         }
         
         string IMigrationMetadata.Source

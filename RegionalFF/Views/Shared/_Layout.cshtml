@@ -144,6 +144,11 @@
     <script>
         $(function () {
 
+            var meses = new Array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SETIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE");
+
+            var f = new Date();
+            document.getElementById("Mes").value = meses[f.getMonth()];
+
             $('#compose, .compose-close').click(function () {
                 $('.compose').slideToggle();
             });
