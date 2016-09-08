@@ -144,6 +144,8 @@
     <script>
         $(function () {
 
+            $('#Fecha').val('@ViewBag.Fecha');
+            $('#UserId').val('@ViewBag.User');
 
             $('#Fecha').datetimepicker({
                 icons: {
@@ -156,12 +158,11 @@
                 format: 'DD/MM/YYYY HH:mm:ss'
             });
 
-            $('select').selectize({
+            $('select#selectize').selectize({
                 allowEmptyOption: true,
-                create: true,
+                create: false,
                 persist: false,
-                createOnBlur: true,
-                maxItems: 1
+                createOnBlur: true
             });
 
             $('#compose, .compose-close').click(function () {

@@ -20,6 +20,44 @@ namespace RegionalFF.Controllers
             return View(db.Ciudads.ToList());
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroCiudad(Ciudad ciudad)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Ciudads.Add(ciudad);
+                    db.SaveChanges();
+                    TempData["notice"] = "La Ciudad fue registrada correctamente";
+                    return RedirectToAction("Index", "Facilitaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Facilitaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
+        }
+        public JsonResult ComprobarDuplicacion(string Nombre)
+        {
+            var data = db.Ciudads.Where(p => p.Nombre.Equals(Nombre, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+            if (data != null)
+            {
+                return Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
         // GET: Ciudades/Details/5
         public ActionResult Details(int? id)
         {

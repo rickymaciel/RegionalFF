@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RegionalFF.Models;
+using Microsoft.AspNet.Identity;
 
 namespace RegionalFF.Controllers
 {
@@ -17,43 +18,77 @@ namespace RegionalFF.Controllers
         // GET: Facilitaciones
         public ActionResult Index()
         {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre");
-
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
-            return View(facilitacions.ToList());
+
+            return View(facilitacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
         }
 
+        public JsonResult ComprobarDuplicacion(string Nombre)
+        {
+            var data = db.Ciudads.Where(p => p.Nombre.Equals(Nombre, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+            if (data != null)
+            {
+                return Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult aja(Facilitacion facilitacion)
+        {
+
+            if (ModelState.IsValid)
+            {
+                using (System.Data.Entity.DbContextTransaction dbTran = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.Facilitacions.Add(facilitacion);
+                        db.SaveChanges();
+                        TempData["notice"] = "La Facilitación fue registrada correctamente";
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTran.Rollback();
+                        TempData["notice"] = "No se pudo realizar la transacción!" + ex.Message;
+                        return RedirectToAction("Index");
+                    }
+                }
+                return RedirectToAction("Index", "Facilitaciones");
+            }
+            else
+            {
+                TempData["notice"] = "Error de Validaciones";
+                return RedirectToAction("Index", "Facilitaciones");
+            }
+        }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AjaxRegistroFacilitacion(Facilitacion facilitacion)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Facilitacions.Add(facilitacion);
-                    db.SaveChanges();
-                    TempData["notice"] = "La Facilitación fue registrada correctamente";
-                    return RedirectToAction("Index", "Facilitaciones");
-                }
-                else
-                {
-                    TempData["notice"] = "Error de Validaciones";
-                    return RedirectToAction("Index", "Facilitaciones");
-                }
+                db.Facilitacions.Add(facilitacion);
+                db.SaveChanges();
+                TempData["notice"] = "La Facilitación fue registrada correctamente";
             }
-            catch (Exception ex)
-            {
-                TempData["notice"] = "Error " + ex + " ";
-                throw;
-            }
+            return RedirectToAction("Index", "Facilitaciones");
         }
-
 
         // GET: Facilitaciones/Details/5
         public ActionResult Details(int? id)
@@ -76,6 +111,11 @@ namespace RegionalFF.Controllers
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre");
+
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
             return View();
         }
 
@@ -96,6 +136,11 @@ namespace RegionalFF.Controllers
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
+
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
             return View(facilitacion);
         }
 
@@ -111,9 +156,17 @@ namespace RegionalFF.Controllers
             {
                 return HttpNotFound();
             }
+
+
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
+
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+
             return View(facilitacion);
         }
 
@@ -130,10 +183,38 @@ namespace RegionalFF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
             return View(facilitacion);
+        }
+
+        public int? getTotalRegistroHoy(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return hoy;
+        }
+
+        public int? getTotalRegistroMes(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int mes = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return mes;
+        }
+
+        public int? getTotalRegistroAnio(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int anio = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return anio;
         }
 
         // GET: Facilitaciones/Delete/5

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RegionalFF.Models;
+using Microsoft.AspNet.Identity;
 
 namespace RegionalFF.Controllers
 {
@@ -36,11 +37,6 @@ namespace RegionalFF.Controllers
         }
 
 
-        public String getEmpresaUsers(string term)
-        {
-            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Nombre).FirstOrDefault();
-            return mostrar;
-        }
 
 
         // GET: Oficinas/Create
@@ -122,6 +118,23 @@ namespace RegionalFF.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public String getEmpresaUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Nombre).FirstOrDefault();
+            return mostrar;
+        }
+
+        //public String getUsersRoles(string term)
+        //{
+        //    var UserID = User.Identity.GetUserId();
+        //    var userRoles = db.Roles.Include(r => r.Users).ToList();
+
+        //    var userRoleNames = (from r in userRoles from u in r.Users where u.UserId == UserID select r.Name).ToList();
+
+        //    return userRoleNames;
+        //}
 
         protected override void Dispose(bool disposing)
         {

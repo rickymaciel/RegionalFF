@@ -1,11 +1,102 @@
 ﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
+@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
 
 @{
+    FacilitacionesController hoy = new FacilitacionesController();
     ViewBag.Title = "Facilitación";
     ViewBag.SubTitle = "Lista de Registros de Facilitaciones";
+    ViewBag.Cant = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
+    ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
+    ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
 }
 
-
+<div class="row top_tiles">
+    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-edit"></i></div>
+            @{
+                if (ViewBag.Cant > 0)
+                {
+                    <div class="count">
+                        @ViewBag.Cant
+                    </div>
+                }
+                else
+                {
+                    <div class="count">
+                        0
+                    </div>
+                }
+            }
+            <h3>Hoy</h3>
+            <p>Nuevos turistas Registrados</p>
+        </div>
+    </div>
+    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-edit"></i></div>
+            @{
+                if (ViewBag.CantMes > 0)
+                {
+                    <div class="count">
+                        @ViewBag.CantMes
+                    </div>
+                }
+                else
+                {
+                    <div class="count">
+                        0
+                    </div>
+                }
+            }
+            <h3>Este Mes</h3>
+            <p>Nuevos turistas Registrados</p>
+        </div>
+    </div>
+    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-edit"></i></div>
+            @{
+                if (ViewBag.CantAnio > 0)
+                {
+                    <div class="count">
+                        @ViewBag.CantAnio
+                    </div>
+                }
+                else
+                {
+                    <div class="count">
+                        0
+                    </div>
+                }
+            }
+            <h3>Este Año</h3>
+            <p>Turistas Registrados</p>
+        </div>
+    </div>
+    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-edit"></i></div>
+            @{
+                if (ViewBag.Cant > 0)
+                {
+                    <div class="count">
+                        @ViewBag.Cant
+                    </div>
+                }
+                else
+                {
+                    <div class="count">
+                        0
+                    </div>
+                }
+            }
+            <h3>Hoy</h3>
+            <p>Nuevos turistas Registrados</p>
+        </div>
+    </div>
+</div>
 <div class="">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -13,14 +104,17 @@
                 <div class="x_title">
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a href="@Url.Action("Create", "Facilitaciones")" class="btn btn-default btn-xs" data-toggle="tooltip" >
+                        <li class="hidden">
+                            <a href="@Url.Action("Create", "Facilitaciones")" class="btn btn-default btn-xs" data-toggle="tooltip">
                                 <i class="fa fa-plus"></i>
                                 <strong>Crear Nuevo</strong>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-placement="top" title="Crear Nuevo"  data-target="#crearFacilitacion">
+                            <a href="#" class="btn btn-default btn-xs hidden-lg" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearFacilitacion">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                            <a href="#" class="btn btn-default btn-xs visible-lg" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearFacilitacion">
                                 <i class="fa fa-plus"></i>
                                 <strong>Crear Nuevo</strong>
                             </a>
@@ -107,11 +201,11 @@
 </div>
 
 
- <!-- modals -->
+<!-- modals -->
 <!-- Large modal -->
 
 <div class="modal" id="crearFacilitacion" tabindex="-1" role="dialog">
-@using (Ajax.BeginForm("AjaxRegistroFacilitacion", "Facilitaciones", FormMethod.Post,
+    @using (Ajax.BeginForm("AjaxRegistroFacilitacion", "Facilitaciones", FormMethod.Post,
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
@@ -119,25 +213,23 @@
             UpdateTargetId = "Facilitacion"
 
         }))
-{
+    {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">
                         <span class="im-plus"></span>
-                        Registrar Facilitacion
+                        Registrar Nueva Facilitación
                     </h4>
                 </div>
                 @Html.AntiForgeryToken()
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label class="control-label col-lg-2" for="UserId">Usuario</label>
                             <div class="col-md-10">
-                                <select class="form-control" id="UserId" name="UserId">
-                                    <option value="1d545d83-39eb-4a04-8be0-4fbea1e299df">Ricardo</option>
-                                </select>
+                                @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
                                 <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -145,23 +237,29 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="Fecha">Fecha</label>
                             <div class="col-md-10">
-                                <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" value="" />
+                                <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." placeholder="Fecha" data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" readonly required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-md-2" for="Fecha">Origen</label>
-                            <div class="col-md-10">
-                                @Html.DropDownList("PaisId", null, htmlAttributes: new { @class = "form-control" })
+                            <div class="col-lg-1">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearPais"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DropDownList("PaisId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Pais de origen", @required = "true" })
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-md-2" for="Fecha">Destino</label>
-                            <div class="col-md-10">
-                                @Html.DropDownList("CiudadId", null, htmlAttributes: new { @class = "form-control" })
+                            <div class="col-lg-1">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearCiudad"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DropDownList("CiudadId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione un Destino", @required = "true" })
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -169,14 +267,14 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="Cantidad">Cantidad</label>
                             <div class="col-md-10">
-                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" />
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" placeholder="Cantidad de dias en destino" required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-2" for="Estadia">Estadia</label>
                             <div class="col-md-10">
-                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" />
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" placeholder="Cantidad de dias en Destino" required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -195,5 +293,87 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-}
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
+
+<div class="modal" id="crearCiudad" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroCiudad", "Ciudades", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Ciudad"
+
+        }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Ciudad de Destino
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="en-add-to-list"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
+
+<div class="modal" id="crearPais" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroPais", "Paises", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Pais"
+
+        }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Pais de Origen
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="en-add-to-list"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
 </div><!-- /.modal -->
