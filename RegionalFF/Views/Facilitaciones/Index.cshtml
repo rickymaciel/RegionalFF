@@ -1,11 +1,8 @@
-﻿@using Microsoft.AspNet.Identity
-@using RegionalFF.Controllers
-@model IEnumerable<RegionalFF.Models.Facilitacion>
-
+﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
 
 @{
     ViewBag.Title = "Facilitación";
-    ViewBag.SubTitle = "Listado";
+    ViewBag.SubTitle = "Lista de Registros de Facilitaciones";
 }
 
 
@@ -17,15 +14,15 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Create", "Facilitaciones")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                            <a href="@Url.Action("Create", "Facilitaciones")" class="btn btn-default btn-xs" data-toggle="tooltip" >
                                 <i class="fa fa-plus"></i>
                                 <strong>Crear Nuevo</strong>
                             </a>
                         </li>
                         <li>
-                            <a href="#" id="compose" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Registrar Nuevo">
+                            <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-placement="top" title="Crear Nuevo"  data-target="#crearFacilitacion">
                                 <i class="fa fa-plus"></i>
-                                <strong>Registrar Nuevo</strong>
+                                <strong>Crear Nuevo</strong>
                             </a>
                         </li>
                     </ul>
@@ -40,25 +37,16 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Año)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Ciudad)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Mes)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Pais)
+                                        @Html.DisplayNameFor(model => model.Fecha)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.Usuario)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Fecha)
+                                        @Html.DisplayNameFor(model => model.Pais)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.FechaEdicion)
+                                        @Html.DisplayNameFor(model => model.Ciudad)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.Cantidad)
@@ -73,29 +61,21 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @foreach (var item in Model)
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Año)
+                                            @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Ciudad.Nombre)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Mes)
+                                            @Html.DisplayFor(modelItem => item.Usuario.Nombre) @Html.DisplayFor(modelItem => item.Usuario.Apellido)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Pais.Nombre)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Usuario.Email)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Fecha)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FechaEdicion)
+                                            @Html.DisplayFor(modelItem => item.Ciudad.Nombre)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Cantidad)
@@ -125,7 +105,12 @@
         </div>
     </div>
 </div>
-<!-- compose -->
+
+
+ <!-- modals -->
+<!-- Large modal -->
+
+<div class="modal" id="crearFacilitacion" tabindex="-1" role="dialog">
 @using (Ajax.BeginForm("AjaxRegistroFacilitacion", "Facilitaciones", FormMethod.Post,
         new AjaxOptions
         {
@@ -135,115 +120,80 @@
 
         }))
 {
-    <div class="compose col-md-6 col-xs-12">
-        <div class="compose-header">
-            Nuevo Registro | Facilitación
-            <button type="button" class="close compose-close">
-                <span>×</span>
-            </button>
-        </div>
-        @Html.AntiForgeryToken()
-        <div class="compose-body">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Facilitacion
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-lg-2" for="UserId">Usuario</label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="UserId" name="UserId">
+                                    <option value="1d545d83-39eb-4a04-8be0-4fbea1e299df">Ricardo</option>
+                                </select>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
 
-            <div id="edito" class="editor-wrappe">
-                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-                    <br />
-                    <div class="form-group col-md-6 has-feedback hidden">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserId">UserId</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left", @require ="true" })
-                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Fecha">Fecha</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Fecha">Origen</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("PaisId", null, htmlAttributes: new { @class = "form-control" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Fecha">Destino</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("CiudadId", null, htmlAttributes: new { @class = "form-control" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Cantidad">Cantidad</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Estadia">Estadia</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Observaciones">Anotacion</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" cols="20" id="Observaciones" name="Observaciones" placeholder="Observaciones" rows="3"></textarea>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
+                            </div>
                         </div>
                     </div>
-
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Mes">Mes</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" data-val="true" id="Mes" name="Mes" type="text" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Mes" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Año">Año</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" data-val="true" data-val-date="The field Año must be a date." id="Año" name="Año" type="number" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Año" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PaisId">PaisId</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            @Html.DropDownList("PaisId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
-                            <span class="field-validation-valid text-danger" data-valmsg-for="PaisId" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CiudadId">CiudadId</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            @Html.DropDownList("CiudadId", null, htmlAttributes: new { @class = "form-control col-md-12 col-xs-12 has-feedback-left" })
-                            <span class="field-validation-valid text-danger" data-valmsg-for="CiudadId" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Fecha">Fecha</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FechaEdicion">FechaEdicion</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" data-val="true" data-val-date="The field FechaEdicion must be a date." id="FechaEdicion" name="FechaEdicion" type="datetime" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="FechaEdicion" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Cantidad">Cantidad</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Estadia">Estadia</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6 has-feedback">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Observaciones">Observaciones: </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control col-md-12 col-xs-12 has-feedback-left text-box single-line" id="Observaciones" name="Observaciones" type="text" value="" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-
-                    <br class="ln_solid">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="en-add-to-list"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
 }
-<!-- /compose -->
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $('#UserId').val('@User.Identity.GetUserId()');
-    </script>
-}
+</div><!-- /.modal -->

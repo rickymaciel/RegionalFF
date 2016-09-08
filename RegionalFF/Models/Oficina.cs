@@ -13,6 +13,7 @@ namespace RegionalFF.Models
         {
             Usuarios = new List<ApplicationUser>();
         }
+
         [HiddenInput(DisplayValue = true)]
         public int Id { get; set; }
 

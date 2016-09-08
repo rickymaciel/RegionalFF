@@ -21,12 +21,16 @@ namespace RegionalFF
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
+                      "~/Content/Selectize/js/standalone/selectize.js",
                       "~/Scripts/icheck.min.js",
                       "~/Scripts/fastclick.js",
                       "~/Scripts/nprogress.js",
                       "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
                       "~/Scripts/pnotify.js",
                       "~/Scripts/pnotify.buttons.js",
+                      "~/Scripts/Moment.js",
+                      "~/Scripts/moment-with-locales.js",
+                      "~/Scripts/bootstrap-datetimepicker.min.js",
                       "~/Scripts/custom.min.js",
                       "~/Scripts/respond.js"));
 
@@ -45,12 +49,14 @@ namespace RegionalFF
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.min.css",
+                      "~/Content/Selectize/css/selectize.bootstrap3.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/animate.min.css",
                       "~/Content/jquery.mCustomScrollbar.min.css",
                       "~/Content/blue.css",
                       "~/Content/pnotify.css",
                       "~/Content/pnotify.buttons.css",
+                      "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/custom.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(

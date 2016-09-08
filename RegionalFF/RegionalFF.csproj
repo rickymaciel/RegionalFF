@@ -191,9 +191,9 @@
     <Compile Include="Migrations\201609011830092_MenuAdmin.Designer.cs">
       <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609062103555_Migracion2.cs" />
-    <Compile Include="Migrations\201609062103555_Migracion2.Designer.cs">
-      <DependentUpon>201609062103555_Migracion2.cs</DependentUpon>
+    <Compile Include="Migrations\201609080151069_Facilitacion.cs" />
+    <Compile Include="Migrations\201609080151069_Facilitacion.Designer.cs">
+      <DependentUpon>201609080151069_Facilitacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -215,6 +215,7 @@
     <Content Include="Content\blue%402x.png" />
     <Content Include="Content\blue.css" />
     <Content Include="Content\blue.png" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\custom.min.css" />
@@ -234,6 +235,15 @@
     <Content Include="Content\pnotify.material.css" />
     <Content Include="Content\pnotify.mobile.css" />
     <Content Include="Content\pnotify.nonblock.css" />
+    <Content Include="Content\Selectize\css\selectize.bootstrap2.css" />
+    <Content Include="Content\Selectize\css\selectize.bootstrap3.css" />
+    <Content Include="Content\Selectize\css\selectize.css" />
+    <Content Include="Content\Selectize\css\selectize.default.css" />
+    <Content Include="Content\Selectize\css\selectize.legacy.css" />
+    <Content Include="Content\Selectize\js\selectize.js" />
+    <Content Include="Content\Selectize\js\selectize.min.js" />
+    <Content Include="Content\Selectize\js\standalone\selectize.js" />
+    <Content Include="Content\Selectize\js\standalone\selectize.min.js" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -244,7 +254,17 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\Selectize\less\selectize.less" />
+    <Content Include="Content\Selectize\less\selectize.legacy.less" />
+    <Content Include="Content\Selectize\less\selectize.default.less" />
+    <Content Include="Content\Selectize\less\selectize.bootstrap3.less" />
+    <Content Include="Content\Selectize\less\selectize.bootstrap2.less" />
+    <Content Include="Content\Selectize\less\plugins\remove_button.less" />
+    <Content Include="Content\Selectize\less\plugins\optgroup_columns.less" />
+    <Content Include="Content\Selectize\less\plugins\dropdown_header.less" />
+    <Content Include="Content\Selectize\less\plugins\drag_drop.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom.min.js" />
     <Content Include="Scripts\datatables\buttons.bootstrap.min.js" />
@@ -267,7 +287,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\locale\es.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\Moment.js" />
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\pnotify.animate.js" />
     <Content Include="Scripts\pnotify.buttons.js" />
@@ -379,8 +402,8 @@
     <EmbeddedResource Include="Migrations\201609011830092_MenuAdmin.resx">
       <DependentUpon>201609011830092_MenuAdmin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609062103555_Migracion2.resx">
-      <DependentUpon>201609062103555_Migracion2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609080151069_Facilitacion.resx">
+      <DependentUpon>201609080151069_Facilitacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -17,13 +17,15 @@ namespace RegionalFF.Controllers
         // GET: Facilitaciones
         public ActionResult Index()
         {
+
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre");
 
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
             return View(facilitacions.ToList());
         }
+
 
 
         [HttpPost]
@@ -51,6 +53,7 @@ namespace RegionalFF.Controllers
                 throw;
             }
         }
+
 
         // GET: Facilitaciones/Details/5
         public ActionResult Details(int? id)
@@ -81,7 +84,7 @@ namespace RegionalFF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,Mes,Año,PaisId,CiudadId,Fecha,FechaEdicion,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
+        public ActionResult Create([Bind(Include = "Id,UserId,Fecha,PaisId,CiudadId,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +122,7 @@ namespace RegionalFF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,Mes,Año,PaisId,CiudadId,Fecha,FechaEdicion,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
+        public ActionResult Edit([Bind(Include = "Id,UserId,Fecha,PaisId,CiudadId,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
         {
             if (ModelState.IsValid)
             {
@@ -157,11 +160,6 @@ namespace RegionalFF.Controllers
             db.Facilitacions.Remove(facilitacion);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public enum Mes
-        {
-            ENERO, FEBREO, MARZO, ABRIL, JUNIO, JULIO, AGOSTO, SETIEMBRE, OCTUBRE, NOVIEMBRE, DICIEMBRE
         }
 
         protected override void Dispose(bool disposing)

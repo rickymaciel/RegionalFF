@@ -19,13 +19,10 @@ namespace RegionalFF.Models
         [ForeignKey("UserId")]
         public virtual ApplicationUser Usuario { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar el Mes")]
-        [Display(Name = "Mes")]
-        public string Mes { get; set; }
-
-        [Required(ErrorMessage = "Debe seleccionar el Año")]
-        [Display(Name = "Año")]
-        public int Año { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [Column(TypeName = "DateTime")]
+        public DateTime Fecha { get; set; }
 
         [Required(ErrorMessage = "Debe seleccionar el Origen")]
         [Display(Name = "Origen")]
@@ -38,16 +35,6 @@ namespace RegionalFF.Models
         public int CiudadId { get; set; }
         [ForeignKey("CiudadId")]
         public virtual Ciudad Ciudad { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.DateTime)]
-        [Column(TypeName = "DateTime")]
-        public DateTime Fecha { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.DateTime)]
-        [Column(TypeName = "DateTime")]
-        public DateTime? FechaEdicion { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Cantidad")]

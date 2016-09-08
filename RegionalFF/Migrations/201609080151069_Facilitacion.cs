@@ -3,7 +3,7 @@ namespace RegionalFF.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Migracion2 : DbMigration
+    public partial class Facilitacion : DbMigration
     {
         public override void Up()
         {
@@ -25,12 +25,9 @@ namespace RegionalFF.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         UserId = c.String(nullable: false, maxLength: 128),
-                        Mes = c.String(nullable: false),
-                        Año = c.Int(nullable: false),
+                        Fecha = c.DateTime(nullable: false),
                         PaisId = c.Int(nullable: false),
                         CiudadId = c.Int(nullable: false),
-                        Fecha = c.DateTime(nullable: false),
-                        FechaEdicion = c.DateTime(),
                         Cantidad = c.Int(nullable: false),
                         Estadia = c.Int(nullable: false),
                         Observaciones = c.String(),
