@@ -1,84 +1,167 @@
 ﻿@model RegionalFF.Models.IndexViewModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Cambiar configuración de la cuenta";
+    ViewBag.SubTitle = "Administrador";
 }
 
-<h2>@ViewBag.Title.</h2>
+@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None") [
-                @if (Model.PhoneNumber != null)
-                {
-                    @Html.ActionLink("Change", "AddPhoneNumber")
-                    @: &nbsp;|&nbsp;
-                    @Html.ActionLink("Remove", "RemovePhoneNumber")
-                }
-                else
-                {
-                    @Html.ActionLink("Add", "AddPhoneNumber")
-                }
-                ]
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
-                    }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
-    </dl>
+@{
+    string Usuario = "";
+    if (User.Identity.GetUserName() != "")
+    {
+
+        OficinasController oficinacur = new OficinasController();
+        ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
+        ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
+
+        FacilitacionesController hoy = new FacilitacionesController();
+        ViewBag.Title = "Facilitación";
+        ViewBag.SubTitle = "Lista de Registros de Facilitaciones";
+        ViewBag.Cant = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
+        ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
+        ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
+
+        string Email = "";
+        int Index = 0;
+        Email = User.Identity.GetUserName();
+        Index = Email.IndexOf("@");
+        Usuario = Email.Substring(0, Index);
+    }
+}
+<div class="row">
+    <div class="col-md-3 col-xs-12 widget widget_tally_box">
+        <div class="x_panel fixed_height_390">
+            <div class="x_content">
+
+                <div class="flex">
+                    <ul class="list-inline widget_profile_box">
+                        <li>
+                            <a>
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <img src="~/Content/img/user.png" alt="..." class="img-circle profile_img">
+                        </li>
+                        <li>
+                            <a>
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <h3 class="name">@Usuario</h3>
+
+                <div class="flex">
+                    <ul class="list-inline count2">
+                        <li>
+                            <h3>@ViewBag.Cant</h3>
+                            <span>Hoy</span>
+                        </li>
+                        <li>
+                            <h3>@ViewBag.CantMes</h3>
+                            <span>Este Mes</span>
+                        </li>
+                        <li>
+                            <h3>@ViewBag.CantAnio</h3>
+                            <span>Este Año</span>
+                        </li>
+                    </ul>
+                </div>
+                <p>
+                    @ViewBag.Title
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                @*<ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                            <i class="fa fa-plus"></i>
+                            <strong>Crear Nuevo</strong>
+                        </a>
+                    </li>
+                </ul>*@
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <p class="text-muted text-success font-13 m-b-30">
+                    @ViewBag.StatusMessage
+                </p>
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>Contraseña:</dt>
+                        <dd>
+                            [
+                            @if (Model.HasPassword)
+                            {
+                                @Html.ActionLink("Cambia tu contraseña", "ChangePassword", "", new { @class = "text-warning" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Crear una contraseña", "SetPassword", "", new { @class = "text-warning" })
+                            }
+                            ]
+                        </dd>
+                        @*<dt>Conexiones externas:</dt>
+                        <dd>
+                            @Model.Logins.Count [
+                            @Html.ActionLink("Gestionar", "ManageLogins") ]
+                        </dd>*@
+
+                        <dt>Número de teléfono:</dt>
+                        <dd>
+                            @(Model.PhoneNumber ?? "None") [
+                            @if (Model.PhoneNumber != null)
+                            {
+                                @Html.ActionLink("Cambiar", "AddPhoneNumber", "", new { @class = "text-warning" })
+                                @: &nbsp;|&nbsp;
+                                @Html.ActionLink("Eliminar", "RemovePhoneNumber","", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Agregar", "AddPhoneNumber", "", new { @class = "text-info" })
+                            }
+                            ]
+                        </dd>
+
+                        @*<dt>Two-Factor Authentication:</dt>
+                            <dd>
+                                <p>
+                                    There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                                    for details on setting up this ASP.NET application to support two-factor authentication.
+                                </p>
+                                @if (Model.TwoFactor)
+                                    {
+                                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <text>Enabled
+                                            <input type="submit" value="Disable" class="btn btn-link" />
+                                            </text>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <text>Disabled
+                                            <input type="submit" value="Enable" class="btn btn-link" />
+                                            </text>
+                                        }
+                                    }
+                            </dd>*@
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

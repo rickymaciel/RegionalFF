@@ -126,6 +126,12 @@ namespace RegionalFF.Controllers
             return mostrar;
         }
 
+        public String getEmpresaSiglaUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Sigla).FirstOrDefault();
+            return mostrar;
+        }
+
         //public String getUsersRoles(string term)
         //{
         //    var UserID = User.Identity.GetUserId();

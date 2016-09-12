@@ -1,28 +1,56 @@
 ﻿@model RegionalFF.Models.AddPhoneNumberViewModel
+
 @{
-    ViewBag.Title = "Phone Number";
+    ViewBag.Title = "Agregar Número de Teléfono";
+    ViewBag.SubTitle = "Gestionar";
 }
 
-<h2>@ViewBag.Title.</h2>
+<!-- page content -->
+<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a href="@Url.Action("Index", "Manage")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver">
+                                <i class="fa fa-reply"></i>
+                                Volver
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Add a phone number</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Number, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Número de Teléfono" } })
+                                @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a href="@Url.Action("Index", "Manage")" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</a>
+                                <button type="submit" class="btn btn-default"><i class="fa fa-check"></i> Guardar</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Submit" />
-        </div>
-    </div>
-}
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -226,6 +226,7 @@
     <Content Include="Content\img\RegionalFF.jpg" />
     <Content Include="Content\img\RegionalFFlogin.png" />
     <Content Include="Content\img\user.png" />
+    <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery.mCustomScrollbar.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\pnotify.brighttheme.css" />
@@ -246,6 +247,7 @@
     <Content Include="Content\Selectize\js\standalone\selectize.min.js" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\ionicons.svg" />
     <Content Include="Global.asax" />
     <Content Include="RegionalFF.ico" />
     <Content Include="fonts\fontawesome-webfont.eot" />
@@ -263,6 +265,9 @@
     <Content Include="Content\Selectize\less\plugins\optgroup_columns.less" />
     <Content Include="Content\Selectize\less\plugins\dropdown_header.less" />
     <Content Include="Content\Selectize\less\plugins\drag_drop.less" />
+    <Content Include="fonts\ionicons.eot" />
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\ionicons.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />

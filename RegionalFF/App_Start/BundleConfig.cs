@@ -57,6 +57,7 @@ namespace RegionalFF
                       "~/Content/pnotify.css",
                       "~/Content/pnotify.buttons.css",
                       "~/Content/bootstrap-datetimepicker.css",
+                      "~/Content/ionicons.min.css",
                       "~/Content/custom.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(

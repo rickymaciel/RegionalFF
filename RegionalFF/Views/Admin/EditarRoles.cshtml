@@ -42,18 +42,18 @@
 
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            <label class="control-label col-lg-2" for="Roles">
-                                Roles sin asignar a <small class="text-primary">@Model.UserName</small> 
-                            </label>
-                            <div class="col-lg-6">
-                                @Html.DropDownList("NuevoRol", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
-                            </div>
 
-                            <div class="col-lg-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, "Nombre de Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.DropDownList("NuevoRol", null, new { @id = "UserName", @class = "form-control", @placeholder = "Seleccione el Rol que desea asignar al Usuario", @required = "true" })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Asignar al usuario </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

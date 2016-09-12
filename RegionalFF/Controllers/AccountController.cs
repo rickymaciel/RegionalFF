@@ -165,7 +165,7 @@ namespace RegionalFF.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Menus");
+                    return RedirectToAction("Index", "Facilitaciones");
                 }
                 AddErrors(result);
             }
@@ -394,7 +394,7 @@ namespace RegionalFF.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Menus");
+            return RedirectToAction("Index", "Facilitaciones");
         }
 
         //
@@ -451,7 +451,7 @@ namespace RegionalFF.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Menus");
+            return RedirectToAction("Index", "Facilitaciones");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
