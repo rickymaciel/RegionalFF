@@ -159,15 +159,11 @@
                 format: 'DD/MM/YYYY HH:mm:ss'
             });
 
-            $('select').selectize({
+            $('#selectize, #Roles, #CiudadId, #PaisId, #OficinaId').selectize({
                 allowEmptyOption: true,
                 create: false,
                 persist: false,
                 createOnBlur: true
-            });
-
-            $('#compose, .compose-close').click(function () {
-                $('.compose').slideToggle();
             });
 
             $('input').iCheck({

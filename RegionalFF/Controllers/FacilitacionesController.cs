@@ -28,7 +28,41 @@ namespace RegionalFF.Controllers
             ViewBag.Fecha = Fecha;
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
 
-            return View(facilitacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+            return View(facilitacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+        }
+
+
+        // GET: Facilitaciones
+        public ActionResult EsteMes()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+            var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
+
+            return View(facilitacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
+        }
+
+
+        // GET: Facilitaciones
+        public ActionResult EsteAño()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+            var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
+
+            return View(facilitacions.ToList().Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
         }
 
         public JsonResult ComprobarDuplicacion(string Nombre)
@@ -77,6 +111,7 @@ namespace RegionalFF.Controllers
         }
 
 
+        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AjaxRegistroFacilitacion(Facilitacion facilitacion)
@@ -88,6 +123,36 @@ namespace RegionalFF.Controllers
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
             }
             return RedirectToAction("Index", "Facilitaciones");
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroFacilitacionMes(Facilitacion facilitacion)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Facilitacions.Add(facilitacion);
+                db.SaveChanges();
+                TempData["notice"] = "La Facilitación fue registrada correctamente";
+            }
+            return RedirectToAction("EsteMes", "Facilitaciones");
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroFacilitacionAño(Facilitacion facilitacion)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Facilitacions.Add(facilitacion);
+                db.SaveChanges();
+                TempData["notice"] = "La Facilitación fue registrada correctamente";
+            }
+            return RedirectToAction("EsteAño", "Facilitaciones");
         }
 
         // GET: Facilitaciones/Details/5
@@ -106,6 +171,8 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Facilitaciones/Create
+
+        [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult Create()
         {
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
@@ -122,6 +189,8 @@ namespace RegionalFF.Controllers
         // POST: Facilitaciones/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserId,Fecha,PaisId,CiudadId,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
@@ -144,6 +213,8 @@ namespace RegionalFF.Controllers
             return View(facilitacion);
         }
 
+
+        [Authorize(Roles = "Facilitador,Administrador")]
         // GET: Facilitaciones/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -173,6 +244,8 @@ namespace RegionalFF.Controllers
         // POST: Facilitaciones/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,UserId,Fecha,PaisId,CiudadId,Cantidad,Estadia,Observaciones")] Facilitacion facilitacion)
@@ -203,6 +276,58 @@ namespace RegionalFF.Controllers
             return hoy;
         }
 
+
+        public int? getCantidadRegistroHoy(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            return hoy;
+        }
+
+
+        public int? getCantidadRegistroMes(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            return hoy;
+        }
+
+
+        public int? getCantidadRegistroAnio(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            return hoy;
+        }
+
+
+        // Total todos usuarios
+
+        public int? getCantidadRegistroHoy()
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
+            return hoy;
+        }
+
+
+        public int? getCantidadRegistroMes()
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            return hoy;
+        }
+
+
+        public int? getCantidadRegistroAnio()
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            return hoy;
+        }
+
+
+
         public int? getTotalRegistroMes(String usuario)
         {
             DateTime Fecha = DateTime.Now;
@@ -217,6 +342,8 @@ namespace RegionalFF.Controllers
             return anio;
         }
 
+
+        [Authorize(Roles = "Facilitador,Administrador")]
         // GET: Facilitaciones/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -232,6 +359,8 @@ namespace RegionalFF.Controllers
             return View(facilitacion);
         }
 
+
+        [Authorize(Roles = "Facilitador,Administrador")]
         // POST: Facilitaciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

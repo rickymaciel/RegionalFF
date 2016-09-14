@@ -386,6 +386,8 @@
     <Content Include="Views\Facilitaciones\Details.cshtml" />
     <Content Include="Views\Facilitaciones\Edit.cshtml" />
     <Content Include="Views\Facilitaciones\Index.cshtml" />
+    <Content Include="Views\Facilitaciones\EsteMes.cshtml" />
+    <Content Include="Views\Facilitaciones\EsteAño.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

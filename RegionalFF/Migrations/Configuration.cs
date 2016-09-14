@@ -64,9 +64,29 @@ namespace RegionalFF.Migrations
               {
                   //5
                   PadreId = 4,
-                  Nombre = "Listado",
-                  Descripcion = "Módulo Facilitacion | Listado",
+                  Nombre = "Hoy",
+                  Descripcion = "Módulo Facilitacion | Hoy",
                   Accion = "Index",
+                  Controlador = "Facilitaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //6
+                  PadreId = 4,
+                  Nombre = "Este Mes",
+                  Descripcion = "Módulo Facilitacion | Este Mes",
+                  Accion = "EsteMes",
+                  Controlador = "Facilitaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //7
+                  PadreId = 4,
+                  Nombre = "Este Año",
+                  Descripcion = "Módulo Facilitacion | Este Año",
+                  Accion = "EsteAño",
                   Controlador = "Facilitaciones",
                   Activo = true
               });
@@ -175,7 +195,7 @@ namespace RegionalFF.Migrations
                         //1
                         Id = 1,
                         Nombre = "Administración del Sistema",
-                        Sigla = "AS",
+                        Sigla = "ADMIN",
                         Departamento = "'",
                         Ciudad = "-",
                         Direccion = "-",
@@ -191,14 +211,33 @@ namespace RegionalFF.Migrations
                     p => p.Nombre,
                     new Models.Oficina
                     {
-                        //1
-                        Id = 1,
+                        //2
+                        Id = 2,
                         Nombre = "Oficina Regional de Encarnación",
                         Sigla = "ORE",
                         Departamento = "Itapúa",
                         Ciudad = "Encarnación",
                         Direccion = "Costanera Padre Bolik",
                         Telefono = "071202889"
+                    }
+                );
+            }
+
+            //Crear si no existe Oficina Regional Ciudad Del Este
+            if (!context.Oficinas.Any(r => r.Nombre == "Oficina Regional Ciudad Del Este"))
+            {
+                context.Oficinas.AddOrUpdate(
+                    p => p.Nombre,
+                    new Models.Oficina
+                    {
+                        //3
+                        Id = 3,
+                        Nombre = "Oficina Regional Ciudad Del Este",
+                        Sigla = "ORCE",
+                        Departamento = "Alto Paraná",
+                        Ciudad = "CDE",
+                        Direccion = "Tte.",
+                        Telefono = "0745989898"
                     }
                 );
             }
@@ -236,15 +275,40 @@ namespace RegionalFF.Migrations
             }
 
             //Crear Usuario
-            if (!context.Users.Any(u => u.Email == "rmacielb3@gmail.com"))
+            if (!context.Users.Any(u => u.Email == "rickymaciel@hotmail.es"))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 1, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel" };
+                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel@hotmail.es", OficinaId = 1, Numero = 0, Nombre = "Admin", Apellido = "Admin" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Administrador a usuario
                 manager.AddToRole(user.Id, "Administrador");
+            }
+
+
+            //Crear Usuario
+            if (!context.Users.Any(u => u.Email == "rmacielb3@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 2, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel" };
+
+                manager.Create(user, "1Regional/");
+                //Delegador Facilitador a usuario
+                manager.AddToRole(user.Id, "Facilitador");
+            }
+
+            //Crear Usuario
+            if (!context.Users.Any(u => u.Email == "rolandorodas007@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas" };
+
+                manager.Create(user, "1Regional/");
+                //Delegador Fiscalizador a usuario
+                manager.AddToRole(user.Id, "Fiscalizador");
             }
         }
     }
