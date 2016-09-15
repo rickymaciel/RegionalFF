@@ -17,7 +17,7 @@ namespace RegionalFF.Controllers
         // GET: Paises
         public ActionResult Index()
         {
-            return View(db.Pais.ToList());
+            return View(db.Pais.ToList().OrderBy(x => x.Nombre));
         }
 
 

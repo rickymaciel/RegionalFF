@@ -400,6 +400,8 @@ namespace RegionalFF.Controllers
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+            Session["Login"] = null;
             return RedirectToAction("Index", "Facilitaciones");
         }
 

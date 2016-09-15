@@ -1,4 +1,9 @@
-﻿@{
+﻿@if (Request.IsAuthenticated)
+{
+    Response.Redirect("http://localhost:2491");
+}
+
+@{
     ViewBag.Denominacion = "RegionalFF";
 }
 
@@ -35,15 +40,21 @@
     <script src="~/Scripts/icheck.min.js"></script>
     <!-- Datatables -->
     <script>
-        $(document).ready(function () {
+        $(function () {
 
             $('input').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'icheckbox_minimal-blue',
                 increaseArea: '20%' // optional
             });
+
+            if (history.forward(1)) {
+                location.replace(history.forward(1))
+            }
         })
     </script>
+
+
     @if (TempData["notice"] != null)
     {
         <script>

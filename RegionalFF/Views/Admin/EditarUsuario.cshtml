@@ -1,4 +1,4 @@
-﻿@model RegionalFF.Models.ExpandedUserDTO
+﻿@model RegionalFF.Models.UsuarioAmpliado
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Administrador";
@@ -31,7 +31,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    @using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    @using (Html.BeginForm("EditarUsuario", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
                     {
                         @Html.AntiForgeryToken()
 

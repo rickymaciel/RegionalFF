@@ -1,4 +1,4 @@
-﻿@model RegionalFF.Models.ExpandedUserDTO
+﻿@model RegionalFF.Models.UsuarioAmpliado
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Usuarios del Sistema";
@@ -15,7 +15,7 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Index", "Admin")" class="">
+                            <a href="@Url.Action("Index", "Admin")" class="btn btn-default">
                                 <i class="fa fa-reply"></i>
                                 Volver a la lista
                             </a>
@@ -91,7 +91,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Roles, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
-                                @Html.DropDownList("Roles", null, new { @id = "Roles", @class = "form-control", @placeholder = "Roles", @required = "true" })
+                                @Html.DropDownList("Roles", null, "Seleccionar", new { @id = "Roles", @class = "form-control", @placeholder = "Roles", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger", @required = "true" })
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.OficinaId, "OficinaId", htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
-                                @Html.DropDownList("OficinaId", null, new { @class = "form-control", @placeholder = "Oficina", @required = "true" })
+                                @Html.DropDownList("OficinaId", null,"Seleccionar", new { @class = "form-control", @placeholder = "Oficina", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.OficinaId, "", new { @class = "text-danger" })
                             </div>
                         </div>

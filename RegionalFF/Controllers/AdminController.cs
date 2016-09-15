@@ -22,87 +22,35 @@ namespace RegionalFF.Controllers
 
         // Controllers
 
+
         // GET: /Admin/
+        #region public ActionResult Index()
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult Index(string searchStringUserNameOrEmail)
-        public ActionResult Index(string searchStringUserNameOrEmail, string currentFilter, int? page)
+        public ActionResult Index()
         {
-            try
+            List<UsuarioAmpliado> col_Usuario = new List<UsuarioAmpliado>();
+            var result = UserManager.Users.ToList().OrderBy(x => x.UserName);
+            foreach (var item in result)
             {
-                int intPage = 1;
-                int intPageSize = 5;
-                int intTotalPageCount = 0;
+                UsuarioAmpliado objUsuario= new UsuarioAmpliado();
 
-                if (searchStringUserNameOrEmail != null)
-                {
-                    intPage = 1;
-                }
-                else
-                {
-                    if (currentFilter != null)
-                    {
-                        searchStringUserNameOrEmail = currentFilter;
-                        intPage = page ?? 1;
-                    }
-                    else
-                    {
-                        searchStringUserNameOrEmail = "";
-                        intPage = page ?? 1;
-                    }
-                }
+                objUsuario.UserName = item.UserName;
+                objUsuario.Nombre = item.Nombre;
+                objUsuario.Apellido = item.Apellido;
+                objUsuario.Numero = item.Numero;
+                objUsuario.OficinaId = item.OficinaId;
+                objUsuario.Oficina = item.Oficina;
+                objUsuario.UserName = item.UserName;
+                objUsuario.Documento = item.Documento;
+                objUsuario.Email = item.Email;
+                objUsuario.LockoutEndDateUtc = item.LockoutEndDateUtc;
+                objUsuario.PhoneNumber = item.PhoneNumber;
 
-                ViewBag.CurrentFilter = searchStringUserNameOrEmail;
-
-                List<ExpandedUserDTO> col_UserDTO = new List<ExpandedUserDTO>();
-                int intSkip = (intPage - 1) * intPageSize;
-
-                intTotalPageCount = UserManager.Users
-                    .Where(x => x.UserName.Contains(searchStringUserNameOrEmail))
-                    .Count();
-
-                var result = UserManager.Users
-                    .Where(x => x.UserName.Contains(searchStringUserNameOrEmail))
-                    .OrderBy(x => x.UserName)
-                    .Skip(intSkip)
-                    .Take(intPageSize)
-                    .ToList();
-
-                foreach (var item in result)
-                {
-                    ExpandedUserDTO objUserDTO = new ExpandedUserDTO();
-
-                    objUserDTO.UserName = item.UserName;
-                    objUserDTO.Nombre = item.Nombre;
-                    objUserDTO.Apellido = item.Apellido;
-                    objUserDTO.Numero = item.Numero;
-                    objUserDTO.OficinaId = item.OficinaId;
-                    objUserDTO.Oficina = item.Oficina;
-                    objUserDTO.UserName = item.UserName;
-                    objUserDTO.Documento = item.Documento;
-                    objUserDTO.Email = item.Email;
-                    objUserDTO.LockoutEndDateUtc = item.LockoutEndDateUtc;
-                    objUserDTO.PhoneNumber = item.PhoneNumber;
-
-                    col_UserDTO.Add(objUserDTO);
-                }
-
-                // Set the number of pages
-                var _UserDTOAsIPagedList =
-                    new StaticPagedList<ExpandedUserDTO>
-                    (
-                        col_UserDTO, intPage, intPageSize, intTotalPageCount
-                        );
-
-                return View(_UserDTOAsIPagedList);
+                col_Usuario.Add(objUsuario);
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, "Error: " + ex);
-                List<ExpandedUserDTO> col_UserDTO = new List<ExpandedUserDTO>();
-
-                return View(col_UserDTO.ToPagedList(1, 25));
-            }
+            return View(col_Usuario);
         }
+
         #endregion
 
         // Users *****************************
@@ -112,13 +60,13 @@ namespace RegionalFF.Controllers
         #region public ActionResult Create()
         public ActionResult Create()
         {
-            ExpandedUserDTO objExpandedUserDTO = new ExpandedUserDTO();
+            UsuarioAmpliado objUsuarioAmpliado = new UsuarioAmpliado();
 
-            ViewBag.Roles = GetAllRolesAsSelectList();
+            ViewBag.Roles = GetTodoRolesComoSelectList();
 
             ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
 
-            return View(objExpandedUserDTO);
+            return View(objUsuarioAmpliado);
         }
         #endregion
 
@@ -126,25 +74,25 @@ namespace RegionalFF.Controllers
         [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        #region public ActionResult Create(ExpandedUserDTO paramExpandedUserDTO)
-        public ActionResult Create(ExpandedUserDTO paramExpandedUserDTO)
+        #region public ActionResult Create(UsuarioAmpliado paramUsuarioAmpliado)
+        public ActionResult Create(UsuarioAmpliado paramUsuarioAmpliado)
         {
             try
             {
-                if (paramExpandedUserDTO == null)
+                if (paramUsuarioAmpliado == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                var Email = paramExpandedUserDTO.Email.Trim();
-                var UserName = paramExpandedUserDTO.Email.Trim();
-                var Nombre = paramExpandedUserDTO.Nombre.Trim();
-                var Apellido = paramExpandedUserDTO.Apellido.Trim();
-                var Documento = paramExpandedUserDTO.Documento;
-                var Numero = paramExpandedUserDTO.Numero;
-                var PhoneNumber = paramExpandedUserDTO.PhoneNumber.Trim();
-                var Password = paramExpandedUserDTO.Password.Trim();
-                var OficinaId = paramExpandedUserDTO.OficinaId;
+                var Email = paramUsuarioAmpliado.Email.Trim();
+                var UserName = paramUsuarioAmpliado.Email.Trim();
+                var Nombre = paramUsuarioAmpliado.Nombre.Trim();
+                var Apellido = paramUsuarioAmpliado.Apellido.Trim();
+                var Documento = paramUsuarioAmpliado.Documento;
+                var Numero = paramUsuarioAmpliado.Numero;
+                var PhoneNumber = paramUsuarioAmpliado.PhoneNumber.Trim();
+                var Password = paramUsuarioAmpliado.Password.Trim();
+                var OficinaId = paramUsuarioAmpliado.OficinaId;
 
                 if (Email == "")
                 {
@@ -156,13 +104,13 @@ namespace RegionalFF.Controllers
                     throw new Exception("El Password es requerido");
                 }
 
-                // UserName is LowerCase of the Email
+                // Setear UserName con Email en minuscula
                 UserName = Email.ToLower();
 
-                // Create user
+                // Crear Usuario
 
-                var objNewAdminUser = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId };
-                var AdminUserCreateResult = UserManager.Create(objNewAdminUser, Password);
+                var objNewAdminUsuario = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId };
+                var AdminUserCreateResult = UserManager.Create(objNewAdminUsuario, Password);
 
                 if (AdminUserCreateResult.Succeeded == true)
                 {
@@ -170,25 +118,25 @@ namespace RegionalFF.Controllers
 
                     if (strNewRole != "0")
                     {
-                        // Put user in role
-                        UserManager.AddToRole(objNewAdminUser.Id, strNewRole);
+                        // Setear Rol en Usuario
+                        UserManager.AddToRole(objNewAdminUsuario.Id, strNewRole);
                     }
 
                     return Redirect("~/Admin");
                 }
                 else
                 {
-                    ViewBag.Roles = GetAllRolesAsSelectList();
+                    ViewBag.Roles = GetTodoRolesComoSelectList();
 
-                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
+                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramUsuarioAmpliado.OficinaId);
                     ModelState.AddModelError(string.Empty,
                         "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
-                    return View(paramExpandedUserDTO);
+                    return View(paramUsuarioAmpliado);
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Roles = GetAllRolesAsSelectList();
+                ViewBag.Roles = GetTodoRolesComoSelectList();
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
                 return View("Create");
             }
@@ -197,14 +145,14 @@ namespace RegionalFF.Controllers
 
         // GET: /Admin/Edit/TestUser 
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult EditUser(string UserName)
-        public ActionResult EditUser(string UserName)
+        #region public ActionResult EditarUsuario(string UserName)
+        public ActionResult EditarUsuario(string UserName)
         {
             if (UserName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpandedUserDTO objExpandedUserDTO = GetUser(UserName);
+            UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
             ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
             if (objExpandedUserDTO == null)
             {
@@ -214,12 +162,12 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        // PUT: /Admin/EditUser
+        // PUT: /Admin/EditarUsuario
         [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        #region public ActionResult EditUser(ExpandedUserDTO paramExpandedUserDTO)
-        public ActionResult EditUser(ExpandedUserDTO paramExpandedUserDTO)
+        #region public ActionResult EditarUsuario(UsuarioAmpliado paramExpandedUserDTO)
+        public ActionResult EditarUsuario(UsuarioAmpliado paramExpandedUserDTO)
         {
             try
             {
@@ -228,7 +176,7 @@ namespace RegionalFF.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                ExpandedUserDTO objExpandedUserDTO = UpdateDTOUser(paramExpandedUserDTO);
+                UsuarioAmpliado objExpandedUserDTO = UpdateDTOUser(paramExpandedUserDTO);
                 ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
 
                 if (objExpandedUserDTO == null)
@@ -241,7 +189,7 @@ namespace RegionalFF.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
-                return View("EditUser", GetUser(paramExpandedUserDTO.UserName));
+                return View("EditarUsuario", GetUser(paramExpandedUserDTO.UserName));
             }
         }
         #endregion
@@ -263,10 +211,10 @@ namespace RegionalFF.Controllers
                     ModelState.AddModelError(
                         string.Empty, "Error : No se puede suprimir la función de administrador para el usuario actual");
 
-                    return View("EditUser");
+                    return View("EditarUsuario");
                 }
 
-                ExpandedUserDTO objExpandedUserDTO = GetUser(UserName);
+                UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
 
                 if (objExpandedUserDTO == null)
                 {
@@ -282,7 +230,7 @@ namespace RegionalFF.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
-                return View("EditUser", GetUser(UserName));
+                return View("EditarUsuario", GetUser(UserName));
             }
         }
         #endregion
@@ -300,14 +248,14 @@ namespace RegionalFF.Controllers
             UserName = UserName.ToLower();
 
             // Check that we have an actual user
-            ExpandedUserDTO objExpandedUserDTO = GetUser(UserName);
+            UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
 
             if (objExpandedUserDTO == null)
             {
                 return HttpNotFound();
             }
 
-            UserAndRolesDTO objUserAndRolesDTO =
+            UsuarioyRoles objUserAndRolesDTO =
                 GetUserAndRoles(UserName);
 
             return View(objUserAndRolesDTO);
@@ -319,7 +267,7 @@ namespace RegionalFF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         #region public ActionResult EditarRoles(UserAndRolesDTO paramUserAndRolesDTO)
-        public ActionResult EditarRoles(UserAndRolesDTO paramUserAndRolesDTO)
+        public ActionResult EditarRoles(UsuarioyRoles paramUserAndRolesDTO)
         {
             try
             {
@@ -342,7 +290,7 @@ namespace RegionalFF.Controllers
 
                 ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
-                UserAndRolesDTO objUserAndRolesDTO =
+                UsuarioyRoles objUserAndRolesDTO =
                     GetUserAndRoles(UserName);
 
                 return View(objUserAndRolesDTO);
@@ -370,7 +318,7 @@ namespace RegionalFF.Controllers
                 UserName = UserName.ToLower();
 
                 // Check that we have an actual user
-                ExpandedUserDTO objExpandedUserDTO = GetUser(UserName);
+                UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
 
                 if (objExpandedUserDTO == null)
                 {
@@ -400,7 +348,7 @@ namespace RegionalFF.Controllers
 
                 ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
-                UserAndRolesDTO objUserAndRolesDTO =
+                UsuarioyRoles objUserAndRolesDTO =
                     GetUserAndRoles(UserName);
 
                 return View("EditarRoles", objUserAndRolesDTO);
@@ -421,8 +369,8 @@ namespace RegionalFF.Controllers
                     new RoleStore<IdentityRole>(new ApplicationDbContext())
                     );
 
-            List<RoleDTO> colRoleDTO = (from objRole in roleManager.Roles
-                                        select new RoleDTO
+            List<Rol> colRoleDTO = (from objRole in roleManager.Roles
+                                        select new Rol
                                         {
                                             Id = objRole.Id,
                                             RoleName = objRole.Name
@@ -437,7 +385,7 @@ namespace RegionalFF.Controllers
         #region public ActionResult NuevoRol()
         public ActionResult NuevoRol()
         {
-            RoleDTO objRoleDTO = new RoleDTO();
+            Rol objRoleDTO = new Rol();
 
             return View(objRoleDTO);
         }
@@ -448,7 +396,7 @@ namespace RegionalFF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         #region public ActionResult NuevoRol(RoleDTO paramRoleDTO)
-        public ActionResult NuevoRol(RoleDTO paramRoleDTO)
+        public ActionResult NuevoRol(Rol paramRoleDTO)
         {
             try
             {
@@ -532,8 +480,8 @@ namespace RegionalFF.Controllers
                             );
                 }
 
-                List<RoleDTO> colRoleDTO = (from objRole in roleManager.Roles
-                                            select new RoleDTO
+                List<Rol> colRoleDTO = (from objRole in roleManager.Roles
+                                            select new Rol
                                             {
                                                 Id = objRole.Id,
                                                 RoleName = objRole.Name
@@ -549,8 +497,8 @@ namespace RegionalFF.Controllers
                     new RoleManager<IdentityRole>(
                         new RoleStore<IdentityRole>(new ApplicationDbContext()));
 
-                List<RoleDTO> colRoleDTO = (from objRole in roleManager.Roles
-                                            select new RoleDTO
+                List<Rol> colRoleDTO = (from objRole in roleManager.Roles
+                                            select new Rol
                                             {
                                                 Id = objRole.Id,
                                                 RoleName = objRole.Name
@@ -596,8 +544,8 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        #region private List<SelectListItem> GetAllRolesAsSelectList()
-        private List<SelectListItem> GetAllRolesAsSelectList()
+        #region private List<SelectListItem> GetTodoRolesComoSelectList()
+        private List<SelectListItem> GetTodoRolesComoSelectList()
         {
             List<SelectListItem> SelectRoleListItems =
                 new List<SelectListItem>();
@@ -661,10 +609,10 @@ namespace RegionalFF.Controllers
         #endregion
 
 
-        #region private ExpandedUserDTO GetUser(string paramUserName)
-        private ExpandedUserDTO GetUser(string paramUserName)
+        #region private UsuarioAmpliado GetUser(string paramUserName)
+        private UsuarioAmpliado GetUser(string paramUserName)
         {
-            ExpandedUserDTO objExpandedUserDTO = new ExpandedUserDTO();
+            UsuarioAmpliado objExpandedUserDTO = new UsuarioAmpliado();
 
             var result = UserManager.FindByName(paramUserName);
 
@@ -686,8 +634,8 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        #region private ExpandedUserDTO UpdateDTOUser(ExpandedUserDTO objExpandedUserDTO)
-        private ExpandedUserDTO UpdateDTOUser(ExpandedUserDTO paramExpandedUserDTO)
+        #region private ExpandedUserDTO UpdateDTOUser(UsuarioAmpliado objExpandedUserDTO)
+        private UsuarioAmpliado UpdateDTOUser(UsuarioAmpliado paramExpandedUserDTO)
         {
             ApplicationUser result =
                 UserManager.FindByName(paramExpandedUserDTO.UserName);
@@ -741,8 +689,8 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        #region private void DeleteUser(ExpandedUserDTO paramExpandedUserDTO)
-        private void DeleteUser(ExpandedUserDTO paramExpandedUserDTO)
+        #region private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)
+        private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)
         {
             ApplicationUser user =
                 UserManager.FindByName(paramExpandedUserDTO.UserName);
@@ -760,14 +708,14 @@ namespace RegionalFF.Controllers
         #endregion
 
         #region private UserAndRolesDTO GetUserAndRoles(string UserName)
-        private UserAndRolesDTO GetUserAndRoles(string UserName)
+        private UsuarioyRoles GetUserAndRoles(string UserName)
         {
             // Go get the User
             ApplicationUser user = UserManager.FindByName(UserName);
 
-            List<UserRoleDTO> colUserRoleDTO =
+            List<UsuarioRol> colUserRoleDTO =
                 (from objRole in UserManager.GetRoles(user.Id)
-                 select new UserRoleDTO
+                 select new UsuarioRol
                  {
                      RoleName = objRole,
                      UserName = UserName
@@ -775,16 +723,16 @@ namespace RegionalFF.Controllers
 
             if (colUserRoleDTO.Count() == 0)
             {
-                colUserRoleDTO.Add(new UserRoleDTO { RoleName = "No se encontraron roles" });
+                colUserRoleDTO.Add(new UsuarioRol { RoleName = "No se encontraron roles" });
             }
 
             ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
 
             // Create UserRolesAndPermissionsDTO
-            UserAndRolesDTO objUserAndRolesDTO =
-                new UserAndRolesDTO();
+            UsuarioyRoles objUserAndRolesDTO =
+                new UsuarioyRoles();
             objUserAndRolesDTO.UserName = UserName;
-            objUserAndRolesDTO.colUserRoleDTO = colUserRoleDTO;
+            objUserAndRolesDTO.colUsuarioRol = colUserRoleDTO;
             return objUserAndRolesDTO;
         }
         #endregion

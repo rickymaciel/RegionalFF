@@ -17,7 +17,7 @@ namespace RegionalFF.Controllers
         // GET: Ciudades
         public ActionResult Index()
         {
-            return View(db.Ciudads.ToList());
+            return View(db.Ciudads.ToList().OrderBy(x => x.Nombre));
         }
 
         [HttpPost]

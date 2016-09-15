@@ -206,7 +206,7 @@
     <Compile Include="Models\Oficina.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Models\Parametrizacion.cs" />
-    <Compile Include="Models\UserRolesDTO.cs" />
+    <Compile Include="Models\UsuarioRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -349,7 +349,7 @@
     <Content Include="Views\Admin\NuevoRol.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\Admin\EditarRoles.cshtml" />
-    <Content Include="Views\Admin\EditUser.cshtml" />
+    <Content Include="Views\Admin\EditarUsuario.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Roles.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />

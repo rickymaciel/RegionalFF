@@ -16,6 +16,7 @@ namespace RegionalFF.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Facilitaciones
+        [Authorize]
         public ActionResult Index()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -33,6 +34,7 @@ namespace RegionalFF.Controllers
 
 
         // GET: Facilitaciones
+        [Authorize]
         public ActionResult EsteMes()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -50,6 +52,7 @@ namespace RegionalFF.Controllers
 
 
         // GET: Facilitaciones
+        [Authorize]
         public ActionResult EsteAño()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -280,7 +283,7 @@ namespace RegionalFF.Controllers
         public int? getCantidadRegistroHoy(String usuario)
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
             return hoy;
         }
 
@@ -288,7 +291,7 @@ namespace RegionalFF.Controllers
         public int? getCantidadRegistroMes(String usuario)
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
             return hoy;
         }
 
@@ -296,7 +299,7 @@ namespace RegionalFF.Controllers
         public int? getCantidadRegistroAnio(String usuario)
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
             return hoy;
         }
 
@@ -314,7 +317,7 @@ namespace RegionalFF.Controllers
         public int? getCantidadRegistroMes()
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            int hoy = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
             return hoy;
         }
 
@@ -322,7 +325,7 @@ namespace RegionalFF.Controllers
         public int? getCantidadRegistroAnio()
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).Sum(x => x.Cantidad);
+            int hoy = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
             return hoy;
         }
 

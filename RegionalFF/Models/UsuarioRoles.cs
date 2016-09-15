@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RegionalFF.Models
 {
-    public class ExpandedUserDTO
+    public class UsuarioAmpliado
     {
         [Key]
         [Display(Name = "Nombre de Usuario")]
@@ -44,17 +44,17 @@ namespace RegionalFF.Models
         [Display(Name = "Teléfono")]
         public string PhoneNumber { get; set; }
 
-        public IEnumerable<UserRolesDTO> Roles { get; set; }
+        public IEnumerable<UsuarioRole> Roles { get; set; }
     }
 
-    public class UserRolesDTO
+    public class UsuarioRole
     {
         [Key]
         [Display(Name = "Nombre del Rol")]
         public string RoleName { get; set; }
     }
 
-    public class UserRoleDTO
+    public class UsuarioRol
     {
         [Key]
         [Display(Name = "Nombre de Usuario")]
@@ -63,7 +63,7 @@ namespace RegionalFF.Models
         public string RoleName { get; set; }
     }
 
-    public class RoleDTO
+    public class Rol
     {
         [Key]
         public string Id { get; set; }
@@ -71,11 +71,11 @@ namespace RegionalFF.Models
         public string RoleName { get; set; }
     }
 
-    public class UserAndRolesDTO
+    public class UsuarioyRoles
     {
         [Key]
         [Display(Name = "Nombre de Usuario")]
         public string UserName { get; set; }
-        public List<UserRoleDTO> colUserRoleDTO { get; set; }
+        public List<UsuarioRol> colUsuarioRol { get; set; }
     }
 }

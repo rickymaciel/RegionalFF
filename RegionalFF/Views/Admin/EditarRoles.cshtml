@@ -1,4 +1,4 @@
-﻿@model RegionalFF.Models.UserAndRolesDTO
+﻿@model RegionalFF.Models.UsuarioyRoles
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Administracion";
@@ -86,7 +86,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach (var item in Model.colUserRoleDTO)
+                                    @foreach (var item in Model.colUsuarioRol)
                                     {
                                         <tr>
                                             <td>
