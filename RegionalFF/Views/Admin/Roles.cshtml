@@ -46,13 +46,15 @@
                             }*@
 
 
-                        <table id="datatable-responsive" class="table table-striped table-hover table-condensed dt-responsive nowrap" cellspacing="0" width="100%">
+                        <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <th>
+                                        <i class="fa fa-cog text-center"></i>
+                                    </th>
+                                    <th>
                                         Roles
                                     </th>
-                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -61,16 +63,16 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+                                        <td class="col-lg-2" align="center">
+                                            @if (item.RoleName.ToLower() != "Administrator")
+                                            {
+                                                <a class="btn btn-warning" href="@Url.Action("EditarRol", "Admin", new { roleName = item.RoleName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                                <a class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUserRole", "Admin", new { UserName = item.RoleName })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
+                                            }
+                                        </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.RoleName)
                                         </td>
-                                        <td>
-                                            @if (item.RoleName.ToLower() != "administrator")
-                                            {
-                                                @Html.ActionLink("Delete", "DeleteUserRole", new { RoleName = item.RoleName }, new {  onclick =  "return confirm('Are you sure you wish to delete this role?');"})
-                                            }
-                                        </td>
-
                                     </tr>
                                 }
                             </tbody>

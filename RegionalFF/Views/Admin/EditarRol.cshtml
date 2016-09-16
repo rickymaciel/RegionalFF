@@ -1,0 +1,65 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "Rol";
+    ViewBag.SubTitle = "Editar";
+}
+<!-- page content -->
+<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a href="@Url.Action("Index", "Admin")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                                <i class="fa fa-reply"></i>
+                                Volver al listado
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Create", "Admin")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                                <i class="fa fa-plus"></i>
+                                Crear Nuevo
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @using (Html.BeginForm("EditarRol", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Nombre" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button type="reset" class="btn btn-default">Limpiar</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

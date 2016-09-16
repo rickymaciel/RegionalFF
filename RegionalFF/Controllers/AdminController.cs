@@ -21,7 +21,33 @@ namespace RegionalFF.Controllers
         private ApplicationRoleManager _roleManager;
 
         // Controllers
+        // GET: /Admin/EditarRol/5
+        public ActionResult EditarRol(string roleName)
+        {
+            var thisRole = db.Roles.Where(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
+            return View(thisRole);
+        }
+
+        //
+        // POST: /Roles/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarRol(Microsoft.AspNet.Identity.EntityFramework.IdentityRole role)
+        {
+            try
+            {
+                db.Entry(role).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["notice"] = "El Rol fue modificado con éxito";
+                return RedirectToAction("Roles");
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         // GET: /Admin/
         #region public ActionResult Index()
