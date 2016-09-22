@@ -25,11 +25,13 @@ namespace RegionalFF.Models
             Origenes = new List<Pais>();
             Destinos = new List<Ciudad>();
             Facilitaciones = new List<Facilitacion>();
+            Fiscalizaciones = new List<Fiscalizacion>();
         }
 
         public virtual ICollection<Pais> Origenes { get; set; }
         public virtual ICollection<Ciudad> Destinos { get; set; }
         public virtual ICollection<Facilitacion> Facilitaciones { get; set; }
+        public virtual ICollection<Fiscalizacion> Fiscalizaciones { get; set; }
 
         [Required(ErrorMessage = "El Nº Funcionario es requerido")]
         [Display(Name = "Nº Funcionario")]

@@ -195,17 +195,25 @@
     <Compile Include="Migrations\201609080151069_Facilitacion.Designer.cs">
       <DependentUpon>201609080151069_Facilitacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609212054228_Fiscalizacion.cs" />
+    <Compile Include="Migrations\201609212054228_Fiscalizacion.Designer.cs">
+      <DependentUpon>201609212054228_Fiscalizacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Ciudad.cs" />
+    <Compile Include="Models\Conductor.cs" />
     <Compile Include="Models\Facilitacion.cs" />
+    <Compile Include="Models\Fiscalizacion.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Marca.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuAdmin.cs" />
     <Compile Include="Models\Oficina.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Models\Parametrizacion.cs" />
+    <Compile Include="Models\Transporte.cs" />
     <Compile Include="Models\UsuarioRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -375,7 +383,6 @@
     <Content Include="Views\Ciudades\Details.cshtml" />
     <Content Include="Views\Ciudades\Edit.cshtml" />
     <Content Include="Views\Ciudades\Index.cshtml" />
-    <Content Include="Views\Shared\_registro_facilitacion.cshtml" />
     <Content Include="Views\Paises\Create.cshtml" />
     <Content Include="Views\Paises\Delete.cshtml" />
     <Content Include="Views\Paises\Details.cshtml" />
@@ -412,6 +419,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609080151069_Facilitacion.resx">
       <DependentUpon>201609080151069_Facilitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609212054228_Fiscalizacion.resx">
+      <DependentUpon>201609212054228_Fiscalizacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
