@@ -170,12 +170,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CiudadesController.cs" />
+    <Compile Include="Controllers\ConductoresController.cs" />
     <Compile Include="Controllers\FacilitacionesController.cs" />
+    <Compile Include="Controllers\FiscalizacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MarcasController.cs" />
     <Compile Include="Controllers\MenusController.cs" />
     <Compile Include="Controllers\OficinasController.cs" />
     <Compile Include="Controllers\PaisesController.cs" />
+    <Compile Include="Controllers\TransportesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -195,9 +199,9 @@
     <Compile Include="Migrations\201609080151069_Facilitacion.Designer.cs">
       <DependentUpon>201609080151069_Facilitacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609212054228_Fiscalizacion.cs" />
-    <Compile Include="Migrations\201609212054228_Fiscalizacion.Designer.cs">
-      <DependentUpon>201609212054228_Fiscalizacion.cs</DependentUpon>
+    <Compile Include="Migrations\201609221825467_Fiscalizacion.cs" />
+    <Compile Include="Migrations\201609221825467_Fiscalizacion.Designer.cs">
+      <DependentUpon>201609221825467_Fiscalizacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -396,6 +400,26 @@
     <Content Include="Views\Facilitaciones\EsteMes.cshtml" />
     <Content Include="Views\Facilitaciones\EsteAño.cshtml" />
     <Content Include="Views\Admin\EditarRol.cshtml" />
+    <Content Include="Views\Marcas\Create.cshtml" />
+    <Content Include="Views\Marcas\Delete.cshtml" />
+    <Content Include="Views\Marcas\Details.cshtml" />
+    <Content Include="Views\Marcas\Edit.cshtml" />
+    <Content Include="Views\Marcas\Index.cshtml" />
+    <Content Include="Views\Conductores\Create.cshtml" />
+    <Content Include="Views\Conductores\Delete.cshtml" />
+    <Content Include="Views\Conductores\Details.cshtml" />
+    <Content Include="Views\Conductores\Edit.cshtml" />
+    <Content Include="Views\Conductores\Index.cshtml" />
+    <Content Include="Views\Transportes\Create.cshtml" />
+    <Content Include="Views\Transportes\Delete.cshtml" />
+    <Content Include="Views\Transportes\Details.cshtml" />
+    <Content Include="Views\Transportes\Edit.cshtml" />
+    <Content Include="Views\Transportes\Index.cshtml" />
+    <Content Include="Views\Fiscalizaciones\Create.cshtml" />
+    <Content Include="Views\Fiscalizaciones\Delete.cshtml" />
+    <Content Include="Views\Fiscalizaciones\Details.cshtml" />
+    <Content Include="Views\Fiscalizaciones\Edit.cshtml" />
+    <Content Include="Views\Fiscalizaciones\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -420,8 +444,8 @@
     <EmbeddedResource Include="Migrations\201609080151069_Facilitacion.resx">
       <DependentUpon>201609080151069_Facilitacion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609212054228_Fiscalizacion.resx">
-      <DependentUpon>201609212054228_Fiscalizacion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609221825467_Fiscalizacion.resx">
+      <DependentUpon>201609221825467_Fiscalizacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

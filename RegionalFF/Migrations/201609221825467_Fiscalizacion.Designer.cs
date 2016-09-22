@@ -13,7 +13,7 @@ namespace RegionalFF.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201609212054228_Fiscalizacion"; }
+            get { return "201609221825467_Fiscalizacion"; }
         }
         
         string IMigrationMetadata.Source

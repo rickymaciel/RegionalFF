@@ -17,7 +17,7 @@ namespace RegionalFF.Models
         [Display(Name = "Funcionario")]
         public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual ApplicationUser Usuario { get; set; }
+        public virtual ApplicationUser Fiscal { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         [DataType(DataType.DateTime)]

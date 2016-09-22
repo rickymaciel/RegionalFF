@@ -77,5 +77,15 @@ namespace RegionalFF.Models
         public System.Data.Entity.DbSet<RegionalFF.Models.Ciudad> Ciudads { get; set; }
 
         public System.Data.Entity.DbSet<RegionalFF.Models.Facilitacion> Facilitacions { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Marca> Marcas { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Conductor> Conductors { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Transporte> Transportes { get; set; }
+
+        public System.Data.Entity.DbSet<RegionalFF.Models.Fiscalizacion> Fiscalizacions { get; set; }
+
+        //public System.Data.Entity.DbSet<RegionalFF.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
