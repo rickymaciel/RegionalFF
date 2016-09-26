@@ -16,7 +16,6 @@ namespace RegionalFF.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Facilitaciones
-        [Authorize]
         public ActionResult Index()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -34,7 +33,6 @@ namespace RegionalFF.Controllers
 
 
         // GET: Facilitaciones
-        [Authorize]
         public ActionResult EsteMes()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -52,7 +50,6 @@ namespace RegionalFF.Controllers
 
 
         // GET: Facilitaciones
-        [Authorize]
         public ActionResult EsteAño()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -82,6 +79,7 @@ namespace RegionalFF.Controllers
             }
         }
 
+        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult aja(Facilitacion facilitacion)
@@ -175,7 +173,6 @@ namespace RegionalFF.Controllers
 
         // GET: Facilitaciones/Create
 
-        [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult Create()
         {
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
@@ -217,7 +214,6 @@ namespace RegionalFF.Controllers
         }
 
 
-        [Authorize(Roles = "Facilitador,Administrador")]
         // GET: Facilitaciones/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -346,7 +342,6 @@ namespace RegionalFF.Controllers
         }
 
 
-        [Authorize(Roles = "Facilitador,Administrador")]
         // GET: Facilitaciones/Delete/5
         public ActionResult Delete(int? id)
         {

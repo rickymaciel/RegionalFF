@@ -1,90 +1,119 @@
 ﻿@model RegionalFF.Models.Fiscalizacion
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Fiscalizaciones";
+    ViewBag.SubTitle = "Detalles";
 }
 
-<h2>Details</h2>
-
+<!-- page content -->
 <div>
-    <h4>Fiscalizacion</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Ciudad.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ciudad.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fiscal.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fiscal.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Pais.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Pais.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Transporte.RazonSocial)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Transporte.RazonSocial)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CantidadPasajeros)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CantidadPasajeros)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Observaciones)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Observaciones)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Habilitado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Habilitado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
-
-    </dl>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                                <i class="fa fa-reply"></i>
+                                Volver
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Edit", "Fiscalizaciones", new { id = Model.Id })" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
+                                <i class="fa fa-edit"></i>
+                                Editar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Delete", "Fiscalizaciones", new { id = Model.Id })" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                <i class="fa fa-times"></i>
+                                Eliminar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Create", "Fiscalizaciones")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                                <i class="fa fa-plus"></i>
+                                Crear Nuevo
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="col-lg-6">
+                        <ul class="list-group col-xs-12 col-sm-12 col-lg-12">
+                            <li class="list-group-item">
+                                <span class="badge badge-primary"> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</span>
+                                @Html.DisplayNameFor(model => model.Fecha)
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="list-group col-xs-12 col-sm-12 col-lg-12">
+                            <li class="list-group-item">
+                                <span class="badge badge-primary"> @String.Format("{0:HH:mm:ss}", Model.Fecha)</span>
+                                Hora
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="list-group col-lg-12">
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Fiscal.Nombre) @Html.DisplayFor(model => model.Fiscal.Apellido)</span>
+                                @Html.DisplayNameFor(model => model.Fiscal.Nombre) y @Html.DisplayNameFor(model => model.Fiscal.Apellido)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Fiscal.Email)</span>
+                                @Html.DisplayNameFor(model => model.Fiscal.Email)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Fiscal.Oficina.Nombre)</span>
+                                @Html.DisplayNameFor(model => model.Fiscal.Oficina)
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="list-group col-lg-12">
+                            <li class="list-group-item">
+                                <span class="badge">@Html.DisplayFor(model => model.Transporte.RazonSocial)</span>
+                                @Html.DisplayNameFor(model => model.Transporte.RazonSocial)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge">@Html.DisplayFor(model => model.Transporte.Conductor.Nombre) @Html.DisplayFor(model => model.Transporte.Conductor.Apellido)</span>
+                                @Html.DisplayNameFor(model => model.Transporte.Conductor)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Transporte.ChapaNro)</span>
+                                @Html.DisplayNameFor(model => model.Transporte.ChapaNro)
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12">
+                        <ul class="list-group col-lg-12">
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Ciudad.Nombre)</span>
+                                @Html.DisplayNameFor(model => model.CiudadId)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Pais.Nombre)</span>
+                                @Html.DisplayNameFor(model => model.PaisId)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.CantidadPasajeros)</span>
+                                @Html.DisplayNameFor(model => model.CantidadPasajeros)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Habilitado)</span>
+                                @Html.DisplayNameFor(model => model.Habilitado)
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-primary">@Html.DisplayFor(model => model.Observaciones)</span>
+                                @Html.DisplayNameFor(model => model.Observaciones)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -79,7 +79,26 @@ namespace RegionalFF.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    ApplicationUser user = await UserManager.FindAsync(model.Email, model.Password);
+                // Redirect to User landing page on SignIn, according to Role
+                if ((UserManager.IsInRole(user.Id, "Administrador")))
+                {
+                       return RedirectToAction("Index", "Admin");
+                }
+                if ((UserManager.IsInRole(user.Id, "Facilitador")))
+                {
+                    return RedirectToAction("Index", "Facilitaciones");
+                }
+                if ((UserManager.IsInRole(user.Id, "Fiscalizador")))
+                {
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return View(model);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

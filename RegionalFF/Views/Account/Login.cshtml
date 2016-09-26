@@ -8,16 +8,15 @@
 
 
 <section class="login_content">
-    <img src="~/Content/img/RegionalFFlogin.png" class="image" width="150" title="@ViewBag.Denominacion" alt="@ViewBag.Denominacion" />
+    <img src="~/Content/img/RegionalFFlogin.png" class="image" width="130" title="@ViewBag.Denominacion" alt="@ViewBag.Denominacion" />
 
 
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
     {
 
         @Html.AntiForgeryToken()
-        <h1> <i class="fa fa-sign-in"></i>  @ViewBag.Denominacion</h1>
+        <h1> <i class="fa fa-sign-in"></i>   @ViewBag.Denominacion</h1>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <hr />
         <div class="form-group">
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger pull-left" })
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @placeholder = "Email" })
@@ -33,9 +32,7 @@
             </div>
         </div>
         <br />
-
         <br />
-
         <div>
             <button type="submit" class="btn btn-success btn-lg btn-block submit">Entrar</button>
             <a class="reset_pass" href="@Url.Action("ForgotPassword", "Account")">Olvidaste tu contraseña?</a>

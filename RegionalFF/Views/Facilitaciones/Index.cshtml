@@ -136,15 +136,19 @@
                                 <i class="fa fa-list"></i>
                             </a>
                         </li>
-                        <li>
-                            <a href="#" class="btn btn-default btn-xs hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                                <i class="fa fa-plus"></i>
-                            </a>
-                            <a href="#" class="btn btn-default btn-xs visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                                <i class="fa fa-plus"></i>
-                                <strong>Registrar Nuevo</strong>
-                            </a>
-                        </li>
+                        @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                        {
+                            <li>
+                                <a href="#" class="btn btn-default btn-xs hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a href="#" class="btn btn-default btn-xs visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                                    <i class="fa fa-plus"></i>
+                                    <strong>Registrar Nuevo</strong>
+                                </a>
+                            </li>
+                        }
+
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -186,12 +190,16 @@
                                 {
                                     <tr>
                                         <td class="col-lg-2" align="center">
-                                            <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                            @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                                            {
 
-                                            <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                                <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
 
-                                            <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
-                                        </td>
+                                                <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+
+                                                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                            }
+                                            </td>
                                         <td>
                                             @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
                                         </td>
@@ -303,7 +311,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="Observaciones">Anotacion</label>
+                            <label class="control-label col-md-2" for="Observaciones">Obs:.</label>
                             <div class="col-md-10">
                                 <textarea class="form-control" cols="20" id="Observaciones" name="Observaciones" placeholder="Observaciones" rows="3"></textarea>
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
@@ -401,4 +409,3 @@
         </div><!-- /.modal-dialog -->
     }
 </div><!-- /.modal -->
-</div>

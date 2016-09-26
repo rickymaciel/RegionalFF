@@ -44,14 +44,14 @@ namespace RegionalFF.Models
         public virtual Pais Pais { get; set; }
 
         [Required(ErrorMessage = "Debe indicar la cantidad de pasajeros")]
-        [Display(Name = "Cantidad de pasajeros")]
+        [Display(Name = "Nº pasajeros")]
         public int CantidadPasajeros { get; set; }
 
 
-        [Display(Name = "Observaciones: ")]
+        [Display(Name = "Observaciones")]
         public string Observaciones { get; set; }
 
-        [Display(Name = "Cuenta con la habilitación de la SENATUR?")]
+        //[Display(Name = "Cuenta con la habilitación de la SENATUR?")]
         public bool Habilitado { get; set; }
 
         public bool Activo { get; set; }
