@@ -44,7 +44,7 @@
             <div class="x_title">
                 <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    @if (User.IsInRole("Facilitador") || User.IsInRole("Facilitador"))
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
                     {
                         <li class="">
                             <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Facilitaciones">
@@ -53,7 +53,7 @@
                             </a>
                         </li>
                     }
-                    @if (User.IsInRole("Fiscalizador") || User.IsInRole("Fiscalizador"))
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
                     {
                         <li class="">
                             <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Fiscalizaciones">
