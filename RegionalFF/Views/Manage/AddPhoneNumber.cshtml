@@ -1,8 +1,8 @@
 ﻿@model RegionalFF.Models.AddPhoneNumberViewModel
 
 @{
-    ViewBag.Title = "Agregar Número de Teléfono";
-    ViewBag.SubTitle = "Gestionar";
+    ViewBag.Title = "Configuración";
+    ViewBag.SubTitle = "Agregar Número de Teléfono";
 }
 
 <!-- page content -->
@@ -11,7 +11,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <h2><i class="fa fa-cogs"></i> @ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="@Url.Action("Index", "Manage")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver">

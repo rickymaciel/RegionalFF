@@ -15,6 +15,7 @@ namespace RegionalFF.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Transportes
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Index()
         {
             var transportes = db.Transportes.Include(t => t.Conductor).Include(t => t.Marca);
@@ -22,6 +23,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Transportes/Details/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,6 +39,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Transportes/Create
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Create()
         {
             ViewBag.ConductorId = new SelectList(db.Conductors, "Id", "Nombre");
@@ -49,6 +52,7 @@ namespace RegionalFF.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Create([Bind(Include = "Id,RazonSocial,ConductorId,MarcaId,ChapaNro,Activo")] Transporte transporte)
         {
             if (ModelState.IsValid)
@@ -64,6 +68,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Transportes/Edit/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -81,6 +86,7 @@ namespace RegionalFF.Controllers
         }
 
         // POST: Transportes/Edit/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -99,6 +105,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Transportes/Delete/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -113,6 +120,7 @@ namespace RegionalFF.Controllers
             return View(transporte);
         }
 
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         // POST: Transportes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

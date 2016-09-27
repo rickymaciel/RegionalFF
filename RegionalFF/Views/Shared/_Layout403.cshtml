@@ -1,0 +1,46 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @ViewBag.Denominacion</title>
+    <link rel="icon" href="~/RegionalFF.ico" type="image/ico" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.min.css" rel="stylesheet" />
+
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <!-- page content -->
+            <div class="col-md-12">
+                <div class="col-middle">
+                    <div class="text-center text-center">
+                        <h1 class="error-number">403</h1>
+                        <h2>@ViewBag.Title</h2>
+                        <p>
+                            Se requiere autenticación completa para acceder a este recurso. <a href="javascript:history.back()"><i class="fa fa-reply"></i> Volver</a>
+                        </p>
+                        <div class="mid_center">
+                            <h3>@ViewBag.Mensaje</h3>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @RenderBody()
+            <!-- /page content -->
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/fastclick.js"></script>
+    <script src="~/Scripts/custom.min.js"></script>
+</body>
+
+
+</html>

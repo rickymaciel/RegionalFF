@@ -16,12 +16,15 @@ namespace RegionalFF.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Oficinas
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult Index()
         {
             return View(db.Oficinas.ToList());
         }
 
         // GET: Oficinas/Details/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,9 +40,26 @@ namespace RegionalFF.Controllers
         }
 
 
+        // GET: Oficinas/Details/5
+        [Authorize(Roles = "Administrador")]
+        public ActionResult Detalles(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Oficina oficina = db.Oficinas.Find(id);
+            if (oficina == null)
+            {
+                return HttpNotFound();
+            }
+            return View(oficina);
+        }
+
 
 
         // GET: Oficinas/Create
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -63,6 +83,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Oficinas/Edit/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -81,6 +102,7 @@ namespace RegionalFF.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nombre,Sigla,Departamento,Ciudad,Direccion,Telefono")] Oficina oficina)
         {
@@ -94,6 +116,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Oficinas/Delete/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -109,6 +132,7 @@ namespace RegionalFF.Controllers
         }
 
         // POST: Oficinas/Delete/5
+        [Authorize(Roles = "Administrador")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

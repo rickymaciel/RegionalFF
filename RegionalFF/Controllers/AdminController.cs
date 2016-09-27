@@ -22,6 +22,7 @@ namespace RegionalFF.Controllers
 
         // Controllers
         // GET: /Admin/EditarRol/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult EditarRol(string roleName)
         {
             var thisRole = db.Roles.Where(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
@@ -31,6 +32,7 @@ namespace RegionalFF.Controllers
 
         //
         // POST: /Roles/Edit/5
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditarRol(Microsoft.AspNet.Identity.EntityFramework.IdentityRole role)

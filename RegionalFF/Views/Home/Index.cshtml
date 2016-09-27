@@ -1,31 +1,116 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
+
+@{
+    string Usuario = "";
+    if (User.Identity.GetUserName() != "")
+    {
+
+        OficinasController oficinacur = new OficinasController();
+        ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
+        ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
+
+        FacilitacionesController hoy = new FacilitacionesController();
+        ViewBag.Title = "Inicio";
+        ViewBag.SubTitle = "Resumen - Hoy";
+        //ViewBag.CantHoy = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
+        //ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
+        //ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
+
+        //total todos los usuarios
+
+        ViewBag.SumCantHoy = hoy.getCantidadRegistroHoy();
+        ViewBag.SumCantMes = hoy.getCantidadRegistroMes();
+        ViewBag.SumCantAnio = hoy.getCantidadRegistroAnio();
+
+
+        FiscalizacionesController hoyFiscalizaciones = new FiscalizacionesController();
+
+        ViewBag.CantidadBusesHoy = hoyFiscalizaciones.getTotalRegistroHoy(User.Identity.GetUserName());
+        ViewBag.NotificadosHoy = hoyFiscalizaciones.getTotalBusesNotificadosHoy(User.Identity.GetUserName());
+        ViewBag.PasajerosHoy = hoyFiscalizaciones.getTotalPasajerosHoy(User.Identity.GetUserName());
+
+        string Email = "";
+        int Index = 0;
+        Email = User.Identity.GetUserName();
+        Index = Email.IndexOf("@");
+        Usuario = Email.Substring(0, Index);
+    }
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    @if (User.IsInRole("Facilitador") || User.IsInRole("Facilitador"))
+                    {
+                        <li class="">
+                            <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Facilitaciones">
+                                <i class="fa fa-reply"></i>
+                                <strong>Ir a Facilitaciones</strong>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Fiscalizador") || User.IsInRole("Fiscalizador"))
+                    {
+                        <li class="">
+                            <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Fiscalizaciones">
+                                <i class="fa fa-reply"></i>
+                                <strong>Ir a Fiscalizacioness</strong>
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-lg-2">
+                    <h4 class="green"><i class="fa fa-pencil"></i> Facilitaciones</h4>
+                </div>
+                <div class="col-lg-10">
+                    <ul class="stats-overview">
+                        <li>
+                            <span class="name"> Total de Turistas registrados - Hoy </span>
+                            <span class="value text-success"> @ViewBag.SumCantHoy </span>
+                        </li>
+                        <li>
+                            <span class="name"> Total de Turistas registrados - Mes </span>
+                            <span class="value text-success"> @ViewBag.SumCantMes </span>
+                        </li>
+                        <li>
+                            <span class="name"> Total de Turistas registrados - Año </span>
+                            <span class="value text-success"> @ViewBag.SumCantAnio </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2">
+                    <h4 class="primary"><i class="fa fa-pencil"></i> Fiscalizaciones</h4>
+                </div>
+                <div class="col-lg-10">
+                    <ul class="stats-overview">
+                        <li>
+                            <span class="name"> Total de Buses registrados - Hoy </span>
+                            <span class="value text-success"> @ViewBag.CantidadBusesHoy </span>
+                        </li>
+                        <li>
+                            <span class="name"> Total de Buses notificados - Hoy </span>
+                            <span class="value text-success"> @ViewBag.NotificadosHoy </span>
+                        </li>
+                        <li>
+                            <span class="name"> Total de Pasajeros - Hoy </span>
+                            <span class="value text-success"> @ViewBag.PasajerosHoy </span>
+                        </li>
+                    </ul>
+                </div>
+                <hr />
+                <a class="btn btn-app">
+                    <span class="badge bg-red">@ViewBag.SumCantHoy</span>
+                    <i class="fa fa-bullhorn"></i> Total Hoy
+                </a>
+            </div>
+        </div>
     </div>
 </div>

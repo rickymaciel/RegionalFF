@@ -73,9 +73,9 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td class="col-lg-2" align="center">
-                                            <a class="btn btn-warning" href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-                                            <a class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
+                                        <td class="col-lg-2 btn-group" align="center">
+                                            <a class="btn btn-warning btn-xs" href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                            <a class="btn btn-danger btn-xs" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)

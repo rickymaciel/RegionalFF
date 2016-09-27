@@ -89,6 +89,46 @@ namespace RegionalFF.Migrations
                   Accion = "EsteAño",
                   Controlador = "Facilitaciones",
                   Activo = true
+              },
+              new Models.Menu
+              {
+                  //8
+                  PadreId = 0,
+                  Nombre = "Fiscalizaciones",
+                  Descripcion = "Módulo Fiscalizaciones",
+                  Accion = "",
+                  Controlador = "",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //9
+                  PadreId = 8,
+                  Nombre = "Hoy",
+                  Descripcion = "Módulo Fiscalizaciones | Hoy",
+                  Accion = "Index",
+                  Controlador = "Fiscalizaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //10
+                  PadreId = 8,
+                  Nombre = "Este Mes",
+                  Descripcion = "Módulo Facilitacion | Este Mes",
+                  Accion = "EsteMes",
+                  Controlador = "Facilitaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //11
+                  PadreId = 8,
+                  Nombre = "Este Año",
+                  Descripcion = "Módulo Fiscalizaciones | Este Año",
+                  Accion = "EsteAño",
+                  Controlador = "Fiscalizaciones",
+                  Activo = true
               });
 
             //Crear MenuAdmins

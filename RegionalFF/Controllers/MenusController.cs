@@ -50,6 +50,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Menus/Create
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -60,6 +61,7 @@ namespace RegionalFF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] Menu menu)
         {
             if (ModelState.IsValid)
@@ -74,6 +76,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Menus/Edit/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -89,6 +92,7 @@ namespace RegionalFF.Controllers
         }
 
         // POST: Menus/Edit/5
+        [Authorize(Roles = "Administrador")]
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -106,6 +110,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Menus/Delete/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -122,6 +127,7 @@ namespace RegionalFF.Controllers
 
         // POST: Menus/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

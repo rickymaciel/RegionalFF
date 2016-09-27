@@ -15,6 +15,7 @@ namespace RegionalFF.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         // GET: Fiscalizaciones
         public ActionResult Index()
         {
@@ -34,6 +35,46 @@ namespace RegionalFF.Controllers
             return View(fiscalizacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
         }
 
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        public ActionResult EsteMes()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            ViewBag.MarcaId = new SelectList(db.Marcas, "Id", "Nombre");
+            ViewBag.ConductorId = new SelectList(db.Conductors, "Id", "Nombre");
+            ViewBag.TransporteId = new SelectList(db.Transportes, "Id", "RazonSocial");
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+
+            var fiscalizacions = db.Fiscalizacions.Include(f => f.Ciudad).Include(f => f.Fiscal).Include(f => f.Pais).Include(f => f.Transporte);
+            return View(fiscalizacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+        }
+
+
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        public ActionResult EsteAño()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            ViewBag.MarcaId = new SelectList(db.Marcas, "Id", "Nombre");
+            ViewBag.ConductorId = new SelectList(db.Conductors, "Id", "Nombre");
+            ViewBag.TransporteId = new SelectList(db.Transportes, "Id", "RazonSocial");
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+
+            var fiscalizacions = db.Fiscalizacions.Include(f => f.Ciudad).Include(f => f.Fiscal).Include(f => f.Pais).Include(f => f.Transporte);
+            return View(fiscalizacions.ToList().Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+        }
+
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         // GET: Fiscalizaciones/Details/5
         public ActionResult Details(int? id)
         {
@@ -49,6 +90,7 @@ namespace RegionalFF.Controllers
             return View(fiscalizacion);
         }
 
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         // GET: Fiscalizaciones/Create
         public ActionResult Create()
         {
@@ -142,6 +184,7 @@ namespace RegionalFF.Controllers
 
 
         // GET: Fiscalizaciones/Edit/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -192,6 +235,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Fiscalizaciones/Delete/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

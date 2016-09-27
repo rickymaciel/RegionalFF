@@ -15,13 +15,13 @@
                     <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
-                            <a href="@Url.Action("Index", "Admin")" class="">
+                            <a href="@Url.Action("Index", "Admin")" class="btn btn-default">
                                 <i class="fa fa-reply"></i>
                                 Volver al listado de usuarios
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("EditarRoles", "Admin", new { UserName = Model.UserName })" class="">
+                            <a href="@Url.Action("EditarRoles", "Admin", new { UserName = Model.UserName })" class="btn btn-default">
                                 <i class="fa fa-check-square-o"></i>
                                 Asignar Roles
                             </a>

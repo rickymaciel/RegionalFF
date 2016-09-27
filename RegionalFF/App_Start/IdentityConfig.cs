@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using RegionalFF.Models;
+using Twilio;
 
 namespace RegionalFF
 {
@@ -28,6 +29,8 @@ namespace RegionalFF
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your SMS service here to send a text message.
+            TwilioRestClient client = new TwilioRestClient("AC2d2d0eb15eee114402b4d82c69f95597", "158d2ffd3a4428c75f5db94860ce1798");
+            client.SendMessage("+12017938913", message.Destination, message.Body);
             return Task.FromResult(0);
         }
     }

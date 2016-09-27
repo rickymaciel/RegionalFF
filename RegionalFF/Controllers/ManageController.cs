@@ -126,6 +126,7 @@ namespace RegionalFF.Controllers
                     Body = "Su código de seguridad es: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
+                TempData["notice"] = "Se envió el código de seguridad a su teléfono";
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
@@ -187,10 +188,12 @@ namespace RegionalFF.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+                TempData["notice"] = "Se añadió su número de teléfono";
+                return RedirectToAction("Index");
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "No se ha podido verificar el teléfono");
+            //ModelState.AddModelError("", "No se ha podido verificar el teléfono");
+            TempData["notice"] = "No se ha podido verificar el teléfono";
             return View(model);
         }
 
@@ -201,14 +204,16 @@ namespace RegionalFF.Controllers
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
-                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+                TempData["notice"] = "Se ha producido un error";
+                return RedirectToAction("Index");
             }
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
-            return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+            TempData["notice"] = "Se retiró su número de teléfono";
+            return RedirectToAction("Index");
         }
 
         //
@@ -236,7 +241,8 @@ namespace RegionalFF.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                TempData["notice"] = "Su contraseña ha sido cambiada";
+                return RedirectToAction("Index");
             }
             AddErrors(result);
             return View(model);
@@ -265,7 +271,8 @@ namespace RegionalFF.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    TempData["notice"] = "La contraseña se ha establecido";
+                    return RedirectToAction("Index");
                 }
                 AddErrors(result);
             }

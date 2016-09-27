@@ -1,8 +1,8 @@
 ﻿@model RegionalFF.Models.VerifyPhoneNumberViewModel
 
 @{
-    ViewBag.Title = "Verificar el número de teléfono";
-    ViewBag.SubTitle = "Gestionar";
+    ViewBag.Title = "Configuración";
+    ViewBag.SubTitle = "Verificar el número de teléfono";
 }
 
 <!-- page content -->
@@ -11,7 +11,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <h2><i class="fa fa-cogs"></i> @ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="@Url.Action("Index", "Manage")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Volver">
@@ -28,14 +28,11 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("phoneNumber", @Model.PhoneNumber)
-                        <h4>Enter verification code</h4>
-                        <h5>@ViewBag.Status</h5>
-                        <hr />
                         @Html.ValidationSummary("", new { @class = "text-danger" })
                         <div class="form-group">
                             @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-lg-3" })
                             <div class="col-lg-6">
-                                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control col-lg-12", @placeholder = "Código" } })
+                                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control col-lg-12", @placeholder = "Ingrese el Código" } })
                                 @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                             </div>
                         </div>
