@@ -197,6 +197,7 @@ position: fixed;
 }
 body .container.body .right_col {
 background: #F7F7F7;
+background: #ddd url('img/egg_shell.jpg') repeat top left;
 }
 .nav-md .container.body .right_col {
 padding: 10px 20px 0;
@@ -334,6 +335,8 @@ font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
 font-size: 13px;
 font-weight: 400;
 line-height: 1.471;
+background-color: #f7f7f7;
+background: #ddd url('img/egg_shell.jpg') repeat top left;
 }
 .main_container .top_nav {
 display: block;

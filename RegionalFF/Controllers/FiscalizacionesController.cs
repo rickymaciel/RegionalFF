@@ -160,9 +160,17 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                fiscalizacion.Fecha = Fecha;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
+                return RedirectToAction("EsteMes", "Fiscalizaciones");
             }
             return RedirectToAction("EsteMes", "Fiscalizaciones");
         }
@@ -175,9 +183,17 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                fiscalizacion.Fecha = Fecha;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
+                return RedirectToAction("EsteAño", "Fiscalizaciones");
             }
             return RedirectToAction("EsteAño", "Fiscalizaciones");
         }

@@ -22,6 +22,34 @@ namespace RegionalFF.Controllers
             return View(transportes.ToList());
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroTransporte(Transporte transporte)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Transportes.Add(transporte);
+                    db.SaveChanges();
+                    TempData["notice"] = "El Transporte fue registrado correctamente";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
+        }
+
         // GET: Transportes/Details/5
         [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Details(int? id)

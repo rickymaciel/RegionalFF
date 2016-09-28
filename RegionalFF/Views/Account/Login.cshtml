@@ -8,7 +8,7 @@
 
 
 <section class="login_content">
-    <img src="~/Content/img/RegionalFFlogin.png" class="image" width="130" title="@ViewBag.Denominacion" alt="@ViewBag.Denominacion" />
+    <img src="~/Content/img/RegionalFFlogin.png" class="image" width="100" title="@ViewBag.Denominacion" alt="@ViewBag.Denominacion" />
 
 
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
@@ -19,11 +19,11 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger pull-left" })
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @placeholder = "Email" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
         </div>
         <div class="form-group">
             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger pull-left" })
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", @placeholder = "Contraseña" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Contraseña" })
         </div>
         <div class="form-group">
             <div class=" pull-left">
@@ -34,7 +34,7 @@
         <br />
         <br />
         <div>
-            <button type="submit" class="btn btn-success btn-lg btn-block submit">Entrar</button>
+            <button type="submit" class="btn btn-success btn-block submit">Entrar</button>
             <a class="reset_pass" href="@Url.Action("ForgotPassword", "Account")">Olvidaste tu contraseña?</a>
         </div>
 

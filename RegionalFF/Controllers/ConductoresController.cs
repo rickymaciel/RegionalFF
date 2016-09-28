@@ -20,6 +20,35 @@ namespace RegionalFF.Controllers
             return View(db.Conductors.ToList());
         }
 
+
+
+        [HttpPost]
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroConductor(Conductor conductor)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Conductors.Add(conductor);
+                    db.SaveChanges();
+                    TempData["notice"] = "El Conductor fue registrado correctamente";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
+        }
+
         // GET: Conductores/Details/5
         public ActionResult Details(int? id)
         {

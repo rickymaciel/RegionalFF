@@ -20,6 +20,33 @@ namespace RegionalFF.Controllers
             return View(db.Marcas.ToList());
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroMarca(Marca marca)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Marcas.Add(marca);
+                    db.SaveChanges();
+                    TempData["notice"] = "La Marca fue registrada correctamente";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
+        }
         // GET: Marcas/Details/5
         public ActionResult Details(int? id)
         {

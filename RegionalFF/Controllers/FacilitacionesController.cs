@@ -122,9 +122,17 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                facilitacion.Fecha = Fecha;
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                return RedirectToAction("Index", "Facilitaciones");
             }
             return RedirectToAction("Index", "Facilitaciones");
         }
@@ -137,9 +145,17 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                facilitacion.Fecha = Fecha;
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                return RedirectToAction("EsteMes", "Facilitaciones");
             }
             return RedirectToAction("EsteMes", "Facilitaciones");
         }
@@ -152,9 +168,17 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                facilitacion.Fecha = Fecha;
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                return RedirectToAction("EsteAño", "Facilitaciones");
             }
             return RedirectToAction("EsteAño", "Facilitaciones");
         }

@@ -46,6 +46,33 @@ namespace RegionalFF.Controllers
                 throw;
             }
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroPaisFiscalizacion(Pais pais)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Pais.Add(pais);
+                    db.SaveChanges();
+                    TempData["notice"] = "El pais de origen fue registrado correctamente";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
+        }
         // GET: Paises/Details/5
         public ActionResult Details(int? id)
         {

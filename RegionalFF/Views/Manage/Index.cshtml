@@ -81,15 +81,18 @@
     <div class="col-md-9 col-sm-9 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-cogs"></i> @ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                <h2>
+                    <i class="fa fa-cogs"></i> @ViewBag.Title
+                    <small>@ViewBag.SubTitle</small>
+                </h2>
                 @*<ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
-                            <i class="fa fa-plus"></i>
-                            <strong>Crear Nuevo</strong>
-                        </a>
-                    </li>
-                </ul>*@
+                        <li>
+                            <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                                <i class="fa fa-plus"></i>
+                                <strong>Crear Nuevo</strong>
+                            </a>
+                        </li>
+                    </ul>*@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -109,10 +112,10 @@
                             ]
                         </dd>
                         @*<dt>Conexiones externas:</dt>
-                        <dd>
-                            @Model.Logins.Count [
-                            @Html.ActionLink("Gestionar", "ManageLogins") ]
-                        </dd>*@
+                            <dd>
+                                @Model.Logins.Count [
+                                @Html.ActionLink("Gestionar", "ManageLogins") ]
+                            </dd>*@
 
                         <dt>Número de teléfono:</dt>
                         <dd>
@@ -121,7 +124,7 @@
                             {
                                 @Html.ActionLink("Cambiar", "AddPhoneNumber", "", new { @class = "text-warning" })
                                 @: &nbsp;|&nbsp;
-                                @Html.ActionLink("Eliminar", "RemovePhoneNumber","", new { @class = "text-danger" })
+                                @Html.ActionLink("Eliminar", "RemovePhoneNumber", "", new { @class = "text-danger" })
                             }
                             else
                             {
@@ -130,32 +133,32 @@
                             ]
                         </dd>
 
-                        @*<dt>Two-Factor Authentication:</dt>
-                            <dd>
-                                <p>
-                                    No hay proveedores de autenticación de dos factores configurados
-                                </p>
-                                @if (Model.TwoFactor)
-                                    {
-                                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <text>Enabled
-                                            <input type="submit" value="Disable" class="btn btn-link" />
-                                            </text>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <text>Disabled
-                                            <input type="submit" value="Enable" class="btn btn-link" />
-                                            </text>
-                                        }
-                                    }
-                            </dd>*@
+                        <dt>Autenticación:</dt>
+                        <dd>
+                            <p>Verificación en dos pasos:</p>
+                            @if (Model.TwoFactor)
+                            {
+                                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <text>
+                                        <input type="button" value="Habilitar" class="btn btn-default" disabled />
+                                        <input type="submit" value="Deshabilitar" class="btn btn-default" />
+                                    </text>
+                                }
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <text>
+                                        <input type="button" value="Deshabilitar" class="btn btn-default" disabled />
+                                        <input type="submit" value="Habilitar" class="btn btn-default" />
+                                    </text>
+                                }
+                            }
+                        </dd>
                     </dl>
                 </div>
             </div>

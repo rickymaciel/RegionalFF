@@ -250,6 +250,7 @@
     <Content Include="Content\datatables\buttons.bootstrap.min.css" />
     <Content Include="Content\datatables\dataTables.bootstrap4.min.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\egg_shell.jpg" />
     <Content Include="Content\img\info_turistica.png" />
     <Content Include="Content\img\RegionalFF.jpg" />
     <Content Include="Content\img\RegionalFFlogin.png" />

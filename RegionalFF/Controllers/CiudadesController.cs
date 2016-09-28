@@ -45,6 +45,32 @@ namespace RegionalFF.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroCiudadFiscalizacion(Ciudad ciudad)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Ciudads.Add(ciudad);
+                    db.SaveChanges();
+                    TempData["notice"] = "La Ciudad fue registrada correctamente";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+                else
+                {
+                    TempData["notice"] = "Error de Validaciones";
+                    return RedirectToAction("Index", "Fiscalizaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["notice"] = "Error " + ex + " ";
+                throw;
+            }
+        }
         public JsonResult ComprobarDuplicacion(string Nombre)
         {
             var data = db.Ciudads.Where(p => p.Nombre.Equals(Nombre, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
