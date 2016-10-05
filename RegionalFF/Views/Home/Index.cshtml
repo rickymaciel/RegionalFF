@@ -10,25 +10,46 @@
         ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
         ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
 
-        FacilitacionesController hoy = new FacilitacionesController();
+        ViewBag.Facilitacion = "Facilitación";
+        ViewBag.Fiscalizacion = "Fiscalización";
         ViewBag.Title = "Inicio";
         ViewBag.SubTitle = "Resumen - Hoy";
-        //ViewBag.CantHoy = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
-        //ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
-        //ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
 
-        //total todos los usuarios
+        FacilitacionesController hoyFacilitaciones = new FacilitacionesController();
 
-        ViewBag.SumCantHoy = hoy.getCantidadRegistroHoy();
-        ViewBag.SumCantMes = hoy.getCantidadRegistroMes();
-        ViewBag.SumCantAnio = hoy.getCantidadRegistroAnio();
+        ViewBag.TotalRegistroHoyGlobal = hoyFacilitaciones.getTotalRegistroHoy();
+        ViewBag.TotalRegistroHoyUsuario = hoyFacilitaciones.getTotalRegistroHoy(User.Identity.GetUserName());
+
+        ViewBag.SumCantHoyGlobal = hoyFacilitaciones.getCantidadRegistroHoy();
+        ViewBag.SumCantHoyUsuario = hoyFacilitaciones.getCantidadRegistroHoy(User.Identity.GetUserName());
+
+        ViewBag.SumCantMesGlobal = hoyFacilitaciones.getCantidadRegistroMes();
+        ViewBag.SumCantMesUsuario = hoyFacilitaciones.getCantidadRegistroMes(User.Identity.GetUserName());
+
+        ViewBag.SumCantAnioGlobal = hoyFacilitaciones.getCantidadRegistroAnio();
+        ViewBag.SumCantAnioUsuario = hoyFacilitaciones.getCantidadRegistroAnio(User.Identity.GetUserName());
 
 
         FiscalizacionesController hoyFiscalizaciones = new FiscalizacionesController();
 
-        ViewBag.CantidadBusesHoy = hoyFiscalizaciones.getTotalRegistroHoy(User.Identity.GetUserName());
-        ViewBag.NotificadosHoy = hoyFiscalizaciones.getTotalBusesNotificadosHoy(User.Identity.GetUserName());
-        ViewBag.PasajerosHoy = hoyFiscalizaciones.getTotalPasajerosHoy(User.Identity.GetUserName());
+        ViewBag.CantidadBusesHoyUsuario = hoyFiscalizaciones.getTotalRegistroHoyUsuario(User.Identity.GetUserName());
+        ViewBag.CantidadBusesHoyGlobal = hoyFiscalizaciones.getTotalRegistroHoyGlobal();
+
+        ViewBag.CantidadBusesMesUsuario = hoyFiscalizaciones.getTotalRegistroMesUsuario(User.Identity.GetUserName());
+        ViewBag.CantidadBusesMesGlobal = hoyFiscalizaciones.getTotalRegistroMesGlobal();
+
+        ViewBag.NotificadosHoyGlobal = hoyFiscalizaciones.getTotalBusesNotificadosHoyGlobal();
+        ViewBag.NotificadosHoyUsuario = hoyFiscalizaciones.getTotalBusesNotificadosHoyUsuario(User.Identity.GetUserName());
+
+        ViewBag.PasajerosHoyUsuario = hoyFiscalizaciones.getTotalPasajerosHoyUsuario(User.Identity.GetUserName());
+        ViewBag.PasajerosHoyGlobal = hoyFiscalizaciones.getTotalPasajerosHoyGlobal();
+
+
+        ViewBag.PasajerosMesGlobal = hoyFiscalizaciones.getCantidadRegistroMesGlobal();
+        ViewBag.PasajerosMesUsuario = hoyFiscalizaciones.getCantidadRegistroMesUsuario(User.Identity.GetUserName());
+
+        ViewBag.PasajerosAnioGlobal = hoyFiscalizaciones.getCantidadRegistroAnioGlobal();
+        ViewBag.PasajerosAnioUsuario = hoyFiscalizaciones.getCantidadRegistroAnioUsuario(User.Identity.GetUserName());
 
         string Email = "";
         int Index = 0;
@@ -37,80 +58,237 @@
         Usuario = Email.Substring(0, Index);
     }
 }
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
-                    {
-                        <li class="">
-                            <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Facilitaciones">
-                                <i class="fa fa-reply"></i>
-                                <strong>Ir a Facilitaciones</strong>
-                            </a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
-                    {
-                        <li class="">
-                            <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Fiscalizaciones">
-                                <i class="fa fa-reply"></i>
-                                <strong>Ir a Fiscalizacioness</strong>
-                            </a>
-                        </li>
-                    }
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <div class="col-lg-2">
-                    <h4 class="green"><i class="fa fa-pencil"></i> Facilitaciones</h4>
+@if (!User.IsInRole("Administrador") && !User.IsInRole("Fiscalizador") && !User.IsInRole("Facilitador"))
+{
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="">
+                    <h3>Este usuario no cuenta con los privilegios necesarios.</h3>
                 </div>
-                <div class="col-lg-10">
-                    <ul class="stats-overview">
-                        <li>
-                            <span class="name"> Total de Turistas registrados - Hoy </span>
-                            <span class="value text-success"> @ViewBag.SumCantHoy </span>
-                        </li>
-                        <li>
-                            <span class="name"> Total de Turistas registrados - Mes </span>
-                            <span class="value text-success"> @ViewBag.SumCantMes </span>
-                        </li>
-                        <li>
-                            <span class="name"> Total de Turistas registrados - Año </span>
-                            <span class="value text-success"> @ViewBag.SumCantAnio </span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2">
-                    <h4 class="primary"><i class="fa fa-pencil"></i> Fiscalizaciones</h4>
-                </div>
-                <div class="col-lg-10">
-                    <ul class="stats-overview">
-                        <li>
-                            <span class="name"> Total de Buses registrados - Hoy </span>
-                            <span class="value text-success"> @ViewBag.CantidadBusesHoy </span>
-                        </li>
-                        <li>
-                            <span class="name"> Total de Buses notificados - Hoy </span>
-                            <span class="value text-success"> @ViewBag.NotificadosHoy </span>
-                        </li>
-                        <li>
-                            <span class="name"> Total de Pasajeros - Hoy </span>
-                            <span class="value text-success"> @ViewBag.PasajerosHoy </span>
-                        </li>
-                    </ul>
-                </div>
-                <hr />
-                <a class="btn btn-app">
-                    <span class="badge bg-red">@ViewBag.SumCantHoy</span>
-                    <i class="fa fa-bullhorn"></i> Total Hoy
-                </a>
             </div>
         </div>
     </div>
-</div>
+}
+
+
+@if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+{
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Resúmen - @ViewBag.Facilitacion</h3>
+        </div>
+
+        <div class="title_right">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Facilitaciones">
+                        <i class="fa fa-reply"></i>
+                        <strong>Ir a Facilitaciones</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row top_tiles  tile_count">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-pencil text-info"></i></div>
+                <div class="count">
+                    @ViewBag.TotalRegistroHoyGlobal
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-warning">Total Registros - Global</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.SumCantHoyGlobal
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-warning">Turistas Registrados - Global</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.SumCantMesGlobal
+                </div>
+                <h3>Este Mes</h3>
+                <p class="text-warning">Turistas Registrados - Global</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.SumCantAnioGlobal
+                </div>
+                <h3>Este Año</h3>
+                <p class="text-warning">Turistas Registrados - Global</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row top_tiles  tile_count">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-edit text-info"></i></div>
+                <div class="count">
+                    @ViewBag.TotalRegistroHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Total Registros - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.SumCantHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Turistas Registrados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.SumCantMesUsuario
+                </div>
+                <h3>Este Mes</h3>
+                <p class="text-success">Turistas Registrados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.SumCantAnioUsuario
+                </div>
+                <h3>Este Año</h3>
+                <p class="text-success">Turistas Registrados - @Usuario</p>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
+{
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Resúmen - @ViewBag.Fiscalizacion</h3>
+        </div>
+
+        <div class="title_right">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Fiscalizaciones">
+                        <i class="fa fa-reply"></i>
+                        <strong>Ir a Fiscalizaciones</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row top_tiles  tile_count">
+
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesHoyGlobal
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-warning">Buses Registrados - Global</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesMesGlobal
+                </div>
+                <h3>Este Mes</h3>
+                <p class="text-warning">Buses Registrados - Global</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bell text-info"></i></div>
+                <div class="count">
+                    @ViewBag.NotificadosHoyGlobal
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-warning">Buses Notificados - Global</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.PasajerosHoyGlobal
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-warning">Pasajeros - Global</p>
+            </div>
+        </div>
+
+        <!--
+
+        -->
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Buses Registrados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesMesUsuario
+                </div>
+                <h3>Este Mes</h3>
+                <p class="text-success">Buses Registrados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bell text-info"></i></div>
+                <div class="count">
+                    @ViewBag.NotificadosHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Buses Notificados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.PasajerosHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Pasajeros - @Usuario</p>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+
+}
+

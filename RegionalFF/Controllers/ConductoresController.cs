@@ -15,6 +15,7 @@ namespace RegionalFF.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Conductores
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Index()
         {
             return View(db.Conductors.ToList());
@@ -50,6 +51,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Conductores/Details/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -65,6 +67,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Conductores/Create
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -88,6 +91,7 @@ namespace RegionalFF.Controllers
         }
 
         // GET: Conductores/Edit/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -105,6 +109,7 @@ namespace RegionalFF.Controllers
         // POST: Conductores/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nombre,Apellido,Documento,Activo")] Conductor conductor)
@@ -118,6 +123,7 @@ namespace RegionalFF.Controllers
             return View(conductor);
         }
 
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         // GET: Conductores/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -134,6 +140,7 @@ namespace RegionalFF.Controllers
         }
 
         // POST: Conductores/Delete/5
+        [Authorize(Roles = "Fiscalizador,Administrador")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

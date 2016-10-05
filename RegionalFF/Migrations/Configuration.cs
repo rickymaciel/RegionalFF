@@ -53,6 +53,36 @@ namespace RegionalFF.Migrations
               new Models.Menu
               {
                   //4
+                  PadreId = 1,
+                  Nombre = "Marcas",
+                  Descripcion = "Gestionar Marcas",
+                  Accion = "Index",
+                  Controlador = "Marcas",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //5
+                  PadreId = 1,
+                  Nombre = "Conductores",
+                  Descripcion = "Gestionar Conductores",
+                  Accion = "Index",
+                  Controlador = "Conductores",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //6
+                  PadreId = 1,
+                  Nombre = "Transportes",
+                  Descripcion = "Gestionar Transportes",
+                  Accion = "Index",
+                  Controlador = "Transportes",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //7
                   PadreId = 0,
                   Nombre = "Facilitaciones",
                   Descripcion = "Módulo Facilitacion",
@@ -62,8 +92,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //5
-                  PadreId = 4,
+                  //8
+                  PadreId = 7,
                   Nombre = "Hoy",
                   Descripcion = "Módulo Facilitacion | Hoy",
                   Accion = "Index",
@@ -72,8 +102,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //6
-                  PadreId = 4,
+                  //9
+                  PadreId = 7,
                   Nombre = "Este Mes",
                   Descripcion = "Módulo Facilitacion | Este Mes",
                   Accion = "EsteMes",
@@ -82,8 +112,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //7
-                  PadreId = 4,
+                  //10
+                  PadreId = 7,
                   Nombre = "Este Año",
                   Descripcion = "Módulo Facilitacion | Este Año",
                   Accion = "EsteAño",
@@ -92,7 +122,7 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //8
+                  //11
                   PadreId = 0,
                   Nombre = "Fiscalizaciones",
                   Descripcion = "Módulo Fiscalizaciones",
@@ -102,8 +132,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //9
-                  PadreId = 8,
+                  //12
+                  PadreId = 11,
                   Nombre = "Hoy",
                   Descripcion = "Módulo Fiscalizaciones | Hoy",
                   Accion = "Index",
@@ -112,8 +142,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //10
-                  PadreId = 8,
+                  //13
+                  PadreId = 11,
                   Nombre = "Este Mes",
                   Descripcion = "Módulo Facilitacion | Este Mes",
                   Accion = "EsteMes",
@@ -122,8 +152,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //11
-                  PadreId = 8,
+                  //14
+                  PadreId = 11,
                   Nombre = "Este Año",
                   Descripcion = "Módulo Fiscalizaciones | Este Año",
                   Accion = "EsteAño",
@@ -319,7 +349,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel@hotmail.es", OficinaId = 1, Numero = 0, Nombre = "Admin", Apellido = "Admin" };
+                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel@hotmail.es", OficinaId = 1, Numero = 0, Nombre = "Admin", Apellido = "Admin", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Administrador a usuario
@@ -332,7 +362,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 2, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel" };
+                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 2, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Facilitador a usuario
@@ -344,7 +374,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas" };
+                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Fiscalizador a usuario

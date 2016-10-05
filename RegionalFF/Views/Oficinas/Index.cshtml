@@ -47,9 +47,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Telefono)
                                     </th>
-                                    <th class="col-lg-1"></th>
-                                    <th class="col-lg-1"></th>
-                                    <th class="col-lg-1"></th>
+                                    <th class="col-lg-2"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,14 +72,14 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Telefono)
                                         </td>
-                                        <td class="col-lg-1">
-                                            <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Oficinas", new { id = item.Id })"><i class="fa fa-edit"></i> Editar</a>
-                                        </td>
-                                        <td class="col-lg-1">
-                                            <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Oficinas", new { id = item.Id })"><i class="fa fa-list"></i> Detalles</a>
-                                        </td>
-                                        <td class="col-lg-1">
-                                            <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Oficinas", new { id = item.Id })"><i class="fa fa-trash-o"></i> Borrar</a>
+                                        <td class="col-lg-2 btn-group">
+                                            <div class="pull-right">
+                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Oficinas", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
+
+                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Oficinas", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-list-alt"></i> </a>
+
+                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Oficinas", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><i class="fa fa-trash-o"></i> </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 }

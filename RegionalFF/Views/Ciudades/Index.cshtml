@@ -43,12 +43,14 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="col-lg-2 btn-group" align="center">
-                                        <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                    <td class="col-lg-2 btn-group">
+                                        <div class="pull-right">
+                                            <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
 
-                                        <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                            <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-list-alt"></i> </a>
 
-                                        <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                            <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><i class="fa fa-trash-o"></i> </a>
+                                        </div>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nombre)

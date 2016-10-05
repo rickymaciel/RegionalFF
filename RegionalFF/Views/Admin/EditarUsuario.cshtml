@@ -31,7 +31,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    @using (Html.BeginForm("EditarUsuario", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    @using (Html.BeginForm("EditarUsuario", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -112,6 +112,27 @@
                                 @Html.ValidationMessageFor(model => model.OficinaId, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-3 " })
+                            <div class="col-lg-6">
+                                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direccion" } })
+                                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-3 " })
+                            <div class="col-lg-6">
+                                @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "file", type = "file", autocomplete = "off", placeholder = "Imagen", @required = "true" } })
+                                @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group hidden" id="vistaprevia">
+                            <label class="col-md-3 control-label">Vista Previa</label>
+                            <div class="col-lg-6">
+                                <img id="img_destino" width="200" src="#" alt="Vista Previa">
+                            </div>
+                        </div>
+
                         <div class="ln_solid"></div>
                         <disv class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">

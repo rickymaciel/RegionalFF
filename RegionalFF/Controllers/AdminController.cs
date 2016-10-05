@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RegionalFF.Models;
 using PagedList;
+using System.IO;
 
 #endregion Includes
 
@@ -73,6 +74,8 @@ namespace RegionalFF.Controllers
                 objUsuario.Email = item.Email;
                 objUsuario.LockoutEndDateUtc = item.LockoutEndDateUtc;
                 objUsuario.PhoneNumber = item.PhoneNumber;
+                objUsuario.Imagen = item.Imagen;
+                objUsuario.Direccion = item.Direccion;
 
                 col_Usuario.Add(objUsuario);
             }
@@ -80,6 +83,8 @@ namespace RegionalFF.Controllers
         }
 
         #endregion
+
+
 
         // Users *****************************
 
@@ -102,8 +107,8 @@ namespace RegionalFF.Controllers
         [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        #region public ActionResult Create(UsuarioAmpliado paramUsuarioAmpliado)
-        public ActionResult Create(UsuarioAmpliado paramUsuarioAmpliado)
+        #region public ActionResult Create(UsuarioAmpliado paramUsuarioAmpliado, HttpPostedFileBase Imagen)
+        public ActionResult Create(UsuarioAmpliado paramUsuarioAmpliado, HttpPostedFileBase Imagen)
         {
             try
             {
@@ -118,6 +123,8 @@ namespace RegionalFF.Controllers
                 var Apellido = paramUsuarioAmpliado.Apellido.Trim();
                 var Documento = paramUsuarioAmpliado.Documento;
                 var Numero = paramUsuarioAmpliado.Numero;
+                var IImagen = paramUsuarioAmpliado.Imagen;
+                var Direccion = paramUsuarioAmpliado.Direccion;
                 var PhoneNumber = paramUsuarioAmpliado.PhoneNumber.Trim();
                 var Password = paramUsuarioAmpliado.Password.Trim();
                 var OficinaId = paramUsuarioAmpliado.OficinaId;
@@ -137,7 +144,7 @@ namespace RegionalFF.Controllers
 
                 // Crear Usuario
 
-                var objNewAdminUsuario = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId };
+                var objNewAdminUsuario = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId, Imagen = IImagen, Direccion = Direccion };
                 var AdminUserCreateResult = UserManager.Create(objNewAdminUsuario, Password);
 
                 if (AdminUserCreateResult.Succeeded == true)
@@ -150,6 +157,21 @@ namespace RegionalFF.Controllers
                         UserManager.AddToRole(objNewAdminUsuario.Id, strNewRole);
                     }
 
+                    if (Imagen != null)
+                    {
+                        string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
+                        var fileName = Path.GetFileName(paramUsuarioAmpliado.Nombre + fecha + Imagen.FileName);
+                        var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
+                        Imagen.SaveAs(path);
+                        paramUsuarioAmpliado.Imagen = fileName;
+                    }
+                    else
+                    {
+                        var fileName = Path.GetFileName("Content/img/Uploads/Usuarios/user.jpg");
+                        paramUsuarioAmpliado.Imagen = fileName;
+
+                    }
+                    TempData["notice"] = "El usuario " + paramUsuarioAmpliado.Nombre + " " + paramUsuarioAmpliado.Apellido + " ha sido creado!";
                     return Redirect("~/Admin");
                 }
                 else
@@ -159,6 +181,7 @@ namespace RegionalFF.Controllers
                     ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramUsuarioAmpliado.OficinaId);
                     ModelState.AddModelError(string.Empty,
                         "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
+                    TempData["notice"] = "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.";
                     return View(paramUsuarioAmpliado);
                 }
             }
@@ -166,6 +189,7 @@ namespace RegionalFF.Controllers
             {
                 ViewBag.Roles = GetTodoRolesComoSelectList();
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
+                TempData["notice"] = "Error: " + ex;
                 return View("Create");
             }
         }
@@ -190,12 +214,29 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        // PUT: /Admin/EditarUsuario
-        [Authorize(Roles = "Administrador")]
+
+        #region public ActionResult CambiarImagen()
+        public ActionResult CambiarImagen()
+        {
+            var Email = User.Identity.GetUserName();
+            if (Email == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            UsuarioAmpliado objExpandedUserDTO = GetUsuario(Email);
+            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
+            if (objExpandedUserDTO == null)
+            {
+                return HttpNotFound();
+            }
+            return View(objExpandedUserDTO);
+        }
+        #endregion
+        // PUT: /Admin/ModificarUsuario
         [HttpPost]
         [ValidateAntiForgeryToken]
-        #region public ActionResult EditarUsuario(UsuarioAmpliado paramExpandedUserDTO)
-        public ActionResult EditarUsuario(UsuarioAmpliado paramExpandedUserDTO)
+        #region public ActionResult CambiarImagen(UsuarioAmpliado paramExpandedUserDTO)
+        public ActionResult CambiarImagen(UsuarioAmpliado paramExpandedUserDTO, HttpPostedFileBase Imagen)
         {
             try
             {
@@ -204,6 +245,125 @@ namespace RegionalFF.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
+                if (Imagen != null)
+                {
+                    string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
+                    var fileName = Path.GetFileName(paramExpandedUserDTO.Nombre + fecha + Imagen.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
+                    Imagen.SaveAs(path);
+                    paramExpandedUserDTO.Imagen = fileName;
+                }
+                else
+                {
+                    var fileName = Path.GetFileName("Content/img/Uploads/Usuarios/user.jpg");
+                    paramExpandedUserDTO.Imagen = fileName;
+
+                }
+
+                UsuarioAmpliado objExpandedUserDTO = ModifUsuario(paramExpandedUserDTO);
+                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
+
+                if (objExpandedUserDTO == null)
+                {
+                    return HttpNotFound();
+                }
+
+                TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
+
+                return RedirectToAction("Index", "Manage");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Error: " + ex); ;
+                TempData["notice"] = "Error: " + ex;
+                return View("ModificarUsuario");
+            }
+        }
+        #endregion
+
+
+
+        #region public ActionResult ModificarUsuario()
+        public ActionResult ModificarUsuario()
+        {
+            var Email = User.Identity.GetUserName();
+            if (Email == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            UsuarioAmpliado objExpandedUserDTO = GetUsuario(Email);
+            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
+            if (objExpandedUserDTO == null)
+            {
+                return HttpNotFound();
+            }
+            return View(objExpandedUserDTO);
+        }
+        #endregion
+
+        // PUT: /Admin/ModificarUsuario
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        #region public ActionResult ModificarUsuario(UsuarioAmpliado paramExpandedUserDTO)
+        public ActionResult ModificarUsuario(UsuarioAmpliado paramExpandedUserDTO, HttpPostedFileBase Imagen)
+        {
+            try
+            {
+                if (paramExpandedUserDTO == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                UsuarioAmpliado objExpandedUserDTO = ModifUsuario(paramExpandedUserDTO);
+                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
+
+                if (objExpandedUserDTO == null)
+                {
+                    return HttpNotFound();
+                }
+
+                TempData["notice"] = "El Usuario fue modificado satisfactoriamente!";
+
+                return RedirectToAction("Index", "Manage");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Error: " + ex); ;
+                TempData["notice"] = "Error: " + ex;
+                return View("ModificarUsuario");
+            }
+        }
+        #endregion
+
+
+        // PUT: /Admin/EditarUsuario
+        [Authorize(Roles = "Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        #region public ActionResult EditarUsuario(UsuarioAmpliado paramExpandedUserDTO)
+        public ActionResult EditarUsuario(UsuarioAmpliado paramExpandedUserDTO, HttpPostedFileBase Imagen)
+        {
+            try
+            {
+                if (paramExpandedUserDTO == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                if (Imagen != null)
+                {
+                    string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
+                    var fileName = Path.GetFileName(paramExpandedUserDTO.Nombre + fecha + Imagen.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
+                    Imagen.SaveAs(path);
+                    paramExpandedUserDTO.Imagen = fileName;
+                }
+                else
+                {
+                    var fileName = Path.GetFileName("Content/img/Uploads/Usuarios/user.jpg");
+                    paramExpandedUserDTO.Imagen = fileName;
+
+                }
                 UsuarioAmpliado objExpandedUserDTO = UpdateDTOUser(paramExpandedUserDTO);
                 ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
 
@@ -212,11 +372,14 @@ namespace RegionalFF.Controllers
                     return HttpNotFound();
                 }
 
+                TempData["notice"] = "El Usuario fue modificado satisfactoriamente!";
+
                 return Redirect("~/Admin");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Error: " + ex);
+                ModelState.AddModelError(string.Empty, "Error: " + ex); ;
+                TempData["notice"] = "Error: " + ex;
                 return View("EditarUsuario", GetUser(paramExpandedUserDTO.UserName));
             }
         }
@@ -238,6 +401,7 @@ namespace RegionalFF.Controllers
                 {
                     ModelState.AddModelError(
                         string.Empty, "Error : No se puede suprimir la función de administrador para el usuario actual");
+                    TempData["notice"] = "Error : No se puede suprimir la función de administrador para el usuario actual";
 
                     return View("EditarUsuario");
                 }
@@ -251,6 +415,7 @@ namespace RegionalFF.Controllers
                 else
                 {
                     DeleteUser(objExpandedUserDTO);
+                    TempData["notice"] = "El Usuario fue eliminado satisfactoriamente!";
                 }
 
                 return Redirect("~/Admin");
@@ -258,6 +423,7 @@ namespace RegionalFF.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
+                TempData["notice"] = "Error: " + ex;
                 return View("EditarUsuario", GetUser(UserName));
             }
         }
@@ -657,6 +823,36 @@ namespace RegionalFF.Controllers
             objExpandedUserDTO.AccessFailedCount = result.AccessFailedCount;
             objExpandedUserDTO.PhoneNumber = result.PhoneNumber;
             objExpandedUserDTO.OficinaId = result.OficinaId;
+            objExpandedUserDTO.Imagen = result.Imagen;
+            objExpandedUserDTO.Direccion = result.Direccion;
+
+            return objExpandedUserDTO;
+        }
+        #endregion
+
+
+        #region private UsuarioAmpliado GetUsuario(string paramEmail)
+        private UsuarioAmpliado GetUsuario(string paramEmail)
+        {
+            UsuarioAmpliado objExpandedUserDTO = new UsuarioAmpliado();
+
+            var result = UserManager.FindByEmail(paramEmail);
+
+            // If we could not find the user, throw an exception
+            if (result == null) throw new Exception("No se pudo encontrar el usuario");
+
+            objExpandedUserDTO.UserName = result.UserName;
+            objExpandedUserDTO.Nombre = result.Nombre;
+            objExpandedUserDTO.Apellido = result.Apellido;
+            objExpandedUserDTO.Documento = result.Documento;
+            objExpandedUserDTO.Numero = result.Numero;
+            objExpandedUserDTO.Email = result.Email;
+            objExpandedUserDTO.LockoutEndDateUtc = result.LockoutEndDateUtc;
+            objExpandedUserDTO.AccessFailedCount = result.AccessFailedCount;
+            objExpandedUserDTO.PhoneNumber = result.PhoneNumber;
+            objExpandedUserDTO.OficinaId = result.OficinaId;
+            objExpandedUserDTO.Imagen = result.Imagen;
+            objExpandedUserDTO.Direccion = result.Direccion;
 
             return objExpandedUserDTO;
         }
@@ -682,6 +878,8 @@ namespace RegionalFF.Controllers
             result.Documento = paramExpandedUserDTO.Documento;
             result.UserName = paramExpandedUserDTO.UserName;
             result.OficinaId = paramExpandedUserDTO.OficinaId;
+            result.Imagen = paramExpandedUserDTO.Imagen;
+            result.Direccion = paramExpandedUserDTO.Direccion;
 
             // Lets check if the account needs to be unlocked
             if (UserManager.IsLockedOut(result.Id))
@@ -716,6 +914,68 @@ namespace RegionalFF.Controllers
             return paramExpandedUserDTO;
         }
         #endregion
+
+
+
+        #region private ExpandedUserDTO ModifUsuario(UsuarioAmpliado objExpandedUserDTO)
+        private UsuarioAmpliado ModifUsuario(UsuarioAmpliado paramExpandedUserDTO)
+        {
+            ApplicationUser result =
+                UserManager.FindByEmail(paramExpandedUserDTO.Email);
+
+            // If we could not find the user, throw an exception
+            if (result == null)
+            {
+                throw new Exception("No se pudo encontrar el usuario");
+            }
+
+            result.Email = paramExpandedUserDTO.Email;
+            result.PhoneNumber = paramExpandedUserDTO.PhoneNumber;
+            result.Nombre = paramExpandedUserDTO.Nombre;
+            result.Apellido = paramExpandedUserDTO.Apellido;
+            result.Numero = paramExpandedUserDTO.Numero;
+            result.Documento = paramExpandedUserDTO.Documento;
+            result.UserName = paramExpandedUserDTO.UserName;
+            result.OficinaId = paramExpandedUserDTO.OficinaId;
+            result.Imagen = paramExpandedUserDTO.Imagen;
+            result.Direccion = paramExpandedUserDTO.Direccion;
+
+            // Lets check if the account needs to be unlocked
+            if (UserManager.IsLockedOut(result.Id))
+            {
+                // Unlock user
+                UserManager.ResetAccessFailedCountAsync(result.Id);
+            }
+
+            UserManager.Update(result);
+
+            // Was a password sent across?
+            if (!string.IsNullOrEmpty(paramExpandedUserDTO.Password))
+            {
+                // Remove current password
+                var removePassword = UserManager.RemovePassword(result.Id);
+                if (removePassword.Succeeded)
+                {
+                    // Add new password
+                    var AddPassword =
+                        UserManager.AddPassword(
+                            result.Id,
+                            paramExpandedUserDTO.Password
+                            );
+
+                    if (AddPassword.Errors.Count() > 0)
+                    {
+                        throw new Exception(AddPassword.Errors.FirstOrDefault());
+                    }
+                }
+            }
+
+            return paramExpandedUserDTO;
+        }
+        #endregion
+
+
+
 
         #region private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)
         private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)

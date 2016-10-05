@@ -2,8 +2,8 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Administrar Usuarios";
-    ViewBag.SubTitle = "Lista de Usuarios";
+    ViewBag.Title = "Administración";
+    ViewBag.SubTitle = "Usuarios";
 }
 
 
@@ -13,7 +13,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <h2><i class="fa fa-shield text-warning"></i> @ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="@Url.Action("Create", "Admin")" class="btn btn-default">
@@ -42,10 +42,10 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        <i class="fa fa-cog"></i>
+                                        Imagen
                                     </th>
                                     <th>
-                                        Nombre y Apellido
+                                        Usuario
                                     </th>
                                     <th>
                                         Email
@@ -53,17 +53,23 @@
                                     <th>
                                         Pertenece a:
                                     </th>
+                                    @*<th>
+                                    Nombre de Usuario
+                                    </th>*@
                                     <th>
-                                        Nombre de Usuario
+                                        Nº Func.
                                     </th>
                                     <th>
-                                        Nº Funcionario
-                                    </th>
-                                    <th>
-                                        Nº Documento
+                                        Documento
                                     </th>
                                     <th>
                                         Telefono
+                                    </th>
+                                    <th>
+                                        Direccion
+                                    </th>
+                                    <th class="col-lg-2">
+                                        <i class="fa fa-cog"></i>
                                     </th>
                                 </tr>
                             </thead>
@@ -72,33 +78,41 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td class="col-lg-2 btn-group" align="center">
+                                <tr>
+                                    <td>
+                                        <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="30" src="@Url.Content("~/Content/img/Uploads/Usuarios/" + item.Imagen)" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Oficina.Nombre)
+                                    </td>
+                                    @*<td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Numero)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Documento)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Direccion)
+                                    </td>
+                                    <td class="col-lg-2">
+                                        <div class=" btn-group">
                                             <a class="btn btn-warning btn-xs" href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
                                             <a class="btn btn-danger btn-xs" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Email)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Oficina.Nombre)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UserName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Numero)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Documento)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

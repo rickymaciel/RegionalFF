@@ -116,6 +116,7 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
+                fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -163,6 +164,7 @@ namespace RegionalFF.Controllers
                 string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 fiscalizacion.Fecha = Fecha;
+                fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
@@ -186,6 +188,7 @@ namespace RegionalFF.Controllers
                 string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 fiscalizacion.Fecha = Fecha;
+                fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
@@ -279,63 +282,139 @@ namespace RegionalFF.Controllers
         }
 
 
-
-        public int? getTotalRegistroHoy(String usuario)
+        //Total de registro Hoy por usuario
+        public int? getTotalRegistroHoyUsuario(String usuario)
         {
             DateTime Fecha = DateTime.Now;
             int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
             return hoy;
         }
 
-        public int? getTotalBusesNotificadosHoy(String usuario)
+        //Total de registro Hoy Global
+        public int? getTotalRegistroHoyGlobal()
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return hoy;
+        }
+
+
+        //Total de registro Mes Usuario
+        public int? getTotalRegistroMesUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int mes = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return mes;
+        }
+
+        //Total de registro Mes Global
+        public int? getTotalRegistroMesGlobal()
+        {
+            DateTime Fecha = DateTime.Now;
+            int mes = db.Fiscalizacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return mes;
+        }
+
+
+        //Total de registro Año Usuario
+        public int? getTotalRegistroAnioUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int anio = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return anio;
+        }
+
+        //Total de registro Año Global
+        public int? getTotalRegistroAnioGlobal()
+        {
+            DateTime Fecha = DateTime.Now;
+            int anio = db.Fiscalizacions.Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return anio;
+        }
+
+        //Total de registro Año Usuario
+        public int? getTotalBusesNotificadosHoyUsuario(String usuario)
         {
             DateTime Fecha = DateTime.Now;
             int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Habilitado == false).Count();
             return hoy;
         }
 
-        public int? getTotalPasajerosHoy(String usuario)
+        //Total de registro Año Global
+        public int? getTotalBusesNotificadosHoyGlobal()
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
-            return hoy;
-        }
-
-        public int? getCantidadRegistroHoy(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            int hoy = db.Fiscalizacions.Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Habilitado == false).Count();
             return hoy;
         }
 
 
-        public int? getCantidadRegistroMes(String usuario)
+        //Total de registro Año Usuario
+        public int? getTotalBusesNotificadosMesUsuario(String usuario)
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Habilitado == false).Count();
             return hoy;
         }
 
-
-        public int? getCantidadRegistroAnio(String usuario)
+        //Total de registro Año Global
+        public int? getTotalBusesNotificadosMesGlobal()
         {
             DateTime Fecha = DateTime.Now;
-            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            int hoy = db.Fiscalizacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Habilitado == false).Count();
             return hoy;
         }
 
+        //Total de registro Año Usuario
+        public int? getTotalBusesNotificadosAnioUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Habilitado == false).Count();
+            return hoy;
+        }
 
-        // Total todos usuarios
-
-        public int? getCantidadRegistroHoy()
+        //Total de registro Año Global
+        public int? getTotalBusesNotificadosAnioGlobal()
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Habilitado == false).Count();
+            return hoy;
+        }
+        //Total de pasajeros Hoy Global
+        public int? getTotalPasajerosHoyGlobal()
         {
             DateTime Fecha = DateTime.Now;
             int hoy = db.Fiscalizacions.Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
             return hoy;
         }
 
+        //Total de pasajeros Hoy Usuario
+        public int? getTotalPasajerosHoyUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            return hoy;
+        }
 
-        public int? getCantidadRegistroMes()
+        //Total de pasajeros Hoy Usuario
+        public int? getCantidadRegistroHoyUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            return hoy;
+        }
+
+
+        //Total de pasajeros Este Mes Usuario
+        public int? getCantidadRegistroMesUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            return hoy;
+        }
+
+        //Total de pasajeros Este Mes Global
+        public int? getCantidadRegistroMesGlobal()
         {
             DateTime Fecha = DateTime.Now;
             int hoy = db.Fiscalizacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
@@ -343,27 +422,20 @@ namespace RegionalFF.Controllers
         }
 
 
-        public int? getCantidadRegistroAnio()
+        //Total de pasajeros Este año Usuario
+        public int? getCantidadRegistroAnioUsuario(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
+            return hoy;
+        }
+
+        //Total de pasajeros Este año Global
+        public int? getCantidadRegistroAnioGlobal()
         {
             DateTime Fecha = DateTime.Now;
             int hoy = db.Fiscalizacions.Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
             return hoy;
-        }
-
-
-
-        public int? getTotalRegistroMes(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int mes = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
-            return mes;
-        }
-
-        public int? getTotalRegistroAnio(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int anio = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Count();
-            return anio;
         }
 
 

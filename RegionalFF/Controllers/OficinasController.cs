@@ -144,15 +144,44 @@ namespace RegionalFF.Controllers
         }
 
 
+
         public String getEmpresaUsers(string term)
         {
             var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Nombre).FirstOrDefault();
             return mostrar;
         }
 
+        public String getEmpresaNombreUsuario(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Nombre).FirstOrDefault();
+            return mostrar;
+        }
+        public String getEmpresaApellidoUsuario(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Apellido).FirstOrDefault();
+            return mostrar;
+        }
+
+        public String getEmpresaUsernameUsuario(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.UserName).FirstOrDefault();
+            return mostrar;
+        }
+        public String getImagenUsuario(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Imagen).FirstOrDefault();
+            return mostrar;
+        }
+
         public String getEmpresaSiglaUsers(string term)
         {
             var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Sigla).FirstOrDefault();
+            return mostrar;
+        }
+
+        public int getEmpresaNumeroUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Numero).FirstOrDefault();
             return mostrar;
         }
 

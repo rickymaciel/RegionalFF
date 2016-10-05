@@ -159,11 +159,14 @@
                                             @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
                                             {
 
-                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                                <div class="pull-right">
+                                                    <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones" , new { id=item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
 
-                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                                    <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones" , new { id=item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-list-alt"></i> </a>
 
-                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                                    <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones" , new { id=item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><i class="fa fa-trash-o"></i> </a>
+                                                </div>
+
                                             }
                                         </td>
                                         <td>

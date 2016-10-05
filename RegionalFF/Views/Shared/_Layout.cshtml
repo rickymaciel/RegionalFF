@@ -10,6 +10,7 @@
     OficinasController oficinacurrent = new OficinasController();
     ViewBag.Oficina = oficinacurrent.getEmpresaUsers(User.Identity.GetUserName());
     ViewBag.Sigla = oficinacurrent.getEmpresaSiglaUsers(User.Identity.GetUserName());
+    ViewBag.ImagenUsuarioCurrent = oficinacurrent.getImagenUsuario(User.Identity.GetUserName());
     
     ViewBag.Denominacion = "RegionalFF";
     string Email = "";
@@ -56,12 +57,12 @@
                     <!-- menu profile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="~/Content/img/user.png" alt="@Usuario" class="img-circle profile_img tip" title="@Usuario" />
+                            <img src="~/Content/img/Uploads/Usuarios/@ViewBag.ImagenUsuarioCurrent" alt="@Usuario" class="img-circle profile_img tip" title="@Usuario" />
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
                             <h2><strong class="text-uppercase">@Usuario</strong> </h2>
-                            
+
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -77,7 +78,7 @@
                                 <h3 class="text-red">Administrador</h3>
                                 <ul class="nav side-menu">
                                     @{
-                                        Html.RenderAction("MenuAdmin", "Accesos");
+                            Html.RenderAction("MenuAdmin", "Accesos");
                                     }
                                 </ul>
                             </div>
@@ -146,6 +147,20 @@
     <script>
         $(function () {
 
+            function mostrarImagen(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#vistaprevia').removeClass('hidden');
+                        $('#img_destino').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#Imagen").change(function () {
+                mostrarImagen(this);
+            });
             $('#Fecha').val('@ViewBag.Fecha');
             $('#UserId').val('@ViewBag.User');
 
@@ -250,6 +265,10 @@
         </script>
     }
 </body>
+
+
+
+
 
 
 

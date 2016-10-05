@@ -31,9 +31,6 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <i class="fa fa-cog"></i>
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.Nombre)
                                 </th>
                                 <th>
@@ -45,6 +42,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Activo)
                                 </th>
+                                <th class="col-lg-2">
+                                    <i class="fa fa-cog"></i>
+                                </th>
                             </tr>
 
                         </thead>
@@ -52,13 +52,6 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="col-lg-2 btn-group" align="center">
-                                        <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Conductores", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-
-                                        <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Conductores", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
-
-                                        <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Conductores", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
-                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nombre)
                                     </td>
@@ -70,6 +63,15 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Activo)
+                                    </td>
+                                    <td class="col-lg-2 btn-group">
+                                        <div class="pull-right">
+                                            <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Conductores", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
+
+                                            <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Conductores", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-list-alt"></i> </a>
+
+                                            <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Conductores", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><i class="fa fa-trash-o"></i> </a>
+                                        </div>
                                     </td>
                                 </tr>
                             }

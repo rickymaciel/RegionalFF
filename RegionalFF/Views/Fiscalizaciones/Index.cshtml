@@ -14,12 +14,40 @@
         FiscalizacionesController hoy = new FiscalizacionesController();
         ViewBag.Title = "Fiscalización - Hoy";
         ViewBag.SubTitle = "Lista de Registros de Fiscalizaciones - Hoy";
-        ViewBag.CantidadBusesHoy = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
-        ViewBag.NotificadosHoy = hoy.getTotalBusesNotificadosHoy(User.Identity.GetUserName());
-        ViewBag.PasajerosHoy = hoy.getTotalPasajerosHoy(User.Identity.GetUserName());
+
+        FiscalizacionesController hoyFiscalizaciones = new FiscalizacionesController();
 
 
-        //total todos los usuarios
+        ViewBag.CantidadBusesHoyUsuario = hoyFiscalizaciones.getTotalRegistroHoyUsuario(User.Identity.GetUserName());
+        ViewBag.CantidadBusesHoyGlobal = hoyFiscalizaciones.getTotalRegistroHoyGlobal();
+
+        ViewBag.CantidadBusesMesUsuario = hoyFiscalizaciones.getTotalRegistroMesUsuario(User.Identity.GetUserName());
+        ViewBag.CantidadBusesMesGlobal = hoyFiscalizaciones.getTotalRegistroMesGlobal();
+
+
+        ViewBag.CantidadBusesAnioUsuario = hoyFiscalizaciones.getTotalRegistroAnioUsuario(User.Identity.GetUserName());
+        ViewBag.CantidadBusesAnioGlobal = hoyFiscalizaciones.getTotalRegistroAnioGlobal();
+
+        ViewBag.NotificadosHoyGlobal = hoyFiscalizaciones.getTotalBusesNotificadosHoyGlobal();
+        ViewBag.NotificadosHoyUsuario = hoyFiscalizaciones.getTotalBusesNotificadosHoyUsuario(User.Identity.GetUserName());
+
+
+        ViewBag.NotificadosMesGlobal = hoyFiscalizaciones.getTotalBusesNotificadosMesGlobal();
+        ViewBag.NotificadosMesUsuario = hoyFiscalizaciones.getTotalBusesNotificadosMesUsuario(User.Identity.GetUserName());
+
+        ViewBag.NotificadosAnioGlobal = hoyFiscalizaciones.getTotalBusesNotificadosAnioGlobal();
+        ViewBag.NotificadosAnioUsuario = hoyFiscalizaciones.getTotalBusesNotificadosAnioUsuario(User.Identity.GetUserName());
+
+        ViewBag.PasajerosHoyUsuario = hoyFiscalizaciones.getTotalPasajerosHoyUsuario(User.Identity.GetUserName());
+        ViewBag.PasajerosHoyGlobal = hoyFiscalizaciones.getTotalPasajerosHoyGlobal();
+
+
+        ViewBag.PasajerosMesGlobal = hoyFiscalizaciones.getCantidadRegistroMesGlobal();
+        ViewBag.PasajerosMesUsuario = hoyFiscalizaciones.getCantidadRegistroMesUsuario(User.Identity.GetUserName());
+
+        ViewBag.PasajerosAnioGlobal = hoyFiscalizaciones.getCantidadRegistroAnioGlobal();
+        ViewBag.PasajerosAnioUsuario = hoyFiscalizaciones.getCantidadRegistroAnioUsuario(User.Identity.GetUserName());
+
 
         string Email = "";
         int Index = 0;
@@ -29,82 +57,54 @@
     }
 }
 
+@if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
+{
 
-<div class="row top_tiles  tile_count">
-    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="tile-stats">
-            <div class="icon"><i class="ion-person text-info"></i></div>
-            <div class="count">
-                @ViewBag.Sigla
+    <div class="row top_tiles  tile_count">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Buses Registrados - @Usuario</p>
             </div>
-            <h3>@Usuario </h3>
-            <p>@ViewBag.Oficina</p>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesMesUsuario
+                </div>
+                <h3>Este Mes</h3>
+                <p class="text-success">Buses Registrados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bell text-info"></i></div>
+                <div class="count">
+                    @ViewBag.NotificadosHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Buses Notificados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.PasajerosHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p class="text-success">Pasajeros - @Usuario</p>
+            </div>
         </div>
     </div>
-    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="tile-stats">
-            <div class="icon"><i class="fa fa-bus text-info"></i></div>
-            @{
-            if (ViewBag.CantidadBusesHoy > 0)
-            {
-            <div class="count">
-                @ViewBag.CantidadBusesHoy
-            </div>
-            }
-            else
-            {
-            <div class="count">
-                0
-            </div>
-            }
-            }
-            <h3>Hoy</h3>
-            <p>Total de Buses Registrados</p>
-        </div>
-    </div>
-    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="tile-stats">
-            <div class="icon"><i class="fa fa-bell text-info"></i></div>
-            @{
-            if (ViewBag.NotificadosHoy > 0)
-            {
-            <div class="count">
-                @ViewBag.NotificadosHoy
-            </div>
-            }
-            else
-            {
-            <div class="count">
-                0
-            </div>
-            }
-            }
-            <h3>Hoy</h3>
-            <p>Total de Buses Notificados</p>
-        </div>
-    </div>
-    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="tile-stats">
-            <div class="icon"><i class="fa fa-users text-info"></i></div>
-            @{
-            if (ViewBag.PasajerosHoy > 0)
-            {
-            <div class="count">
-                @ViewBag.PasajerosHoy
-            </div>
-            }
-            else
-            {
-            <div class="count">
-                0
-            </div>
-            }
-            }
-            <h3>Hoy</h3>
-            <p>Total de Pasajeros</p>
-        </div>
-    </div>
-</div>
+
+}
+
 <div class="">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -151,9 +151,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                        Administrar el Menú: <code></code>
-                    </p>
                     <div class="table-responsive">
                         <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
                             <thead>
@@ -201,7 +198,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                        @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Transporte.RazonSocial)

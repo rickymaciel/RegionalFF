@@ -216,6 +216,12 @@ namespace RegionalFF.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // GET: /Manage/ChangePassword
+        public ActionResult EditarUsuario()
+        {
+            return View();
+        }
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()

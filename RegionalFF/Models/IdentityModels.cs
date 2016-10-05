@@ -33,21 +33,26 @@ namespace RegionalFF.Models
         public virtual ICollection<Facilitacion> Facilitaciones { get; set; }
         public virtual ICollection<Fiscalizacion> Fiscalizaciones { get; set; }
 
-        [Required(ErrorMessage = "El Nº Funcionario es requerido")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Nº Funcionario")]
 
         public int Numero { get; set; }
 
-        [Required(ErrorMessage = "La Oficina es requerida")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Oficina")]
         public int OficinaId { get; set; }
 
-        [Required(ErrorMessage = "El Documento es requerido")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Documento")]
         public int Documento { get; set; }
 
         public string Nombre { get; set; }
+
         public string Apellido { get; set; }
+
+        public string Direccion { get; set; }
+        [DataType(DataType.ImageUrl)]
+        public string Imagen { get; set; }
 
         [ForeignKey("OficinaId")]
         public virtual Oficina Oficina { get; set; }

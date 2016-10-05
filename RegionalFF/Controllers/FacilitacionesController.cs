@@ -298,6 +298,7 @@ namespace RegionalFF.Controllers
             return View(facilitacion);
         }
 
+        //Resumen Total Registro - Hoy por usuario
         public int? getTotalRegistroHoy(String usuario)
         {
             DateTime Fecha = DateTime.Now;
@@ -305,7 +306,40 @@ namespace RegionalFF.Controllers
             return hoy;
         }
 
+        //Resumen Total Registro - Hoy Todo
+        public int? getTotalRegistroHoy()
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Fecha.Day == Fecha.Day).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return hoy;
+        }
 
+
+        //Resumen Total Registro - Este Mes por usuario
+        public int? getTotalRegistroMes(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int mes = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return mes;
+        }
+
+        //Resumen Total Registro - Este Año por usuario
+        public int? getTotalRegistroAnio(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int anio = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return anio;
+        }
+
+        //Resumen Total Registro - Este Año Todo
+        public int? getTotalRegistroAnio()
+        {
+            DateTime Fecha = DateTime.Now;
+            int anio = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).Count();
+            return anio;
+        }
+
+        //Resumen Total Cantidad Registro - Hoy por usuario
         public int? getCantidadRegistroHoy(String usuario)
         {
             DateTime Fecha = DateTime.Now;
@@ -314,24 +348,7 @@ namespace RegionalFF.Controllers
         }
 
 
-        public int? getCantidadRegistroMes(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
-            return hoy;
-        }
-
-
-        public int? getCantidadRegistroAnio(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
-            return hoy;
-        }
-
-
-        // Total todos usuarios
-
+        //Resumen Total Cantidad Registro Hoy
         public int? getCantidadRegistroHoy()
         {
             DateTime Fecha = DateTime.Now;
@@ -340,6 +357,17 @@ namespace RegionalFF.Controllers
         }
 
 
+
+        //Resumen Total Registro Este Mes - por usuario
+        public int? getCantidadRegistroMes(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
+            return hoy;
+        }
+
+
+        //Resumen Total Registro Este Mes - Todo
         public int? getCantidadRegistroMes()
         {
             DateTime Fecha = DateTime.Now;
@@ -348,27 +376,21 @@ namespace RegionalFF.Controllers
         }
 
 
+        //Resumen Total Registro Este Año -  por usuario
+        public int? getCantidadRegistroAnio(String usuario)
+        {
+            DateTime Fecha = DateTime.Now;
+            int hoy = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
+            return hoy;
+        }
+
+
+        //Resumen Total Registro Este Año -  Todo
         public int? getCantidadRegistroAnio()
         {
             DateTime Fecha = DateTime.Now;
             int hoy = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.Cantidad);
             return hoy;
-        }
-
-
-
-        public int? getTotalRegistroMes(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int mes = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).Count();
-            return mes;
-        }
-
-        public int? getTotalRegistroAnio(String usuario)
-        {
-            DateTime Fecha = DateTime.Now;
-            int anio = db.Facilitacions.Where(x => x.Usuario.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).Count();
-            return anio;
         }
 
 

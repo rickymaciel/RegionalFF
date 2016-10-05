@@ -40,6 +40,9 @@ namespace RegionalFF.Models
         public DateTime? LockoutEndDateUtc { get; set; }
         public int AccessFailedCount { get; set; }
 
+        public string Direccion { get; set; }
+        [DataType(DataType.ImageUrl)]
+        public string Imagen { get; set; }
 
         [Display(Name = "Teléfono")]
         public string PhoneNumber { get; set; }
