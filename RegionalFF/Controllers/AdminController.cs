@@ -85,6 +85,38 @@ namespace RegionalFF.Controllers
         #endregion
 
 
+        // GET: /Admin/
+        #region public ActionResult Usuarios()
+        [Authorize(Roles = "Administrador")]
+        public ActionResult Usuarios()
+        {
+            List<UsuarioAmpliado> col_Usuario = new List<UsuarioAmpliado>();
+            var result = UserManager.Users.ToList().OrderBy(x => x.UserName);
+            foreach (var item in result)
+            {
+                UsuarioAmpliado objUsuario = new UsuarioAmpliado();
+
+                objUsuario.UserName = item.UserName;
+                objUsuario.Nombre = item.Nombre;
+                objUsuario.Apellido = item.Apellido;
+                objUsuario.Numero = item.Numero;
+                objUsuario.OficinaId = item.OficinaId;
+                objUsuario.Oficina = item.Oficina;
+                objUsuario.UserName = item.UserName;
+                objUsuario.Documento = item.Documento;
+                objUsuario.Email = item.Email;
+                objUsuario.LockoutEndDateUtc = item.LockoutEndDateUtc;
+                objUsuario.PhoneNumber = item.PhoneNumber;
+                objUsuario.Imagen = item.Imagen;
+                objUsuario.Direccion = item.Direccion;
+
+                col_Usuario.Add(objUsuario);
+            }
+            return View(col_Usuario);
+        }
+
+        #endregion
+
 
         // Users *****************************
 

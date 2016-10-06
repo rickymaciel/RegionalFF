@@ -20,6 +20,8 @@
         ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
         ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
         ViewBag.UsernameUsuario = oficinacur.getEmpresaUsernameUsuario(User.Identity.GetUserName());
+        ViewBag.Documento = oficinacur.getEmpresaDocumentoUsers(User.Identity.GetUserName());
+        ViewBag.Direccion = oficinacur.getEmpresaDireccionUsers(User.Identity.GetUserName());
         ViewBag.Email = User.Identity.GetUserName();
 
         FacilitacionesController hoy = new FacilitacionesController();
@@ -35,22 +37,22 @@
     }
 }
 
+
+<div class="page-title">
+    <div class="title_left">
+        <h3><i class="fa fa-shield text-warning"></i> @ViewBag.Title</h3>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <i class="fa fa-shield text-warning"></i> @ViewBag.Title
-                    <small>@ViewBag.SubTitle</small>
+                    <small><i class="fa fa-info-circle"></i> @ViewBag.SubTitle</small>
                 </h2>
-                @*<ul class="nav navbar-right panel_toolbox">
-                <li>
-                    <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
-                        <i class="fa fa-plus"></i>
-                        <strong>Crear Nuevo</strong>
-                    </a>
-                </li>
-            </ul>*@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -68,117 +70,135 @@
                         </div>
                     </div>
 
-                    <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-success btn-block"><i class="fa fa-edit m-right-xs"></i> Modificar Información</a>
-                    
+                    <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-default btn-block"><i class="fa fa-edit m-right-xs"></i> Modificar Información</a>
+
                     <h3 class="text-center">@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario</h3>
-
-                    <ul class="list-unstyled user_data">
-                        <li class="m-top-xs">
-                            <b> <i class="fa fa-envelope-o user-profile-icon" title="Nº de Funcionario: @ViewBag.Email"></i> Email: </b> @ViewBag.Email
-                        </li>
-
-                        <li>
-                            <b> <i class="fa fa-map-marker user-profile-icon" title="Oficina: @ViewBag.Oficina"></i> Oficina:</b> @ViewBag.Oficina
-                        </li>
-
-                        <li>
-                            <b><i class="fa fa-user user-profile-icon" title="Nombre y Apellido: @ViewBag.NombreUsuario @ViewBag.ApellidoUsuario"></i> Nombre y Apellido:</b> @ViewBag.NombreUsuario @ViewBag.ApellidoUsuario
-                        </li>
-
-                        <li class="m-top-xs">
-                            <b> <i class="fa fa-briefcase user-profile-icon" title="Nº de Funcionario: @ViewBag.NumeroUsuario"></i> Nº de Funcionario: </b> @ViewBag.NumeroUsuario
-                        </li>
-
-                    </ul>
 
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_content">
-                            <div>
-                                <dl class="dl-horizontal">
-                                    <dt>Información de perfil:</dt>
-                                    <dd>
-                                        [
-                                        <a href="@Url.Action("ModificarUsuario", "Admin")" class="text-success">
-                                            <i class="fa fa-edit"></i>
-                                            Modificar la información del perfil
-                                        </a>
-                                        ]
-                                    </dd>
-                                    <dt>Foto de perfil:</dt>
-                                    <dd>                                        [
-                                        <a href="@Url.Action("CambiarImagen", "Admin")" class="text-success">
-                                            <i class="fa fa-camera"></i>
-                                            Cambiar la Foto del perfil
-                                        </a>
-                                        ]
-                                    </dd>
-                                    <dt>Contraseña:</dt>
-                                    <dd>
-                                        [
-                                        @if (Model.HasPassword)
-                                        {
-                                            @Html.ActionLink("Cambia tu contraseña", "ChangePassword", "", new { @class = "text-warning" })
-                                        }
-                                        else
-                                        {
-                                            @Html.ActionLink("Crear una contraseña", "SetPassword", "", new { @class = "text-warning" })
-                                        }
-                                        ]
-                                    </dd>
-                                    @*<dt>Conexiones externas:</dt>
-                                        <dd>
-                                            @Model.Logins.Count [
-                                            @Html.ActionLink("Gestionar", "ManageLogins") ]
-                                        </dd>*@
+                    <dl class="dl-horizontal">
+                        <dt>Email:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-envelope user-profile-icon"></i>
+                            @ViewBag.Email
+                        </dd>
 
-                                    <dt>Número de teléfono:</dt>
-                                    <dd>
-                                        @(Model.PhoneNumber ?? "Ninguno") [
-                                        @if (Model.PhoneNumber != null)
-                                        {
-                                            @Html.ActionLink("Cambiar", "AddPhoneNumber", "", new { @class = "text-warning" })
-                                            @: &nbsp;|&nbsp;
-                                            @Html.ActionLink("Eliminar", "RemovePhoneNumber", "", new { @class = "text-danger" })
-                                        }
-                                        else
-                                        {
-                                            @Html.ActionLink("Agregar", "AddPhoneNumber", "", new { @class = "text-info" })
-                                        }
-                                        ]
-                                    </dd>
 
-                                    <dt>Autenticación:</dt>
-                                    <dd>
-                                        <p>Verificación en dos pasos:</p>
-                                        @if (Model.TwoFactor)
-                                        {
-                                            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <text>
-                                                    <input type="button" value="Habilitar" class="btn btn-default" disabled />
-                                                    <input type="submit" value="Deshabilitar" class="btn btn-default" />
-                                                </text>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <text>
-                                                    <input type="button" value="Deshabilitar" class="btn btn-default" disabled />
-                                                    <input type="submit" value="Habilitar" class="btn btn-default" />
-                                                </text>
-                                            }
-                                        }
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
+                        <dt>Usuario:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-user user-profile-icon"></i>
+                            @ViewBag.UserNameUsuario
+                        </dd>
+
+
+                        <dt>Documento:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-certificate user-profile-icon"></i>
+                            @ViewBag.Documento
+                        </dd>
+
+                        <dt>Oficina:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-map-marker user-profile-icon"></i>
+                            @ViewBag.Oficina
+                        </dd>
+
+                        <dt>Sigla: </dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-strikethrough user-profile-icon"></i>
+                            @ViewBag.Sigla
+                        </dd>
+
+                        <dt>Dirección:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-location-arrow user-profile-icon"></i>
+                            @ViewBag.Direccion
+                        </dd>
+
+                        <dt> Nº de Funcionario:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-ticket user-profile-icon"></i>
+                            @ViewBag.NumeroUsuario
+                        </dd>
+                        <dt><br /></dt>
+                        <dd><br /></dd>
+                        <dt>Foto de perfil:</dt>
+                        <dd class="text-muted">
+                            [
+                            <a href="@Url.Action("CambiarImagen", "Admin")" class="text-success">
+                                <i class="fa fa-camera"></i>
+                                Cambiar la Foto del perfil
+                            </a>
+                            ]
+                        </dd>
+                        <dt>Contraseña:</dt>
+                        <dd class="text-muted">
+                            [
+                            @if (Model.HasPassword)
+                            {
+
+                                <a href="@Url.Action("ChangePassword", "Manage")" class="text-success">
+                                    <i class="fa fa-lock"></i>
+                                    Cambia tu contraseña
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("SetPassword", "Manage")" class="text-info">
+                                    <i class="fa fa-lock"></i>
+                                    Crear una contraseña
+                                </a>
+                            }
+                            ]
+                        </dd>
+                        <dt>Número de teléfono:</dt>
+                        <dd class="text-muted">
+                            <i class="fa fa-phone"></i>&nbsp;
+                            @(Model.PhoneNumber ?? "Ninguno") [
+                            @if (Model.PhoneNumber != null)
+                            {
+                                @Html.ActionLink("Cambiar", "AddPhoneNumber", "", new { @class = "text-success" })
+                                @: &nbsp;|&nbsp;
+                                @Html.ActionLink("Eliminar", "RemovePhoneNumber", "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+
+                                <a href="@Url.Action("AddPhoneNumber", "Manage")" class="text-info">
+                                    <i class="fa fa-plus"></i>
+                                    Agregar
+                                </a>
+                            }
+                            ]
+                        </dd>
+
+                        <dt>Autenticación:</dt>
+                        <dd class="text-muted">
+                            <p>Verificación en dos pasos:</p>
+                            @if (Model.TwoFactor)
+                            {
+                                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <text>
+                                        <input type="button" value="Habilitar" class="btn btn-default" disabled />
+                                        <input type="submit" value="Deshabilitar" class="btn btn-default" />
+                                    </text>
+                                }
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <text>
+                                        <input type="button" value="Deshabilitar" class="btn btn-default" disabled />
+                                        <input type="submit" value="Habilitar" class="btn btn-default" />
+                                    </text>
+                                }
+                            }
+                        </dd>
+                    </dl>
                 </div>
             </div>
         </div>

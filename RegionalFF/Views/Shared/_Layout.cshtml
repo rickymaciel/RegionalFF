@@ -8,9 +8,16 @@
 
 @{
     OficinasController oficinacurrent = new OficinasController();
-    ViewBag.Oficina = oficinacurrent.getEmpresaUsers(User.Identity.GetUserName());
     ViewBag.Sigla = oficinacurrent.getEmpresaSiglaUsers(User.Identity.GetUserName());
+    ViewBag.Oficina = oficinacurrent.getEmpresaUsers(User.Identity.GetUserName());
     ViewBag.ImagenUsuarioCurrent = oficinacurrent.getImagenUsuario(User.Identity.GetUserName());
+    ViewBag.NumeroUsuario = oficinacurrent.getEmpresaNumeroUsers(User.Identity.GetUserName());
+    ViewBag.NombreUsuario = oficinacurrent.getEmpresaNombreUsuario(User.Identity.GetUserName());
+    ViewBag.ApellidoUsuario = oficinacurrent.getEmpresaApellidoUsuario(User.Identity.GetUserName());
+    ViewBag.UsernameUsuario = oficinacurrent.getEmpresaUsernameUsuario(User.Identity.GetUserName());
+    ViewBag.Documento = oficinacurrent.getEmpresaDocumentoUsers(User.Identity.GetUserName());
+    ViewBag.Direccion = oficinacurrent.getEmpresaDireccionUsers(User.Identity.GetUserName());
+    ViewBag.Email = User.Identity.GetUserName();
     
     ViewBag.Denominacion = "RegionalFF";
     string Email = "";
@@ -61,7 +68,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Bienvenido,</span>
-                            <h2><strong class="text-uppercase">@Usuario</strong> </h2>
+                            <h2>@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario </h2>
 
                         </div>
                     </div>

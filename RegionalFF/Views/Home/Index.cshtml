@@ -9,6 +9,8 @@
         OficinasController oficinacur = new OficinasController();
         ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
         ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
+        ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
+        ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
 
         ViewBag.Facilitacion = "Facilitación";
         ViewBag.Fiscalizacion = "Fiscalización";
@@ -91,94 +93,74 @@
         </div>
     </div>
 
-    <hr />
+    <div class="clearfix"></div>
 
-    <div class="row top_tiles  tile_count">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-pencil text-info"></i></div>
-                <div class="count">
-                    @ViewBag.TotalRegistroHoyGlobal
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_content">
+                <ul class="stats-overview">
+                    <li>
+                        <span class="name"> Total de Turistas - Hoy</span>
+                        <span class="value text-success"> @ViewBag.SumCantHoyGlobal </span>
+                    </li>
+                    <li>
+                        <span class="name"> Total de Turistas - Este Mes </span>
+                        <span class="value text-success"> @ViewBag.SumCantMesGlobal </span>
+                    </li>
+                    <li>
+                        <span class="name"> Total de Turistas - Este Año</span>
+                        <span class="value text-success"> @ViewBag.SumCantAnioGlobal </span>
+                    </li>
+                </ul>
+                <div class="row">
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="ion-person text-info"></i></div>
+                            <div class="count" title="@ViewBag.Oficina">
+                                <i class="fa fa-home"></i> @ViewBag.Sigla
+                            </div>
+                            <h3>@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario </h3>
+                            <p>@ViewBag.Oficina</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.SumCantHoyUsuario
+                            </div>
+                            <h3>Hoy</h3>
+                            <p>Turistas Registrados por @Usuario</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.SumCantMesUsuario
+                            </div>
+                            <h3>Este Mes</h3>
+                            <p>Turistas Registrados por @Usuario</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.SumCantAnioUsuario
+                            </div>
+                            <h3>Este Año</h3>
+                            <p>Turistas Registrados por @Usuario</p>
+                        </div>
+                    </div>
                 </div>
-                <h3>Hoy</h3>
-                <p class="text-warning">Total Registros - Global</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.SumCantHoyGlobal
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-warning">Turistas Registrados - Global</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.SumCantMesGlobal
-                </div>
-                <h3>Este Mes</h3>
-                <p class="text-warning">Turistas Registrados - Global</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.SumCantAnioGlobal
-                </div>
-                <h3>Este Año</h3>
-                <p class="text-warning">Turistas Registrados - Global</p>
             </div>
         </div>
     </div>
+    <hr class="clearfix">
 
-    <div class="row top_tiles  tile_count">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-edit text-info"></i></div>
-                <div class="count">
-                    @ViewBag.TotalRegistroHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-success">Total Registros - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.SumCantHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-success">Turistas Registrados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.SumCantMesUsuario
-                </div>
-                <h3>Este Mes</h3>
-                <p class="text-success">Turistas Registrados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.SumCantAnioUsuario
-                </div>
-                <h3>Este Año</h3>
-                <p class="text-success">Turistas Registrados - @Usuario</p>
-            </div>
-        </div>
-    </div>
 }
+
 
 @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
 {
@@ -200,95 +182,72 @@
     </div>
 
 
-    <div class="row top_tiles  tile_count">
+    <div class="clearfix"></div>
 
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bus text-info"></i></div>
-                <div class="count">
-                    @ViewBag.CantidadBusesHoyGlobal
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-warning">Buses Registrados - Global</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bus text-info"></i></div>
-                <div class="count">
-                    @ViewBag.CantidadBusesMesGlobal
-                </div>
-                <h3>Este Mes</h3>
-                <p class="text-warning">Buses Registrados - Global</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bell text-info"></i></div>
-                <div class="count">
-                    @ViewBag.NotificadosHoyGlobal
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-warning">Buses Notificados - Global</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.PasajerosHoyGlobal
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-warning">Pasajeros - Global</p>
-            </div>
-        </div>
 
-        <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_content">
+                <ul class="stats-overview">
+                    <li>
+                        <span class="name"> Total de Buses Fiscalizados - Hoy</span>
+                        <span class="value text-success"> @ViewBag.CantidadBusesHoyGlobal </span>
+                    </li>
+                    <li>
+                        <span class="name"> Total de Pasajeros - Hoy</span>
+                        <span class="value text-success"> @ViewBag.PasajerosHoyGlobal </span>
+                    </li>
+                    <li>
+                        <span class="name"> Total de Buses Notificados - Hoy</span>
+                        <span class="value text-success"> @ViewBag.NotificadosHoyGlobal </span>
+                    </li>
+                </ul>
+                <div class="row">
 
-        -->
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bus text-info"></i></div>
-                <div class="count">
-                    @ViewBag.CantidadBusesHoyUsuario
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="ion-person text-info"></i></div>
+                            <div class="count" title="@ViewBag.Oficina">
+                                <i class="fa fa-home"></i> @ViewBag.Sigla
+                            </div>
+                            <h3>@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario </h3>
+                            <p>@ViewBag.Oficina</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.CantidadBusesHoyUsuario
+                            </div>
+                            <h3>Hoy</h3>
+                            <p>Buses Registrados - @Usuario</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-bell text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.NotificadosHoyUsuario
+                            </div>
+                            <h3>Hoy</h3>
+                            <p>Buses Notificados - @Usuario</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.PasajerosHoyUsuario
+                            </div>
+                            <h3>Hoy</h3>
+                            <p>Pasajeros - @Usuario</p>
+                        </div>
+                    </div>
                 </div>
-                <h3>Hoy</h3>
-                <p class="text-success">Buses Registrados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bus text-info"></i></div>
-                <div class="count">
-                    @ViewBag.CantidadBusesMesUsuario
-                </div>
-                <h3>Este Mes</h3>
-                <p class="text-success">Buses Registrados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bell text-info"></i></div>
-                <div class="count">
-                    @ViewBag.NotificadosHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-success">Buses Notificados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.PasajerosHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p class="text-success">Pasajeros - @Usuario</p>
             </div>
         </div>
     </div>
-    <br />
-    <br />
 
 }
 

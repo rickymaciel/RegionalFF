@@ -35,11 +35,13 @@ namespace RegionalFF.Controllers
                     db.Conductors.Add(conductor);
                     db.SaveChanges();
                     TempData["notice"] = "El Conductor fue registrado correctamente";
+
                     return RedirectToAction("Index", "Fiscalizaciones");
                 }
                 else
                 {
                     TempData["notice"] = "Error de Validaciones";
+
                     return RedirectToAction("Index", "Fiscalizaciones");
                 }
             }

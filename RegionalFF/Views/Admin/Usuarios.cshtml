@@ -1,0 +1,84 @@
+﻿@model IEnumerable<RegionalFF.Models.UsuarioAmpliado>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Administración";
+    ViewBag.SubTitle = "Usuarios";
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    <i class="fa fa-shield text-warning"></i> @ViewBag.Title
+                    <small>@ViewBag.SubTitle</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a href="@Url.Action("Create", "Admin")" class="btn btn-default">
+                            <i class="fa fa-plus-circle"></i>
+                            Nuevo Usuario
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default">
+                            <i class="fa fa-plus-circle"></i>
+                            Nuevo Rol
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Roles", "Admin")" class="btn btn-default">
+                            <i class="fa fa-shield"></i>
+                            Ver Roles
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                    </div>
+
+                    <div class="clearfix"></div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                            <div class="well profile_view">
+                                <div class="col-sm-12">
+                                    <h4 class="brief"><i>@Html.DisplayFor(modelItem => item.Email)</i></h4>
+                                    <div class="left col-xs-7">
+                                        <h2>@Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)</h2>
+                                        <p><strong>@Html.DisplayNameFor(model => model.Oficina): </strong> @Html.DisplayFor(modelItem => item.Oficina.Nombre) </p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fa fa-building"></i> @Html.DisplayNameFor(model => model.Direccion): @Html.DisplayFor(modelItem => item.Direccion)</li>
+                                            <li><i class="fa fa-phone"></i> @Html.DisplayNameFor(model => model.PhoneNumber) #: @Html.DisplayFor(modelItem => item.PhoneNumber)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="right col-xs-5 text-center">
+                                        <img class="img-circle img-responsive" title="@item.Nombre" alt="@item.Nombre" src="@Url.Content("~/Content/img/Uploads/Usuarios/" + item.Imagen)" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 bottom text-center">
+                                    <div class="col-xs-12 col-sm-6 emphasis">
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 emphasis">
+                                        <a href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-xs">
+                                            <i class="fa fa-edit"> </i> Editar Usuario
+                                        </a>
+                                        <a href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash"> </i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -185,6 +185,20 @@ namespace RegionalFF.Controllers
             return mostrar;
         }
 
+
+        public String getEmpresaDireccionUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Direccion).FirstOrDefault();
+            return mostrar;
+        }
+
+
+        public int getEmpresaDocumentoUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Documento).FirstOrDefault();
+            return mostrar;
+        }
+
         //public String getUsersRoles(string term)
         //{
         //    var UserID = User.Identity.GetUserId();
