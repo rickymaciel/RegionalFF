@@ -2,54 +2,82 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Roles de Usuarios";
-    ViewBag.SubTitle = "Crear Nuevo";
+    ViewBag.Title = "Administración";
+    ViewBag.SubTitle = "Crear nuevo rol";
 }
 
 
-<!-- page content -->
-<div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a href="@Url.Action("Roles", "Admin")" class="btn btn-default">
-                                <i class="fa fa-reply"></i>
-                                Volver a Roles
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <br />
-                    @using (Html.BeginForm("NuevoRol", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
-                    {
-                        @Html.AntiForgeryToken()
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="page-title">
+    <div class="title_left">
+        <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
+    </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-6">
-                                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Nombre", @required = "required" } })
-                                @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
-                            </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-reply"></i>
+                    Volver a Roles
+                </a>
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-reply"></i>
+                </a>
+                <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear usuario">
+                    <i class="fa fa-plus-circle"></i>
+                    Nuevo Usuario
+                </a>
+                <a href="@Url.Action("Create", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear usuario">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Usuarios">
+                    <i class="fa fa-users"></i>
+                    Ir a Usuarios
+                </a>
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Usuarios">
+                    <i class="fa fa-users"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                @using (Html.BeginForm("NuevoRol", "Admin", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Nombre", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
                         </div>
+                    </div>
 
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button type="reset" class="btn btn-default">Limpiar</button>
-                                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
-                            </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="reset" class="btn btn-default">Limpiar</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
                         </div>
+                    </div>
 
-                    }
-                </div>
+                }
             </div>
         </div>
     </div>

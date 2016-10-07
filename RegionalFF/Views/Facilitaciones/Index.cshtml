@@ -42,6 +42,13 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
+                <a href="@Url.Action("VerTodo", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Ver Todo">
+                    <i class="fa fa-reply-all"></i>
+                </a>
+                <a href="@Url.Action("VerTodo", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Ver Todo">
+                    <i class="fa fa-reply-all"></i>
+                    <strong>Ver Todo</strong>
+                </a>
                 <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
                     <i class="fa fa-list"></i>
                     <strong>Este Mes</strong>
@@ -56,6 +63,7 @@
                 <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Año">
                     <i class="fa fa-list"></i>
                 </a>
+
                 @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
                 {
                     <a href="#" class="btn btn-default hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">

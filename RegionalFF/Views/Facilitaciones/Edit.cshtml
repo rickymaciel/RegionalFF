@@ -1,89 +1,135 @@
 ﻿@model RegionalFF.Models.Facilitacion
 
+
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Modificar";
 }
+<!-- page content -->
 
-<h2>Edit</h2>
 
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Facilitacion</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-               @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
-                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                    Volver
+                </a>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaisId, "PaisId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PaisId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PaisId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CiudadId, "CiudadId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CiudadId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CiudadId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estadia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Estadia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Estadia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                </a>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Mes</strong>
+                </a>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Año</strong>
+                </a>
+                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                </a>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                @using (Html.BeginForm("Edit", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group hidden">
+                        @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
+                            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PaisId, "Origen", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("PaisId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PaisId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CiudadId, "Destino", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CiudadId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CiudadId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Estadia, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Estadia, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Estadia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Observaciones,  new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</a>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-check"></i> Guardar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

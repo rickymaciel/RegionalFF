@@ -448,6 +448,7 @@
     <Content Include="Views\Admin\ModificarUsuario.cshtml" />
     <Content Include="Views\Admin\CambiarImagen.cshtml" />
     <Content Include="Views\Admin\Usuarios.cshtml" />
+    <Content Include="Views\Facilitaciones\Vertodo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

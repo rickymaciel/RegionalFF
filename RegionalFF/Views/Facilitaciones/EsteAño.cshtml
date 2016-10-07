@@ -10,11 +10,12 @@
         OficinasController oficinacur = new OficinasController();
         ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
         ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
+        ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
+        ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
 
         FacilitacionesController hoy = new FacilitacionesController();
-        ViewBag.Title = "Facilitación - Este Año";
-        ViewBag.SubTitle = "Lista de Registros de Facilitaciones";
-        //ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
+        ViewBag.Title = "Facilitación";
+        ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Este Año";
         //ViewBag.CantHoy = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
         //ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
         //ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
@@ -32,6 +33,55 @@
         Usuario = Email.Substring(0, Index);
     }
 }
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                    Volver
+                </a>
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                </a>
+                <a href="@Url.Action("VerTodo", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Ver Todo">
+                    <i class="fa fa-reply-all"></i>
+                </a>
+                <a href="@Url.Action("VerTodo", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Ver Todo">
+                    <i class="fa fa-reply-all"></i>
+                    <strong>Ver Todo</strong>
+                </a>
+
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Mes</strong>
+                </a>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                </a>
+
+
+                @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                {
+                    <a href="#" class="btn btn-default hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="#" class="btn btn-default visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                        <i class="fa fa-plus"></i>
+                        <strong>Registrar Nuevo</strong>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
 
 <div class="row top_tiles  tile_count">
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -80,51 +130,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li class="">
-                            <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Volver">
-                                <i class="fa fa-reply"></i>
-                                <strong>Volver</strong>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default btn-xs hidden-lg" data-toggle="tooltip" title="Volver">
-                                <i class="fa fa-reply"></i>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Este Mes">
-                                <i class="fa fa-list"></i>
-                                <strong>Este Mes</strong>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default btn-xs hidden-lg" data-toggle="tooltip" title="Este Mes">
-                                <i class="fa fa-list"></i>
-                            </a>
-                        </li>
-                        <li class="hidden">
-                            <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Este Año">
-                                <i class="fa fa-list"></i>
-                                <strong>Este Año</strong>
-                            </a>
-                        </li>
-                        <li class="hidden">
-                            <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default btn-xs hidden-lg" data-toggle="tooltip" title="Este Año">
-                                <i class="fa fa-list"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-default btn-xs hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                                <i class="fa fa-plus"></i>
-                            </a>
-                            <a href="#" class="btn btn-default btn-xs visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                                <i class="fa fa-plus"></i>
-                                <strong>Registrar Nuevo</strong>
-                            </a>
-                        </li>
-                    </ul>
+                    <h2>@ViewBag.SubTitle</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -132,7 +138,7 @@
                         <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th class="col-lg-2" align="center">
+                                    <th class="col-lg-2 col-xs-2 text-left">
                                         <i class="fa fa-cog"></i>
                                     </th>
                                     <th>
@@ -163,12 +169,12 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td class="col-lg-2 btn-group" align="center">
-                                            <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-
-                                            <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
-
-                                            <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                        <td class="col-lg-2 col-xs-2 text-center">
+                                            <span class="btn-group">
+                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                            </span>
                                         </td>
                                         <td>
                                             @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
@@ -203,11 +209,11 @@
 </div>
 
 
-    <!-- modals -->
-    <!-- Large modal -->
+<!-- modals -->
+<!-- Large modal -->
 
-    <div class="modal" id="crearFacilitacion" tabindex="-1" role="dialog">
-        @using (Ajax.BeginForm("AjaxRegistroFacilitacionAño", "Facilitaciones", FormMethod.Post,
+<div class="modal" id="crearFacilitacion" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroFacilitacionAño", "Facilitaciones", FormMethod.Post,
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
@@ -215,92 +221,92 @@
             UpdateTargetId = "Facilitacion"
 
         }))
-        {
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                            <span class="im-plus"></span>
-                            Registrar Nueva Facilitación
-                        </h4>
-                    </div>
-                    @Html.AntiForgeryToken()
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                            <div class="form-group hidden">
-                                <label class="control-label col-lg-2" for="UserId">Usuario</label>
-                                <div class="col-md-10">
-                                    @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
-                                </div>
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Nueva Facilitación
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group hidden">
+                            <label class="control-label col-lg-2" for="UserId">Usuario</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Fecha">Fecha</label>
-                                <div class="col-md-10">
-                                    <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." placeholder="Fecha" data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" readonly required />
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Fecha">Fecha</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." placeholder="Fecha" data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" readonly required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Fecha">Origen</label>
-                                <div class="col-lg-1">
-                                    <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearPais"><i class="fa fa-plus"></i></a>
-                                </div>
-                                <div class="col-md-9">
-                                    @Html.DropDownList("PaisId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Pais de origen", @required = "true" })
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Fecha">Origen</label>
+                            <div class="col-lg-1">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearPais"><i class="fa fa-plus"></i></a>
                             </div>
+                            <div class="col-md-9">
+                                @Html.DropDownList("PaisId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Pais de origen", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Fecha">Destino</label>
-                                <div class="col-lg-1">
-                                    <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearCiudad"><i class="fa fa-plus"></i></a>
-                                </div>
-                                <div class="col-md-9">
-                                    @Html.DropDownList("CiudadId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione un Destino", @required = "true" })
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Fecha">Destino</label>
+                            <div class="col-lg-1">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearCiudad"><i class="fa fa-plus"></i></a>
                             </div>
+                            <div class="col-md-9">
+                                @Html.DropDownList("CiudadId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione un Destino", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Cantidad">Cantidad</label>
-                                <div class="col-md-10">
-                                    <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" placeholder="Cantidad de dias en destino" required />
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Cantidad">Cantidad</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" placeholder="Cantidad de dias en destino" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Estadia">Estadia</label>
-                                <div class="col-md-10">
-                                    <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" placeholder="Cantidad de dias en Destino" required />
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Estadia">Estadia</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" placeholder="Cantidad de dias en Destino" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Observaciones">Anotacion</label>
-                                <div class="col-md-10">
-                                    <textarea class="form-control" cols="20" id="Observaciones" name="Observaciones" placeholder="Observaciones" rows="3"></textarea>
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Observaciones">Obs:.</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" cols="20" id="Observaciones" name="Observaciones" placeholder="Observaciones" rows="3"></textarea>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success"><i class="en-add-to-list"></i> Guardar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        }
-    </div><!-- /.modal -->
-    <!-- Large modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
 
-    <div class="modal" id="crearCiudad" tabindex="-1" role="dialog">
-        @using (Ajax.BeginForm("AjaxRegistroCiudad", "Ciudades", FormMethod.Post,
+<div class="modal" id="crearCiudad" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroCiudad", "Ciudades", FormMethod.Post,
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
@@ -308,40 +314,40 @@
             UpdateTargetId = "Ciudad"
 
         }))
-        {
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                            <span class="im-plus"></span>
-                            Registrar Ciudad de Destino
-                        </h4>
-                    </div>
-                    @Html.AntiForgeryToken()
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Nombre">Nombre</label>
-                                <div class="col-md-10">
-                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" value="" />
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
-                                </div>
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Ciudad de Destino
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success"><i class="en-add-to-list"></i> Guardar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        }
-    </div><!-- /.modal -->
-    <!-- Large modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
 
-    <div class="modal" id="crearPais" tabindex="-1" role="dialog">
-        @using (Ajax.BeginForm("AjaxRegistroPais", "Paises", FormMethod.Post,
+<div class="modal" id="crearPais" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroPais", "Paises", FormMethod.Post,
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
@@ -349,34 +355,33 @@
             UpdateTargetId = "Pais"
 
         }))
-        {
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                            <span class="im-plus"></span>
-                            Registrar Pais de Origen
-                        </h4>
-                    </div>
-                    @Html.AntiForgeryToken()
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-2" for="Nombre">Nombre</label>
-                                <div class="col-md-10">
-                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" value="" />
-                                    <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
-                                </div>
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Pais de Origen
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success"><i class="en-add-to-list"></i> Guardar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        }
-    </div><!-- /.modal -->
-</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->

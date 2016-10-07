@@ -7,35 +7,52 @@
 }
 
 
+<div class="page-title">
+    <div class="title_left">
+        <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
+    </div>
+
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear usuario">
+                    <i class="fa fa-plus-circle"></i>
+                    Nuevo Usuario
+                </a>
+                <a href="@Url.Action("Create", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear usuario">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+
+                <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear rol">
+                    <i class="fa fa-plus-circle"></i>
+                    Nuevo Rol
+                </a>
+                <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear rol">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-shield"></i>
+                    Ver Roles
+                </a>
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-shield"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <i class="fa fa-shield text-warning"></i> @ViewBag.Title
-                    <small>@ViewBag.SubTitle</small>
+                    @ViewBag.SubTitle
                 </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a href="@Url.Action("Create", "Admin")" class="btn btn-default">
-                            <i class="fa fa-plus-circle"></i>
-                            Nuevo Usuario
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default">
-                            <i class="fa fa-plus-circle"></i>
-                            Nuevo Rol
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Roles", "Admin")" class="btn btn-default">
-                            <i class="fa fa-shield"></i>
-                            Ver Roles
-                        </a>
-                    </li>
-                </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">

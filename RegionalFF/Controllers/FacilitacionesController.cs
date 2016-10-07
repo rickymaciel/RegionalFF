@@ -15,9 +15,28 @@ namespace RegionalFF.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
         // GET: Facilitaciones
         [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult Index()
+        {
+            var Email = User.Identity.GetUserName();
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+            var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
+
+            return View(facilitacions.ToList().Where(u => u.Usuario.Email == Email).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+        }
+
+        // GET: Facilitaciones
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult VerTodo()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
@@ -29,14 +48,14 @@ namespace RegionalFF.Controllers
             ViewBag.Fecha = Fecha;
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
 
-            return View(facilitacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+            return View(facilitacions.ToList().OrderByDescending(f => f.Fecha));
         }
-
 
         [Authorize(Roles = "Facilitador,Administrador")]
         // GET: Facilitaciones
         public ActionResult EsteMes()
         {
+            var Email = User.Identity.GetUserName();
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 
@@ -47,7 +66,7 @@ namespace RegionalFF.Controllers
             ViewBag.Fecha = Fecha;
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
 
-            return View(facilitacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
+            return View(facilitacions.ToList().Where(u => u.Usuario.Email == Email).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
         }
 
 
@@ -55,6 +74,7 @@ namespace RegionalFF.Controllers
         // GET: Facilitaciones
         public ActionResult EsteAño()
         {
+            var Email = User.Identity.GetUserName();
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 
@@ -65,7 +85,7 @@ namespace RegionalFF.Controllers
             ViewBag.Fecha = Fecha;
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
 
-            return View(facilitacions.ToList().Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
+            return View(facilitacions.ToList().Where(u => u.Usuario.Email == Email).Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
         }
 
         public JsonResult ComprobarDuplicacion(string Nombre)

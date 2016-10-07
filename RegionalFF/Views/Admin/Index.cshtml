@@ -7,80 +7,102 @@
 }
 
 
+<div class="page-title">
+    <div class="title_left">
+        <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
+    </div>
 
-<div class="">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2><i class="fa fa-shield text-warning"></i> @ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a href="@Url.Action("Create", "Admin")" class="btn btn-default">
-                                <i class="fa fa-plus-circle"></i>
-                                Nuevo Usuario
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default">
-                                <i class="fa fa-plus-circle"></i>
-                                Nuevo Rol
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Roles", "Admin")" class="btn btn-default">
-                                <i class="fa fa-shield"></i>
-                                Ver Roles
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="table-responsive">
-                        <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
-                            <thead>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear usuario">
+                    <i class="fa fa-plus-circle"></i>
+                    Nuevo Usuario
+                </a>
+                <a href="@Url.Action("Create", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear usuario">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+
+                <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear rol">
+                    <i class="fa fa-plus-circle"></i>
+                    Nuevo Rol
+                </a>
+                <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear rol">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-shield"></i>
+                    Ver Roles
+                </a>
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-shield"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    @ViewBag.SubTitle
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-1 col-xs-3 text-left">
+                                    <i class="fa fa-cog"></i>
+                                </th>
+                                <th>
+                                    Imagen
+                                </th>
+                                <th>
+                                    Usuario
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Pertenece a:
+                                </th>
+                                <th>
+                                    Nº Func.
+                                </th>
+                                <th>
+                                    Documento
+                                </th>
+                                <th>
+                                    Telefono
+                                </th>
+                                <th>
+                                    Direccion
+                                </th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
                                 <tr>
-                                    <th>
-                                        Imagen
-                                    </th>
-                                    <th>
-                                        Usuario
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Pertenece a:
-                                    </th>
-                                    @*<th>
-                                    Nombre de Usuario
-                                    </th>*@
-                                    <th>
-                                        Nº Func.
-                                    </th>
-                                    <th>
-                                        Documento
-                                    </th>
-                                    <th>
-                                        Telefono
-                                    </th>
-                                    <th>
-                                        Direccion
-                                    </th>
-                                    <th class="col-lg-2">
-                                        <i class="fa fa-cog"></i>
-                                    </th>
-                                </tr>
-                            </thead>
-
-
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                <tr>
+                                    <td class="col-lg-1 col-xs-3 text-center">
+                                        <span class="btn-group">
+                                            <a class="btn btn-warning btn-xs" href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                            <a class="btn btn-danger btn-xs" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
+                                        </span>
+                                    </td>
                                     <td>
-                                        <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="30" src="@Url.Content("~/Content/img/Uploads/Usuarios/" + item.Imagen)" />
+                                        <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/" + item.Imagen)" />
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
@@ -91,9 +113,6 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Oficina.Nombre)
                                     </td>
-                                    @*<td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                    </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Numero)
                                     </td>
@@ -106,20 +125,13 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Direccion)
                                     </td>
-                                    <td class="col-lg-2">
-                                        <div class=" btn-group">
-                                            <a class="btn btn-warning btn-xs" href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-                                            <a class="btn btn-danger btn-xs" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
-                                        </div>
-                                    </td>
                                 </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
+
 </div>
