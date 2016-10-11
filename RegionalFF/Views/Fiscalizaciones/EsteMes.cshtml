@@ -55,6 +55,67 @@
     }
 }
 
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a class="btn btn-link hidden-lg">
+                    <i class="fa fa-filter"></i>
+                </a>
+                <a class="btn btn-link visible-lg">
+                    <i class="fa fa-filter"></i>
+                    <strong>Filtrar por:</strong>
+                </a>
+                <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                    <strong>Volver</strong>
+                </a>
+                <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                </a>
+                <a href="@Url.Action("VerTodo", "Fiscalizaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Ver Todo">
+                        <i class="fa fa-list"></i>
+                    </a>
+                    <a href="@Url.Action("VerTodo", "Fiscalizaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Ver Todo">
+                        <i class="fa fa-list"></i>
+                        <strong>Todo</strong>
+                    </a>
+                @*<a href="@Url.Action("EsteMes", "Fiscalizaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Mes</strong>
+                </a>
+                <a href="@Url.Action("EsteMes", "Fiscalizaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                </a>*@
+                <a href="@Url.Action("EsteAño", "Fiscalizaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Año</strong>
+                </a>
+                <a href="@Url.Action("EsteAño", "Fiscalizaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                </a>
+
+                @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
+                {
+                    <a href="#" class="btn btn-default hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFiscalizacion">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="#" class="btn btn-default visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFiscalizacion">
+                        <i class="fa fa-plus"></i>
+                        <strong>Nuevo</strong>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
 {
 
@@ -107,55 +168,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li class="">
-                            <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Volver">
-                                <i class="fa fa-reply"></i>
-                                <strong>Volver</strong>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default btn-xs hidden-lg" data-toggle="tooltip" title="Volver">
-                                <i class="fa fa-reply"></i>
-                            </a>
-                        </li>
-                        <li class="hidden">
-                            <a href="@Url.Action("EsteMes", "Fiscalizaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Este Mes">
-                                <i class="fa fa-list"></i>
-                                <strong>Este Mes</strong>
-                            </a>
-                        </li>
-                        <li class="hidden">
-                            <a href="@Url.Action("EsteMes", "Fiscalizaciones")" class="btn btn-default btn-xs hidden-lg" data-toggle="tooltip" title="Este Mes">
-                                <i class="fa fa-list"></i>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="@Url.Action("EsteAño", "Fiscalizaciones")" class="btn btn-default btn-xs visible-lg" data-toggle="tooltip" title="Este Año">
-                                <i class="fa fa-list"></i>
-                                <strong>Este Año</strong>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="@Url.Action("EsteAño", "Fiscalizaciones")" class="btn btn-default btn-xs hidden-lg" data-toggle="tooltip" title="Este Año">
-                                <i class="fa fa-list"></i>
-                            </a>
-                        </li>
-                        @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
-                        {
-                            <li>
-                                <a href="#" class="btn btn-default btn-xs hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                                    <i class="fa fa-plus"></i>
-                                </a>
-                                <a href="#" class="btn btn-default btn-xs visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                                    <i class="fa fa-plus"></i>
-                                    <strong>Registrar Nuevo</strong>
-                                </a>
-                            </li>
-                        }
-
-                    </ul>
+                    <h2>@ViewBag.SubTitle</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -253,7 +266,7 @@
 <!-- modals -->
 <!-- Large modal -->
 
-<div class="modal" id="crearFacilitacion" tabindex="-1" role="dialog">
+<div class="modal" id="crearFiscalizacion" tabindex="-1" role="dialog">
     @using (Ajax.BeginForm("AjaxRegistroFiscalizacionMes", "Fiscalizaciones", FormMethod.Post,
         new AjaxOptions
         {
@@ -338,9 +351,12 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-2" for=""></div>
+                            <label class="control-label col-md-2" for="Habilitado">Habilitado</label>
                             <div class="col-md-1">
-                                <input id="Habilitado" name="Habilitado" type="checkbox" data-toggle="tooltip" title="Cuenta con la habilitaci&#243;n de la SENATUR?" value="false" />
+                                <div class="checkbox">
+                                    <input class="check-box" data-val="true" data-val-required="El campo Habilitado es obligatorio." id="Habilitado" name="Habilitado" type="checkbox" value="true" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Habilitado" data-valmsg-replace="true"></span>
+                                </div>
                             </div>
                             <label class="control-label col-md-9" for="Habilitado">Cuenta con la habilitaci&#243;n de la SENATUR?</label>
                         </div>
@@ -350,6 +366,281 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-lg pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
                     <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+
+
+<div class="modal" id="crearCiudad" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroCiudadFiscalizacion", "Ciudades", FormMethod.Post,
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "Ciudad"
+
+    }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Ciudad de Destino
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
+
+<div class="modal" id="crearPais" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroPaisFiscalizacion", "Paises", FormMethod.Post,
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "Pais"
+
+    }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Pais de Origen
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+
+
+
+<div class="modal" id="crearTransporte" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroTransporte", "Transportes", FormMethod.Post,
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "Transporte"
+
+    }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Transporte
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2" for="RazonSocial">Raz&#243;n Social</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" placeholder="Razon Social" id="RazonSocial" name="RazonSocial" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="RazonSocial" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Conductor">Conductor</label>
+                            <div class="col-lg-1">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearConductor"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DropDownList("ConductorId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Conductor", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="ConductorId" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="MarcaId">Marca</label>
+                            <div class="col-lg-1">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearMarca"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DropDownList("MarcaId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione la Marca", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="MarcaId" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="ChapaNro">N&#186; de Chapa</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="ChapaNro" placeholder="Chapa Nº" name="ChapaNro" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="ChapaNro" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Activo">Activo</label>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    <input class="check-box" data-val="true" data-val-required="El campo Activo es obligatorio." id="Activo" name="Activo" type="checkbox" value="true" />
+                                    <input name="Activo" type="hidden" value="false" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Activo" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+
+
+
+<div class="modal" id="crearMarca" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroMarca", "Marcas", FormMethod.Post,
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "Marca"
+
+    }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Marca
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+
+
+
+<div class="modal" id="crearConductor" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroConductor", "Conductores", FormMethod.Post,
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "Conductor"
+
+    }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Conductor
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" placeholder="Nombre" name="Nombre" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Apellido">Apellido</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Apellido" name="Apellido" placeholder="Apellido" type="text" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Apellido" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Documento">Documento</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Documento must be a number." placeholder="Documento" data-val-required="Este campo es requerido" id="Documento" name="Documento" type="number" value="" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Documento" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Activo">Activo</label>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    <input class="check-box" data-val="true" data-val-required="El campo Activo es obligatorio." id="Activo" name="Activo" type="checkbox" value="true" />
+                                    <input name="Activo" type="hidden" value="false" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Activo" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

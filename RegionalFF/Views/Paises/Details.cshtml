@@ -1,26 +1,58 @@
 ﻿@model RegionalFF.Models.Pais
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Paises";
+    ViewBag.SubTitle = "Detalles";
 }
 
-<h2>Details</h2>
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Paises")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver">
+                    <i class="fa fa-reply"></i>
+                    Volver
+                </a>
+                <a href="@Url.Action("Index", "Paises")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver">
+                    <i class="fa fa-reply"></i>
+                </a>
 
-<div>
-    <h4>Pais</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
-    </dl>
+                <a href="@Url.Action("Edit", "Paises", new { id = Model.Id })" class="btn btn-default visible-lg" data-toggle="tooltip" title="Editar">
+                    <i class="fa fa-edit"></i>
+                    <strong>Editar</strong>
+                </a>
+                <a href="@Url.Action("Edit", "Paises", new { id = Model.Id })" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Editar">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Nombre)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

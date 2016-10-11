@@ -31,7 +31,10 @@ namespace RegionalFF
                       "~/Scripts/Moment.js",
                       "~/Scripts/moment-with-locales.js",
                       "~/Scripts/bootstrap-datetimepicker.min.js",
+                      "~/Scripts/fileinput.min.js",
                       "~/Scripts/custom.min.js",
+                      "~/Content/bootstrap-fileinput/bootstrap-fileinput/themes/fa/theme.js",
+                      "~/Content/bootstrap-fileinput/bootstrap-fileinput/themes/gly/theme.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
@@ -58,6 +61,7 @@ namespace RegionalFF
                       "~/Content/pnotify.buttons.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/ionicons.min.css",
+                      "~/Content/bootstrap-fileinput/css/fileinput.css",
                       "~/Content/custom.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(

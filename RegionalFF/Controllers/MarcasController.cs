@@ -48,6 +48,7 @@ namespace RegionalFF.Controllers
                 throw;
             }
         }
+
         [Authorize(Roles = "Fiscalizador,Administrador")]
         // GET: Marcas/Details/5
         public ActionResult Details(int? id)
@@ -83,7 +84,7 @@ namespace RegionalFF.Controllers
             {
                 db.Marcas.Add(marca);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Marcas");
             }
 
             return View(marca);

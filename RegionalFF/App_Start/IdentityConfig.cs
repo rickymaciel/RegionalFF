@@ -19,7 +19,9 @@ namespace RegionalFF
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            // Plug in your SMS service here to send a text message.
+            TwilioRestClient client = new TwilioRestClient("AC2d2d0eb15eee114402b4d82c69f95597", "158d2ffd3a4428c75f5db94860ce1798");
+            client.SendMessage("+12017938913", message.Destination, message.Body);
             return Task.FromResult(0);
         }
     }

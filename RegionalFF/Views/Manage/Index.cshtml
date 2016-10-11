@@ -1,6 +1,6 @@
 ﻿@model RegionalFF.Models.IndexViewModel
 @{
-    ViewBag.Title = "Administración del Perfil";
+    ViewBag.Title = "Administración";
     ViewBag.SubTitle = "Información del Usuario";
 }
 
@@ -37,43 +37,54 @@
     }
 }
 
-
 <div class="page-title">
     <div class="title_left">
-        <h3><i class="fa fa-shield text-warning"></i> @ViewBag.Title</h3>
+        <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
     </div>
+
+    @*<div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver">
+                    <i class="fa fa-reply"></i>
+                    Volver
+                </a>
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+    </div>*@
 </div>
 
 <div class="clearfix"></div>
+
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <small><i class="fa fa-info-circle"></i> @ViewBag.SubTitle</small>
+                    <i class="fa fa-info-circle"></i> @ViewBag.SubTitle
                 </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <h3 class="text-center">@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario</h3>
                     <div class="profile_img image view view-first">
-                        <div id="crop-avatar">
+                        <div id="crop-avatar" class="img-responsive">
                             <!-- Current avatar -->
-                            <img class="img-responsive avatar-view" src="~/Content/img/Uploads/Usuarios/@ViewBag.ImagenUsuarioCurrent" alt="@Usuario" title="@Usuario">
+                            <img class="img-thumbnail avatar-view" src="~/Content/img/Uploads/Usuarios/@ViewBag.ImagenUsuarioCurrent" alt="@Usuario" title="@Usuario">
                             <div class="mask">
-                                <p>Actualizar Foto de Perfil</p>
+                                <p>Cambiar Foto de Perfil</p>
                                 <div class="tools tools-top">
-                                    <a class="" href="@Url.Action("CambiarImagen", "Admin")"><i class="fa fa-pencil"></i> Cambiar</a>
+                                    <a class="" href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Cambiar Foto"><i class="fa fa-edit"></i>Cambiar</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-default btn-block"><i class="fa fa-edit m-right-xs"></i> Modificar Información</a>
-
-                    <h3 class="text-center">@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario</h3>
-
+                    <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-link btn-block"><i class="fa fa-edit"></i> Modificar Información</a>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <dl class="dl-horizontal">
@@ -125,7 +136,7 @@
                         <dt>Foto de perfil:</dt>
                         <dd class="text-muted">
                             [
-                            <a href="@Url.Action("CambiarImagen", "Admin")" class="text-success">
+                            <a href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Actualizar Foto de Perfil" class="text-success">
                                 <i class="fa fa-camera"></i>
                                 Cambiar la Foto del perfil
                             </a>
@@ -204,3 +215,45 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal" id="cambiarImagen" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxCambiarImagen", "Admin", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Admin"
+
+        }, new { enctype = "multipart/form-data" }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Cambiar la foto de perfil
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Imagen">Imagen</label>
+                            <div class="col-lg-8">
+                                <input autocomplete="off" class="file file-loading text-box single-line" id="Imagen" name="Imagen" placeholder="Imagen" required="required" type="file" value="" data-preview-file-type="text" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Imagen" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i> Subir</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->

@@ -1,74 +1,131 @@
 ﻿@model RegionalFF.Models.Facilitacion
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Detalles de Facilitación";
 }
 
-<h2>Details</h2>
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                    Volver
+                </a>
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver al listado">
+                    <i class="fa fa-reply"></i>
+                </a>
 
-<div>
-    <h4>Facilitacion</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Ciudad.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ciudad.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Pais.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Pais.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cantidad)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Estadia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estadia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Observaciones)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Observaciones)
-        </dd>
-
-    </dl>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Mes</strong>
+                </a>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Año</strong>
+                </a>
+                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="@Url.Action("Edit", "Facilitaciones", new { id = Model.Id })" class="btn btn-default visible-lg" data-toggle="tooltip" title="Editar">
+                    <i class="fa fa-edit"></i>
+                    <strong>Editar</strong>
+                </a>
+                <a href="@Url.Action("Edit", "Facilitaciones", new { id = Model.Id })" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Editar">
+                    <i class="fa fa-edit"></i>
+                </a>
+                @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                {
+                    <a href="#" class="btn btn-default hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="#" class="btn btn-default visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                        <i class="fa fa-plus"></i>
+                        <strong>Registrar Nuevo</strong>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Ciudad)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Ciudad.Nombre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Pais)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Pais.Nombre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Usuario)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Usuario.Nombre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Fecha)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Cantidad)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Cantidad)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Estadia)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Estadia)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Observaciones)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Observaciones)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

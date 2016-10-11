@@ -123,6 +123,16 @@ namespace RegionalFF.Migrations
               new Models.Menu
               {
                   //11
+                  PadreId = 7,
+                  Nombre = "Ver Todo",
+                  Descripcion = "Módulo Facilitacion | Todo",
+                  Accion = "VerTodo",
+                  Controlador = "Facilitaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //12
                   PadreId = 0,
                   Nombre = "Fiscalizaciones",
                   Descripcion = "Módulo Fiscalizaciones",
@@ -132,8 +142,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //12
-                  PadreId = 11,
+                  //13
+                  PadreId = 12,
                   Nombre = "Hoy",
                   Descripcion = "Módulo Fiscalizaciones | Hoy",
                   Accion = "Index",
@@ -142,8 +152,8 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //13
-                  PadreId = 11,
+                  //14
+                  PadreId = 12,
                   Nombre = "Este Mes",
                   Descripcion = "Módulo Facilitacion | Este Mes",
                   Accion = "EsteMes",
@@ -152,11 +162,21 @@ namespace RegionalFF.Migrations
               },
               new Models.Menu
               {
-                  //14
-                  PadreId = 11,
+                  //15
+                  PadreId = 12,
                   Nombre = "Este Año",
                   Descripcion = "Módulo Fiscalizaciones | Este Año",
                   Accion = "EsteAño",
+                  Controlador = "Fiscalizaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //16
+                  PadreId = 12,
+                  Nombre = "Ver Todo",
+                  Descripcion = "Módulo Fiscalizaciones | Todo",
+                  Accion = "VerTodo",
                   Controlador = "Fiscalizaciones",
                   Activo = true
               });
@@ -375,6 +395,18 @@ namespace RegionalFF.Migrations
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
                 var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas", Imagen = "user.jpg" };
+
+                manager.Create(user, "1Regional/");
+                //Delegador Fiscalizador a usuario
+                manager.AddToRole(user.Id, "Fiscalizador");
+            }
+
+            //Crear Usuario
+            if (!context.Users.Any(u => u.Email == "monicasegovia@gmail.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { Email = "monicasegovia@gmail.com", UserName = "monicasegovia@gmail.com", OficinaId = 3, Numero = 145, Nombre = "Monica", Apellido = "Segovia", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Fiscalizador a usuario

@@ -209,7 +209,7 @@ namespace RegionalFF.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            TempData["notice"] = "Recuperar cuenta";
+           // TempData["notice"] = "Recuperar cuenta";
             return View();
         }
 
@@ -223,10 +223,12 @@ namespace RegionalFF.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    TempData["notice"] = "Usuario inválido";
+                    TempData["notice"] = "No se encontró el usuario";
                     return View("ForgotPasswordConfirmation");
                 }
 
@@ -234,9 +236,10 @@ namespace RegionalFF.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Restablecer la contraseña", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                TempData["notice"] = "Usuario válido";
+                //TempData["notice"] = "Por favor, restablecer su contraseña haciendo clic <a href=\"" + callbackUrl + "\"> aquí </a>";
+                TempData["link"] =   callbackUrl;
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 

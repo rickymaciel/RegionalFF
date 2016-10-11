@@ -103,7 +103,7 @@
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                        <a href="@Url.Action("Index", "Manage")" hreflang="es-py" data-toggle="tooltip" data-placement="top" title="Ajustes">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen">
@@ -154,20 +154,29 @@
     <script>
         $(function () {
 
-            function mostrarImagen(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#vistaprevia').removeClass('hidden');
-                        $('#img_destino').attr('src', e.target.result);
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
+        //    function mostrarImagen(input) {
+        //        if (input.files && input.files[0]) {
+        //            var reader = new FileReader();
+        //            reader.onload = function (e) {
+        //                $('#vistaprevia').removeClass('hidden');
+        //                $('#img_destino').attr('src', e.target.result);
+        //            }
+        //            reader.readAsDataURL(input.files[0]);
+        //        }
+        //    }
+        //$("#Imagen").change(function () {
+        //    mostrarImagen(this);
+        //});
 
-            $("#Imagen").change(function () {
-                mostrarImagen(this);
+            $("#Imagen").fileinput({
+                theme: "fa",
+                allowedFileExtensions: ["jpg", "png", "gif"],
+                showCaption: false,
+                showUpload: false,
+                maxFileCount: 1
             });
+            $(".file-caption-name").text('Seleccionar una imagen');
+
             $('#Fecha').val('@ViewBag.Fecha');
             $('#UserId').val('@ViewBag.User');
 

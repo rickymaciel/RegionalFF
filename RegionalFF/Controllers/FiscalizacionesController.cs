@@ -35,6 +35,26 @@ namespace RegionalFF.Controllers
             return View(fiscalizacions.ToList().Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
         }
 
+        // GET: Fiscalizaciones
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        public ActionResult VerTodo()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+            ViewBag.MarcaId = new SelectList(db.Marcas, "Id", "Nombre");
+            ViewBag.ConductorId = new SelectList(db.Conductors, "Id", "Nombre");
+            ViewBag.TransporteId = new SelectList(db.Transportes, "Id", "RazonSocial");
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
+            ViewBag.User = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+            var fiscalizaciones = db.Fiscalizacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Fiscal);
+
+            return View(fiscalizaciones.ToList().OrderByDescending(f => f.Fecha));
+        }
+
         [Authorize(Roles = "Fiscalizador,Administrador")]
         public ActionResult EsteMes()
         {
@@ -199,6 +219,30 @@ namespace RegionalFF.Controllers
                 return RedirectToAction("EsteAño", "Fiscalizaciones");
             }
             return RedirectToAction("EsteAño", "Fiscalizaciones");
+        }
+
+
+        [Authorize(Roles = "Fiscalizador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroFiscalizacionTodo(Fiscalizacion fiscalizacion)
+        {
+            if (ModelState.IsValid)
+            {
+                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                fiscalizacion.Fecha = Fecha;
+                fiscalizacion.Activo = true;
+                db.Fiscalizacions.Add(fiscalizacion);
+                db.SaveChanges();
+                TempData["notice"] = "La Fiscalización fue registrada correctamente";
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
+                return RedirectToAction("VerTodo", "Fiscalizaciones");
+            }
+            return RedirectToAction("VerTodo", "Fiscalizaciones");
         }
 
 

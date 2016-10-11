@@ -61,7 +61,7 @@ namespace RegionalFF.Controllers
             var result = UserManager.Users.ToList().OrderBy(x => x.UserName);
             foreach (var item in result)
             {
-                UsuarioAmpliado objUsuario= new UsuarioAmpliado();
+                UsuarioAmpliado objUsuario = new UsuarioAmpliado();
 
                 objUsuario.UserName = item.UserName;
                 objUsuario.Nombre = item.Nombre;
@@ -148,7 +148,6 @@ namespace RegionalFF.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
                 var Email = paramUsuarioAmpliado.Email.Trim();
                 var UserName = paramUsuarioAmpliado.Email.Trim();
                 var Nombre = paramUsuarioAmpliado.Nombre.Trim();
@@ -161,6 +160,15 @@ namespace RegionalFF.Controllers
                 var Password = paramUsuarioAmpliado.Password.Trim();
                 var OficinaId = paramUsuarioAmpliado.OficinaId;
 
+                if (PhoneNumber == "")
+                {
+                    throw new Exception("El telefono es requerido");
+                }
+
+                if (OficinaId < 0)
+                {
+                    throw new Exception("La oficina es requerida");
+                }
                 if (Email == "")
                 {
                     throw new Exception("El Email es requerido");
@@ -262,6 +270,54 @@ namespace RegionalFF.Controllers
                 return HttpNotFound();
             }
             return View(objExpandedUserDTO);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxCambiarImagen(HttpPostedFileBase Imagen)
+        {
+            try
+            {
+                //obtener usario logueado
+                var Email = User.Identity.GetUserName();
+                if (Email == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                UsuarioAmpliado objExpandedUserDTO = GetUsuario(Email);
+                if (objExpandedUserDTO == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (Imagen != null)
+                {
+                    string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
+                    var fileName = Path.GetFileName(objExpandedUserDTO.Nombre + fecha + Imagen.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
+                    Imagen.SaveAs(path);
+                    objExpandedUserDTO.Imagen = fileName;
+                }
+
+                UsuarioAmpliado objExpandedUserDTO2 = ModifUsuario(objExpandedUserDTO);
+                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
+
+                if (objExpandedUserDTO2 == null)
+                {
+                    return HttpNotFound();
+                }
+
+                TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
+
+                return RedirectToAction("Index", "Manage");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Error: " + ex); ;
+                TempData["notice"] = "Error: " + ex;
+                return View("Index");
+            }
         }
         #endregion
         // PUT: /Admin/ModificarUsuario
@@ -596,11 +652,11 @@ namespace RegionalFF.Controllers
                     );
 
             List<Rol> colRoleDTO = (from objRole in roleManager.Roles
-                                        select new Rol
-                                        {
-                                            Id = objRole.Id,
-                                            RoleName = objRole.Name
-                                        }).ToList();
+                                    select new Rol
+                                    {
+                                        Id = objRole.Id,
+                                        RoleName = objRole.Name
+                                    }).ToList();
 
             return View(colRoleDTO);
         }
@@ -707,11 +763,11 @@ namespace RegionalFF.Controllers
                 }
 
                 List<Rol> colRoleDTO = (from objRole in roleManager.Roles
-                                            select new Rol
-                                            {
-                                                Id = objRole.Id,
-                                                RoleName = objRole.Name
-                                            }).ToList();
+                                        select new Rol
+                                        {
+                                            Id = objRole.Id,
+                                            RoleName = objRole.Name
+                                        }).ToList();
 
                 return View("Roles", colRoleDTO);
             }
@@ -724,11 +780,11 @@ namespace RegionalFF.Controllers
                         new RoleStore<IdentityRole>(new ApplicationDbContext()));
 
                 List<Rol> colRoleDTO = (from objRole in roleManager.Roles
-                                            select new Rol
-                                            {
-                                                Id = objRole.Id,
-                                                RoleName = objRole.Name
-                                            }).ToList();
+                                        select new Rol
+                                        {
+                                            Id = objRole.Id,
+                                            RoleName = objRole.Name
+                                        }).ToList();
 
                 return View("Roles", colRoleDTO);
             }

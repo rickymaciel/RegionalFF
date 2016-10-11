@@ -15,6 +15,13 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
+                <a href="@Url.Action("Index", "Manage")" class="btn btn-default visible-lg">
+                    <i class="fa fa-reply"></i>
+                    Volver
+                </a>
+                <a href="@Url.Action("Index", "Manage")" class="btn btn-default hidden-lg">
+                    <i class="fa fa-reply"></i>
+                </a>
                 <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Nuevo usuario">
                     <i class="fa fa-plus-circle"></i>
                     Nuevo Usuario
@@ -51,22 +58,8 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <i class="fa fa-shield text-warning"></i> @ViewBag.Title
-                    <small>@ViewBag.SubTitle</small>
+                    @ViewBag.SubTitle
                 </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li class="visible-lg">
-                        <a href="@Url.Action("Index", "Manage")" class="btn btn-default">
-                            <i class="fa fa-reply"></i>
-                            Volver
-                        </a>
-                    </li>
-                    <li class="visible-xs">
-                        <a href="@Url.Action("Index", "Manage")" class="btn btn-default">
-                            <i class="fa fa-reply"></i>
-                        </a>
-                    </li>
-                </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
