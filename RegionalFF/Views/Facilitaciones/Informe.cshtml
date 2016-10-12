@@ -1,0 +1,121 @@
+﻿@model RegionalFF.Models.Facilitacion
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Informe por rango de fechas";
+}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a class="btn btn-link hidden-lg">
+                    <i class="fa fa-filter"></i>
+                </a>
+                <a class="btn btn-link visible-lg">
+                    <i class="fa fa-filter"></i>
+                    <strong>Filtrar por:</strong>
+                </a>
+                @*<a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver al listado">
+                        <i class="fa fa-reply"></i>
+                        <strong>Volver</strong>
+                    </a>
+                    <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver al listado">
+                        <i class="fa fa-reply"></i>
+                    </a>*@
+                <a href="@Url.Action("VerTodo", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Ver Todo">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="@Url.Action("VerTodo", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Ver Todo">
+                    <i class="fa fa-list"></i>
+                    <strong>Todo</strong>
+                </a>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Mes</strong>
+                </a>
+                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Mes">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                    <strong>Este Año</strong>
+                </a>
+                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Año">
+                    <i class="fa fa-list"></i>
+                </a>
+
+                @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                {
+                    <a href="#" class="btn btn-default hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="#" class="btn btn-default visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
+                        <i class="fa fa-plus"></i>
+                        <strong>Nuevo</strong>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <p class="font-gray-dark">
+                    Clic en el icono para seleccionar la fecha.
+                </p>
+                @using (Html.BeginForm("InformeFecha", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Desde">
+                            Desde <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class='input-group date' id='datetimepicker6'>
+                                <input type="datetime" name="Desde" id="Desde" required="required" placeholder="Fecha Desde" class="form-control col-md-7 col-xs-12" autocomplete="off">
+                                <span class="input-group-addon" data-toggle="modal" data-placement="top" title="Fecha desde">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Hasta">
+                            Hasta <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class='input-group date' id='datetimepicker7'>
+                                <input type="datetime" name="Hasta" id="Hasta" required="required" placeholder="Fecha Hasta" class="form-control col-md-7 col-xs-12" autocomplete="off">
+                                <span class="input-group-addon" data-toggle="modal" data-placement="top" title="Fecha hasta">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</a>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-filter"></i> Filtrar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

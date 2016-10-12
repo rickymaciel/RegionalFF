@@ -36,6 +36,29 @@ namespace RegionalFF.Controllers
 
         // GET: Facilitaciones
         [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InformeFecha(DateTime Desde, DateTime Hasta)
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            ViewBag.User = User.Identity.GetUserName();
+            ViewBag.Fecha = Fecha;
+            ViewBag.Desde = Desde;
+            ViewBag.Hasta = Hasta;
+            var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
+            return View(facilitacions.ToList().Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).OrderByDescending(f => f.Fecha));
+        }
+
+        // GET: Facilitaciones
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult Informe()
+        {
+            return View();
+        }
+
+        // GET: Facilitaciones
+        [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult VerTodo()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");

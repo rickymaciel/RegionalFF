@@ -500,6 +500,8 @@
     <Content Include="Views\Admin\Usuarios.cshtml" />
     <Content Include="Views\Facilitaciones\Vertodo.cshtml" />
     <Content Include="Views\Fiscalizaciones\VerTodo.cshtml" />
+    <Content Include="Views\Facilitaciones\Informe.cshtml" />
+    <Content Include="Views\Facilitaciones\InformeFecha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
