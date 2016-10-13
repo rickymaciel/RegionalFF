@@ -240,21 +240,22 @@
                 buttons: [
                   {
                       extend: "copy",
-                      text: 'Copiar',
+                      text: '<i class="fa fa-files-o"></i>',
                       className: "btn-sm"
                   },
                   {
                       extend: "csv",
-                      text: '<i class="fa fa-home">Csv</i>',
+                      text: 'csv',
                       className: "btn-sm"
                   },
                   {
                       extend: "excel",
-                      text: 'Excel',
+                      text: '<i class="fa fa-file-excel-o"></i>',
                       className: "btn-sm"
                   },
                   {
                       extend: 'pdfHtml5',
+                      text: '<i class="fa fa-file-pdf-o"></i>',
                       customize: function (doc) {
                           doc.content.splice(1, 0, {
                               margin: [0, 0, 0, 0],
@@ -267,7 +268,6 @@
                       message: 'Creado por @Usuario ',
                       //download: 'open',
                       className: "btn-sm",
-                      text: 'PDF',
                       exportOptions: {
                           modifier: {
                               page: 'current'
@@ -276,7 +276,7 @@
                   },
                       {
                           extend: "print",
-                          text: 'Imprimir',
+                          text: '<i class="fa fa-print"></i>',
                           className: "btn-sm"
                       },
                 ],
