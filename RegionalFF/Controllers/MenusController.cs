@@ -23,15 +23,43 @@ namespace RegionalFF.Controllers
         [ChildActionOnly]
         public ActionResult MenuPrincipal()
         {
-            List<Menu> menuItems = db.Menus.Where(b => b.PadreId == 0).Where(b => b.Activo == true).ToList();
-
-            //Get the menuItems collection from somewhere
-            if (menuItems != null || menuItems.Count > 0)
+            //Administrador
+            if (User.IsInRole("Administrador"))
             {
-                return View(menuItems);
+                List<Menu> menuItems = db.Menus.Where(b => b.PadreId == 0).Where(b => b.Activo == true).ToList();
+                //Get the menuItems collection from somewhere
+                if (menuItems != null || menuItems.Count > 0)
+                {
+                    return View(menuItems);
+                }
+                TempData["notice"] = "Listado de menús vacíos";
+                return View();
             }
-            TempData["notice"] = "Listado de menús vacíos";
-            return View();
+            else
+            {
+                //Facilitador o Fiscalizador
+                String rol = "";
+                if (User.IsInRole("Facilitador"))
+                {
+                    rol = "Facilitador";
+                }
+                else if (User.IsInRole("Fiscalizador"))
+                {
+                    rol = "Fiscalizador";
+                }
+                else
+                {
+                    rol = "-";
+                }
+                List<Menu> menuItems = db.Menus.Where(b => b.Perfil.Contains(rol)).Where(b => b.PadreId == 0).Where(b => b.Activo == true).ToList();
+                //Get the menuItems collection from somewhere
+                if (menuItems != null || menuItems.Count > 0)
+                {
+                    return View(menuItems);
+                }
+                TempData["notice"] = "Listado de menús vacíos";
+                return View();
+            }
         }
 
         // GET: Menus/Details/5
@@ -62,7 +90,7 @@ namespace RegionalFF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador")]
-        public ActionResult Create([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] Menu menu)
+        public ActionResult Create([Bind(Include = "Id,PadreId,Nombre,Descripcion,Perfil,Accion,Controlador,Activo")] Menu menu)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +125,7 @@ namespace RegionalFF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PadreId,Nombre,Descripcion,Accion,Controlador,Activo")] Menu menu)
+        public ActionResult Edit([Bind(Include = "Id,PadreId,Nombre,Descripcion,Perfil,Accion,Controlador,Activo")] Menu menu)
         {
             if (ModelState.IsValid)
             {

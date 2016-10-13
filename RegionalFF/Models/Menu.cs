@@ -20,6 +20,10 @@ namespace RegionalFF.Models
         [Required(ErrorMessage = "La descripción del menú es requerida")]
         public string Descripcion { get; set; }
 
+
+        [Required(ErrorMessage = "El perfil del menú es requerida")]
+        public string Perfil { get; set; }
+
         public string Accion { get; set; }
 
         public string Controlador { get; set; }

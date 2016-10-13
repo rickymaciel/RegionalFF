@@ -26,6 +26,7 @@ namespace RegionalFF.Migrations
                   PadreId = 0,
                   Nombre = "Ajustes",
                   Descripcion = "Gestionar recursos",
+                  Perfil = "Facilitador,Fiscalizador",
                   Accion = "",
                   Controlador = "",
                   Activo = true
@@ -36,6 +37,7 @@ namespace RegionalFF.Migrations
                   PadreId = 1,
                   Nombre = "Paises",
                   Descripcion = "Gestionar Paises",
+                  Perfil = "Facilitador,Fiscalizador",
                   Accion = "Index",
                   Controlador = "Paises",
                   Activo = true
@@ -46,6 +48,7 @@ namespace RegionalFF.Migrations
                   PadreId = 1,
                   Nombre = "Ciudades",
                   Descripcion = "Gestionar Ciudades",
+                  Perfil = "Facilitador,Fiscalizador",
                   Accion = "Index",
                   Controlador = "Ciudades",
                   Activo = true
@@ -56,6 +59,7 @@ namespace RegionalFF.Migrations
                   PadreId = 1,
                   Nombre = "Marcas",
                   Descripcion = "Gestionar Marcas",
+                  Perfil = "Facilitador,Fiscalizador",
                   Accion = "Index",
                   Controlador = "Marcas",
                   Activo = true
@@ -66,6 +70,7 @@ namespace RegionalFF.Migrations
                   PadreId = 1,
                   Nombre = "Conductores",
                   Descripcion = "Gestionar Conductores",
+                  Perfil = "Fiscalizador",
                   Accion = "Index",
                   Controlador = "Conductores",
                   Activo = true
@@ -76,6 +81,7 @@ namespace RegionalFF.Migrations
                   PadreId = 1,
                   Nombre = "Transportes",
                   Descripcion = "Gestionar Transportes",
+                  Perfil = "Fiscalizador",
                   Accion = "Index",
                   Controlador = "Transportes",
                   Activo = true
@@ -86,6 +92,7 @@ namespace RegionalFF.Migrations
                   PadreId = 0,
                   Nombre = "Facilitaciones",
                   Descripcion = "Módulo Facilitacion",
+                  Perfil = "Facilitador",
                   Accion = "",
                   Controlador = "",
                   Activo = true
@@ -96,6 +103,7 @@ namespace RegionalFF.Migrations
                   PadreId = 7,
                   Nombre = "Hoy",
                   Descripcion = "Módulo Facilitacion | Hoy",
+                  Perfil = "Facilitador",
                   Accion = "Index",
                   Controlador = "Facilitaciones",
                   Activo = true
@@ -106,6 +114,7 @@ namespace RegionalFF.Migrations
                   PadreId = 7,
                   Nombre = "Este Mes",
                   Descripcion = "Módulo Facilitacion | Este Mes",
+                  Perfil = "Facilitador",
                   Accion = "EsteMes",
                   Controlador = "Facilitaciones",
                   Activo = true
@@ -116,6 +125,7 @@ namespace RegionalFF.Migrations
                   PadreId = 7,
                   Nombre = "Este Año",
                   Descripcion = "Módulo Facilitacion | Este Año",
+                  Perfil = "Facilitador",
                   Accion = "EsteAño",
                   Controlador = "Facilitaciones",
                   Activo = true
@@ -126,6 +136,7 @@ namespace RegionalFF.Migrations
                   PadreId = 7,
                   Nombre = "Ver Todo",
                   Descripcion = "Módulo Facilitacion | Todo",
+                  Perfil = "Facilitador",
                   Accion = "VerTodo",
                   Controlador = "Facilitaciones",
                   Activo = true
@@ -136,6 +147,7 @@ namespace RegionalFF.Migrations
                   PadreId = 0,
                   Nombre = "Fiscalizaciones",
                   Descripcion = "Módulo Fiscalizaciones",
+                  Perfil = "Fiscalizador",
                   Accion = "",
                   Controlador = "",
                   Activo = true
@@ -146,6 +158,7 @@ namespace RegionalFF.Migrations
                   PadreId = 12,
                   Nombre = "Hoy",
                   Descripcion = "Módulo Fiscalizaciones | Hoy",
+                  Perfil = "Fiscalizador",
                   Accion = "Index",
                   Controlador = "Fiscalizaciones",
                   Activo = true
@@ -156,6 +169,7 @@ namespace RegionalFF.Migrations
                   PadreId = 12,
                   Nombre = "Este Mes",
                   Descripcion = "Módulo Facilitacion | Este Mes",
+                  Perfil = "Fiscalizador",
                   Accion = "EsteMes",
                   Controlador = "Facilitaciones",
                   Activo = true
@@ -166,6 +180,7 @@ namespace RegionalFF.Migrations
                   PadreId = 12,
                   Nombre = "Este Año",
                   Descripcion = "Módulo Fiscalizaciones | Este Año",
+                  Perfil = "Fiscalizador",
                   Accion = "EsteAño",
                   Controlador = "Fiscalizaciones",
                   Activo = true
@@ -176,6 +191,7 @@ namespace RegionalFF.Migrations
                   PadreId = 12,
                   Nombre = "Ver Todo",
                   Descripcion = "Módulo Fiscalizaciones | Todo",
+                  Perfil = "Fiscalizador",
                   Accion = "VerTodo",
                   Controlador = "Fiscalizaciones",
                   Activo = true

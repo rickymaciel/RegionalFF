@@ -33,7 +33,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(model => model.Id)
-                        
+
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="form-group">
@@ -56,6 +56,13 @@
                             <div class="col-lg-6">
                                 @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control col-lg-12", @placeholder = "Descripción" } })
                                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Perfil, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-6">
+                                @Html.EditorFor(model => model.Perfil, new { htmlAttributes = new { @class = "form-control col-lg-12", @placeholder = "Perfil" } })
+                                @Html.ValidationMessageFor(model => model.Perfil, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">

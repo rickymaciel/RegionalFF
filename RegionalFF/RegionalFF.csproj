@@ -223,6 +223,10 @@
     <Compile Include="Migrations\201610051308291_UpdateIdentityUser.Designer.cs">
       <DependentUpon>201610051308291_UpdateIdentityUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610131705486_UpdateMenu.cs" />
+    <Compile Include="Migrations\201610131705486_UpdateMenu.Designer.cs">
+      <DependentUpon>201610131705486_UpdateMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Ciudad.cs" />
@@ -531,6 +535,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610051308291_UpdateIdentityUser.resx">
       <DependentUpon>201610051308291_UpdateIdentityUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610131705486_UpdateMenu.resx">
+      <DependentUpon>201610131705486_UpdateMenu.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
