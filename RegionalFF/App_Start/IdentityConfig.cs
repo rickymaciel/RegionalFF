@@ -12,17 +12,44 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using RegionalFF.Models;
 using Twilio;
+using System.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace RegionalFF
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            TwilioRestClient client = new TwilioRestClient("AC2d2d0eb15eee114402b4d82c69f95597", "158d2ffd3a4428c75f5db94860ce1798");
-            client.SendMessage("+12017938913", message.Destination, message.Body);
-            return Task.FromResult(0);
+            // Credentials:
+            string smtpServer = "smtp.gmail.com";
+            int smtpPort = 587;
+            bool enableSsl = true;
+            string smtpUsername = "rmacielb3@gmail.com";
+            string smtpPassword = "!@#$Goo17614";
+            string sentFrom = "rmacielb3@gmail.com";
+
+            // Configure the client:
+            var client = new SmtpClient(smtpServer, Convert.ToInt32(587));
+
+            client.Port = smtpPort;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.EnableSsl = enableSsl;
+
+            // Create the credentials:
+            var credentials = new NetworkCredential(smtpUsername, smtpPassword);
+            client.Credentials = credentials;
+
+            // Create the message:
+            var mail = new System.Net.Mail.MailMessage(sentFrom, message.Destination);
+
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+
+            // Send:
+            await client.SendMailAsync(mail);
         }
     }
 
@@ -43,6 +70,7 @@ namespace RegionalFF
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
+            EmailService = new EmailService();
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)

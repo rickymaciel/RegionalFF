@@ -236,10 +236,10 @@ namespace RegionalFF.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Restablecer la contraseña", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
                 //TempData["notice"] = "Por favor, restablecer su contraseña haciendo clic <a href=\"" + callbackUrl + "\"> aquí </a>";
-                TempData["link"] =   callbackUrl;
+                TempData["link"] = callbackUrl;
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
