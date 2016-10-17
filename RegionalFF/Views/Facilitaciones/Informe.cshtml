@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Facilitación";
-    ViewBag.SubTitle = "Informe por rango de fechas";
+    ViewBag.SubTitle = "Informe por fechas";
 }
 
 
@@ -76,7 +76,6 @@
             </div>
             <div class="x_content">
                 <p class="font-gray-dark">
-                    Clic en el icono para seleccionar la fecha.
                 </p>
                 @using (Html.BeginForm("InformeFecha", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
                 {
@@ -104,6 +103,14 @@
                                 <span class="input-group-addon" data-toggle="modal" data-placement="top" title="Fecha hasta">
                                     <span class="fa fa-calendar"></span>
                                 </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Activo">Incluir todos los usuarios</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                @Html.CheckBox("Incluir", false)
                             </div>
                         </div>
                     </div>

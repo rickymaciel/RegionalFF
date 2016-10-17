@@ -33,8 +33,8 @@ namespace RegionalFF
                       "~/Scripts/bootstrap-datetimepicker.min.js",
                       "~/Scripts/fileinput.min.js",
                       "~/Scripts/custom.min.js",
-                      "~/Content/bootstrap-fileinput/bootstrap-fileinput/themes/fa/theme.js",
-                      "~/Content/bootstrap-fileinput/bootstrap-fileinput/themes/gly/theme.js",
+                      "~/Content/bootstrap-fileinput/themes/fa/theme.js",
+                      "~/Content/bootstrap-fileinput/themes/gly/theme.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(

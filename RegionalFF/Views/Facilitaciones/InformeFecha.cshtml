@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Informe de Facilitación";
-    ViewBag.SubTitle = "Desde: " + @ViewBag.Desde + " - Hasta: " + @ViewBag.Hasta;
+    ViewBag.SubTitle = "Desde: " + @ViewBag.Desde.ToString("dd/MM/yyyy") + " - Hasta: " + @ViewBag.Hasta.ToString("dd/MM/yyyy") + " | Filtrado por: " + ViewBag.Filtro;
 }
 
 <div class="page-title">

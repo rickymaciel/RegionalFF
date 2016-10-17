@@ -153,6 +153,13 @@
     @RenderSection("scripts", required: false)
     <!-- Datatables -->
     <script>
+        $(document).on("click", "[type='checkbox']", function (e) {
+            if (this.checked) {
+                $(this).attr("value", "true");
+            } else {
+                $(this).attr("value", "false");
+            }
+        });
         $(function () {
 
             //    function mostrarImagen(input) {
@@ -187,7 +194,7 @@
                     down: "fa fa-arrow-down"
                 },
                 locale: 'es',
-                format: 'DD/MM/YYYY HH:mm:ss'
+                format: 'DD/MM/YYYY'
             });
             $('#datetimepicker7').datetimepicker({
                 useCurrent: false,
@@ -198,7 +205,7 @@
                     down: "fa fa-arrow-down"
                 },
                 locale: 'es',
-                format: 'DD/MM/YYYY HH:mm:ss'
+                format: 'DD/MM/YYYY'
             });
             $("#datetimepicker6").on("dp.change", function (e) {
                 $('#datetimepicker7').data("DateTimePicker").minDate(e.date);

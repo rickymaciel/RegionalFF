@@ -38,16 +38,26 @@ namespace RegionalFF.Controllers
         [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InformeFecha(DateTime Desde, DateTime Hasta)
+        public ActionResult InformeFecha(DateTime Desde, DateTime Hasta, bool Incluir = false)
         {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            var UserName = User.Identity.GetUserName();
             ViewBag.User = User.Identity.GetUserName();
             ViewBag.Fecha = Fecha;
             ViewBag.Desde = Desde;
             ViewBag.Hasta = Hasta;
             var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
-            return View(facilitacions.ToList().Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).OrderByDescending(f => f.Fecha));
+            if (Incluir == true)
+            {
+                ViewBag.Filtro = "Todos los usuarios";
+                return View(facilitacions.ToList().Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).OrderByDescending(f => f.Fecha));
+            }
+            else
+            {
+                ViewBag.Filtro = User.Identity.GetUserName();
+                return View(facilitacions.ToList().Where(u => u.Usuario.Email == UserName).Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).OrderByDescending(f => f.Fecha));
+            }
         }
 
         // GET: Facilitaciones
