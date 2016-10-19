@@ -37,6 +37,11 @@ namespace RegionalFF
                       "~/Content/bootstrap-fileinput/themes/gly/theme.js",
                       "~/Scripts/respond.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/echarts").Include(
+                      "~/Scripts/echarts/dist/echarts.min.js",
+                      "~/Scripts/pieconfig.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                       "~/Scripts/datatables/jquery.dataTables.min.js",
                       "~/Scripts/datatables/dataTables.bootstrap4.min.js",

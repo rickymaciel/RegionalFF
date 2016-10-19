@@ -15,7 +15,6 @@ namespace RegionalFF.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-
         // GET: Facilitaciones
         [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult Index()
@@ -475,6 +474,46 @@ namespace RegionalFF.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public List<String> getPrincipalesPaises()
+        {
+            //var routeList = db.Facilitacions.Take(10).Distinct().Select(r => new { r.Id, r.Pais.Nombre });
+            var scopeNames = (from s in db.Facilitacions select s.Pais.Nombre).Distinct().ToList();
+            return scopeNames;
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult PrincipalesPaises()
+        {
+            //var paisesQuery2 = (from c in db.Facilitacions select new { c.Pais.Nombre, c.Cantidad }).Distinct();
+            var paisesQuery = db.Facilitacions.GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre , Cantidad = g.Sum(s => s.Cantidad) } ).OrderByDescending(x => x.Cantidad ).Take(10);
+            
+
+            List<VisitSource> paisesList = new List<VisitSource>();
+            foreach (var item in paisesQuery)
+            {
+                paisesList.Add(new VisitSource()
+                {
+                    name = item.Nombre,
+                    value = item.Cantidad.ToString()
+                });
+            }
+
+            var pie = new PieMapViewModel()
+            {
+                LegendData = getPrincipalesPaises(),
+                SeriesData = paisesList
+            };
+
+            ViewBag.LegendData = pie.LegendData;
+            ViewBag.SeriesData = pie.SeriesData;
+            return View();
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

@@ -241,8 +241,10 @@
     <Compile Include="Models\Oficina.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Models\Parametrizacion.cs" />
+    <Compile Include="Models\PieMapViewModel.cs" />
     <Compile Include="Models\Transporte.cs" />
     <Compile Include="Models\UsuarioRoles.cs" />
+    <Compile Include="Models\VisitSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -379,6 +381,7 @@
     <Content Include="Scripts\Moment.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\nprogress.js" />
+    <Content Include="Scripts\pieconfig.js" />
     <Content Include="Scripts\plugins\canvas-to-blob.js" />
     <Content Include="Scripts\plugins\canvas-to-blob.min.js" />
     <Content Include="Scripts\plugins\purify.js" />
@@ -506,6 +509,8 @@
     <Content Include="Views\Fiscalizaciones\VerTodo.cshtml" />
     <Content Include="Views\Facilitaciones\Informe.cshtml" />
     <Content Include="Views\Facilitaciones\InformeFecha.cshtml" />
+    <Content Include="Views\Facilitaciones\PieMapS.cshtml" />
+    <Content Include="Views\Facilitaciones\PrincipalesPaises.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

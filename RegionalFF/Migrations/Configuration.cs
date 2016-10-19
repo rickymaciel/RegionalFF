@@ -195,9 +195,42 @@ namespace RegionalFF.Migrations
                   Accion = "VerTodo",
                   Controlador = "Fiscalizaciones",
                   Activo = true
+              },
+              new Models.Menu
+              {
+                  //17
+                  PadreId = 0,
+                  Nombre = "Informes",
+                  Descripcion = "Módulo Informes de Facilitaciones",
+                  Perfil = "Facilitador",
+                  Accion = "",
+                  Controlador = "",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //18
+                  PadreId = 17,
+                  Nombre = "Paises de origen",
+                  Descripcion = "Principales Paises de origen de Facilitaciones",
+                  Perfil = "Facilitador",
+                  Accion = "PrincipalesPaises",
+                  Controlador = "Facilitaciones",
+                  Activo = true
+              },
+              new Models.Menu
+              {
+                  //19
+                  PadreId = 17,
+                  Nombre = "Principales destinos",
+                  Descripcion = "Principales destinos de Facilitaciones",
+                  Perfil = "Facilitador",
+                  Accion = "PrincipalesDestinos",
+                  Controlador = "Facilitaciones",
+                  Activo = true
               });
 
-            //Crear MenuAdmins
+            //Crear MenuAdmins 
             context.MenuAdmins.AddOrUpdate(
                 p => p.Nombre,
               new Models.MenuAdmin
