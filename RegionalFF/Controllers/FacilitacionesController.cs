@@ -475,23 +475,23 @@ namespace RegionalFF.Controllers
             return RedirectToAction("Index");
         }
 
-
+        
         [Authorize(Roles = "Facilitador,Administrador")]
         public List<String> getPrincipalesPaises()
         {
-            //var routeList = db.Facilitacions.Take(10).Distinct().Select(r => new { r.Id, r.Pais.Nombre });
             var scopeNames = (from s in db.Facilitacions select s.Pais.Nombre).Distinct().ToList();
             return scopeNames;
         }
 
 
         [Authorize(Roles = "Facilitador,Administrador")]
-        public ActionResult PrincipalesPaises()
+        public ActionResult PaisesEsteMes()
         {
-            //var paisesQuery2 = (from c in db.Facilitacions select new { c.Pais.Nombre, c.Cantidad }).Distinct();
-            var paisesQuery = db.Facilitacions.GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre , Cantidad = g.Sum(s => s.Cantidad) } ).OrderByDescending(x => x.Cantidad ).Take(10);
-            
 
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
+            var paisesQuery = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).Where(x => x.Fecha.Month == Fecha.Month).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10);
             List<VisitSource> paisesList = new List<VisitSource>();
             foreach (var item in paisesQuery)
             {
@@ -510,6 +510,117 @@ namespace RegionalFF.Controllers
 
             ViewBag.LegendData = pie.LegendData;
             ViewBag.SeriesData = pie.SeriesData;
+            ViewBag.Mes = Fecha.ToString("MMM");
+            ViewBag.Año = Fecha.Year;
+            return View();
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public List<String> getPrincipalesPaisesMes()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            var scopeNames = (from s in db.Facilitacions where s.Fecha.Month == Fecha.Month where s.Fecha.Year == Fecha.Year select s.Pais.Nombre).Distinct().ToList();
+            return scopeNames.ToList();
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public List<String> getPrincipalesPaisesAño()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            var scopeNames = (from s in db.Facilitacions where s.Fecha.Year == Fecha.Year select s.Pais.Nombre).Distinct().ToList();
+            return scopeNames.ToList();
+        }
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult PaisesEsteAño()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            //Consultas a la base de datos
+            var paisesQueryMes = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
+            var paisesQueryAño = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
+            
+
+            List<VisitSource> paisesListaMes = new List<VisitSource>();
+            List<VisitSource> paisesListaAño = new List<VisitSource>();
+
+            foreach (var item in paisesQueryMes)
+            {
+                paisesListaMes.Add(new VisitSource()
+                {
+                    name = item.Nombre,
+                    value = item.Cantidad.ToString()
+                });
+            }
+
+            foreach (var item in paisesQueryAño)
+            {
+                paisesListaAño.Add(new VisitSource()
+                {
+                    name = item.Nombre,
+                    value = item.Cantidad.ToString()
+                });
+            }
+
+
+            var pieMes = new PieMapViewModel()
+            {
+                LegendData = getPrincipalesPaisesMes(),
+                SeriesData = paisesListaMes
+            };
+
+            var pieAño = new PieMapViewModel()
+            {
+                LegendData = getPrincipalesPaisesAño(),
+                SeriesData = paisesListaAño
+            };
+
+            ViewBag.LegendDataMes = pieMes.LegendData;
+            ViewBag.SeriesDataMes = pieMes.SeriesData;
+
+            ViewBag.LegendDataAño = pieAño.LegendData;
+            ViewBag.SeriesDataAño = pieAño.SeriesData;
+            ViewBag.Mes = Fecha.ToString("MMMM");
+            ViewBag.Año = Fecha.Year;
+            return View();
+        }
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult InformePaises()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PrincipalesPaises(DateTime Desde, DateTime Hasta)
+        {
+            var paisesQuery = db.Facilitacions.Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10);
+            List<VisitSource> paisesList = new List<VisitSource>();
+            foreach (var item in paisesQuery)
+            {
+                paisesList.Add(new VisitSource()
+                {
+                    name = item.Nombre,
+                    value = item.Cantidad.ToString()
+                });
+            }
+
+            var pie = new PieMapViewModel()
+            {
+                LegendData = getPrincipalesPaises(),
+                SeriesData = paisesList
+            };
+
+            ViewBag.LegendData = pie.LegendData;
+            ViewBag.SeriesData = pie.SeriesData;
+            ViewBag.Desde = Desde;
+            ViewBag.Hasta = Hasta;
             return View();
         }
 

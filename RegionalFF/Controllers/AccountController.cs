@@ -232,14 +232,10 @@ namespace RegionalFF.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                //TempData["notice"] = "Por favor, restablecer su contraseña haciendo clic <a href=\"" + callbackUrl + "\"> aquí </a>";
-                TempData["link"] = callbackUrl;
+                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Por favor confirmar su cuenta haciendo clic en este enlace: <a href = \""+ callbackUrl + "\"> Enlace </a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 

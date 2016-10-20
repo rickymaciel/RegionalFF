@@ -509,6 +509,9 @@
     <Content Include="Views\Fiscalizaciones\VerTodo.cshtml" />
     <Content Include="Views\Facilitaciones\Informe.cshtml" />
     <Content Include="Views\Facilitaciones\InformeFecha.cshtml" />
+    <Content Include="Views\Facilitaciones\PaisesEsteMes.cshtml" />
+    <Content Include="Views\Facilitaciones\PaisesEsteAño.cshtml" />
+    <Content Include="Views\Facilitaciones\InformePaises.cshtml" />
     <Content Include="Views\Facilitaciones\PrincipalesPaises.cshtml" />
   </ItemGroup>
   <ItemGroup>

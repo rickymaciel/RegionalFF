@@ -212,9 +212,9 @@ namespace RegionalFF.Migrations
                   //18
                   PadreId = 17,
                   Nombre = "Paises de origen",
-                  Descripcion = "Principales Paises de origen de Facilitaciones",
+                  Descripcion = "Informes de Principales Paises de origen de Facilitaciones",
                   Perfil = "Facilitador",
-                  Accion = "PrincipalesPaises",
+                  Accion = "PaisesEsteMes",
                   Controlador = "Facilitaciones",
                   Activo = true
               },
@@ -223,7 +223,7 @@ namespace RegionalFF.Migrations
                   //19
                   PadreId = 17,
                   Nombre = "Principales destinos",
-                  Descripcion = "Principales destinos de Facilitaciones",
+                  Descripcion = "Informes de Principales destinos de Facilitaciones",
                   Perfil = "Facilitador",
                   Accion = "PrincipalesDestinos",
                   Controlador = "Facilitaciones",

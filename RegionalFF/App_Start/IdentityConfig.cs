@@ -27,7 +27,7 @@ namespace RegionalFF
             int smtpPort = 587;
             bool enableSsl = true;
             string smtpUsername = "rmacielb3@gmail.com";
-            string smtpPassword = "!@#$Goo17614";
+            string smtpPassword = "!@#$%^/Goo17614";
             string sentFrom = "rmacielb3@gmail.com";
 
             // Configure the client:

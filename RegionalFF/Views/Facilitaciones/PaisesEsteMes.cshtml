@@ -6,8 +6,7 @@
     if (User.Identity.GetUserName() != "")
     {
         ViewBag.Title = "Facilitación";
-        ViewBag.SubTitle = "Principales Países de origen  | Desde: " + ViewBag.Desde.ToString("dd/MM/yyyyy") + " Hasta: " + ViewBag.Hasta.ToString("dd/MM/yyyyy");
-        ViewBag.SubTitle2 = "Principales Países de origen";
+        ViewBag.SubTitle = "Informe de Principales Países de origen  | " + ViewBag.Mes + " " + ViewBag.Año;
     }
 }
 
@@ -26,9 +25,7 @@
                 <h2>@ViewBag.SubTitle</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v"></i>
-                        </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="@Url.Action("PaisesEsteMes", "Facilitaciones")">Este Mes</a>
@@ -54,7 +51,7 @@
 <script>
     var LegendData = @Html.Raw(Json.Encode(ViewBag.LegendData));
     var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
-    var Texto = @Html.Raw(Json.Encode(ViewBag.SubTitle2));
+    var Texto = @Html.Raw(Json.Encode(ViewBag.SubTitle));
     var Titulo = 'País de origen';
 
 </script>
