@@ -23,12 +23,13 @@ namespace RegionalFF
         public async Task SendAsync(IdentityMessage message)
         {
             // Credentials:
-            string smtpServer = "smtp.gmail.com";
+
+            string smtpServer = "";
             int smtpPort = 587;
             bool enableSsl = true;
-            string smtpUsername = "rmacielb3@gmail.com";
-            string smtpPassword = "!@#$%^/Goo17614";
-            string sentFrom = "rmacielb3@gmail.com";
+            string smtpUsername = "";
+            string smtpPassword = "";
+            string sentFrom = "";
 
             // Configure the client:
             var client = new SmtpClient(smtpServer, Convert.ToInt32(587));
