@@ -145,13 +145,10 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <div class="table-responsive">
-                        <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
+                    <div class="table-responsiv">
+                        <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th class="col-lg-2 col-xs-2 text-left">
-                                        <i class="fa fa-cog"></i>
-                                    </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.Fecha)
                                     </th>
@@ -173,6 +170,9 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Observaciones)
                                     </th>
+                                    <th class="col-lg-2">
+                                        <i class="fa fa-cog"></i>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,13 +180,6 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td class="col-lg-2 col-xs-2 text-center">
-                                            <span class="btn-group">
-                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
-                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
-                                            </span>
-                                        </td>
                                         <td>
                                             @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
                                         </td>
@@ -208,6 +201,13 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Observaciones)
                                         </td>
+                                        <td class="col-lg-2 col-xs-2 text-center">
+                                            <span class="btn-group">
+                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                            </span>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -218,6 +218,10 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datatables")
+}
 
 
 <!-- modals -->

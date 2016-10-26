@@ -264,9 +264,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\custom.css" />
     <Content Include="Content\custom.min.css" />
     <Content Include="Content\datatables\buttons.bootstrap.min.css" />
+    <Content Include="Content\datatables\dataTables.bootstrap.min.css" />
     <Content Include="Content\datatables\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\datatables\jquery.dataTables.min.css" />
+    <Content Include="Content\datatables\responsive.bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\img\egg_shell.jpg" />
     <Content Include="Content\img\info_turistica.png" />
@@ -330,6 +334,7 @@
     <Content Include="Scripts\datatables\buttons.print.min.js" />
     <Content Include="Scripts\datatables\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\datatables\dataTables.buttons.min.js" />
+    <Content Include="Scripts\datatables\dataTables.responsive.min.js" />
     <Content Include="Scripts\datatables\jquery.dataTables.min.js" />
     <Content Include="Scripts\datatables\jszip.min.js" />
     <Content Include="Scripts\datatables\pdfmake.min.js" />
@@ -401,6 +406,8 @@
     <Content Include="Scripts\pnotify.tooltip.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\datatables\ScriptDatatables.js" />
+    <Content Include="Scripts\world.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -509,10 +516,9 @@
     <Content Include="Views\Fiscalizaciones\VerTodo.cshtml" />
     <Content Include="Views\Facilitaciones\Informe.cshtml" />
     <Content Include="Views\Facilitaciones\InformeFecha.cshtml" />
-    <Content Include="Views\Facilitaciones\PaisesEsteMes.cshtml" />
-    <Content Include="Views\Facilitaciones\PaisesEsteAño.cshtml" />
+    <Content Include="Views\Facilitaciones\PaisesPrincipales.cshtml" />
     <Content Include="Views\Facilitaciones\InformePaises.cshtml" />
-    <Content Include="Views\Facilitaciones\PrincipalesPaises.cshtml" />
+    <Content Include="Views\Facilitaciones\DestinosPrincipales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

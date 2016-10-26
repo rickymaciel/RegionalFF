@@ -1,9 +1,6 @@
 ﻿
 var theme = {
     color: [
-        //blue
-        '#1790cf','#1bb2d8','#99d2dd','#88b0bb',
-        '#1c7099','#038cc4','#75abd0','#afd6dd',
         //shine
         '#c12e34', '#e6b600', '#0098d9', '#2b821d',
         '#005eaa', '#339ca8', '#cda819', '#32a487',
@@ -11,6 +8,13 @@ var theme = {
         '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
         '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
         '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0',
+        //dark
+        '#FE8463','#9BCA63','#FAD860','#60C0DD','#0084C6',
+        '#D7504B','#C6E579','#26C0C0','#F0805A','#F4E001',
+        '#B5C334',
+        //blue
+        '#1790cf','#1bb2d8','#99d2dd','#88b0bb',
+        '#1c7099','#038cc4','#75abd0','#afd6dd',
         //green
         '#408829','#68a54a','#a9cba2','#86b379',
         '#397b29','#8abb6f','#759c6a','#bfd3b7',
@@ -210,3 +214,84 @@ var placeHolderStyle = {
         color: 'rgba(0,0,0,0)'
     }
 };
+
+
+
+var echartMap = echarts.init(document.getElementById('echart_world_map'), theme);
+
+echartMap.setOption({
+    title: {
+        text:  TituloMes,
+        subtext: '',
+        x: 'center',
+        y: 'top'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: function (params) {
+            //var value = (params.value + '').split('.');
+            //var value = parseInt(params.value);
+            if (params.value > 0) {
+                var value = parseInt(params.value);
+            } else {
+                var value = 0;
+            }
+            //value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,') + '.' + value[1];
+            return params.seriesName + '<br/>' + params.name + ' : ' + value;
+        }
+    },
+    toolbox: {
+        show: true,
+        orient: 'vertical',
+        x: 'right',
+        y: 'center',
+        feature: {
+            mark: {
+                show: true
+            },
+            //dataView: {
+            //    show: true,
+            //    title: "Text View",
+            //    lang: [
+            //      "Text View",
+            //      "Cerrar",
+            //      "Refrescar",
+            //    ],
+            //    readOnly: false
+            //},
+            restore: {
+                show: true,
+                title: "Restaurar"
+            },
+            saveAsImage: {
+                show: true,
+                title: "Guardar Imagen"
+            }
+        }
+    },
+    dataRange: {
+        min: 0,
+        max: 10000,
+        text: ['Alto', 'Bajo'],
+        realtime: true,
+        calculable: true,
+        color: ['#087E65', '#0edeb2', '#9df9e5']
+    },
+    series: [{
+        name: TituloMes,
+        type: 'map',
+        mapType: 'world',
+        roam: true,
+        mapLocation: {
+            y: 60
+        },
+        itemStyle: {
+            emphasis: {
+                label: {
+                    show: true
+                }
+            }
+        },
+        data: SeriesDataAño
+    }]
+});

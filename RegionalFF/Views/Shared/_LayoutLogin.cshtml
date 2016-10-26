@@ -17,31 +17,27 @@
     <meta http-equiv="Expires" content="0" />
     <title>@ViewBag.Title | @ViewBag.Denominacion</title>
     <link id="Link2" rel="icon" href="~/RegionalFF.ico" type="image/ico" />
-    <script language="JavaScript">
-        //javascript: window.history.forward(1);
-        //javascript: window.history.back(1);
-    </script>
+
     @Styles.Render("~/Content/login")
-    <link href="~/Content/blue.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 
 <body class="login">
-    <div>
-        <div class="login_wrapper">
-            <div class="animate form login_form">
-                @RenderBody()
-            </div>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            @RenderBody()
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/icheck.min.js"></script>
     <!-- Datatables -->
     <script>
         $(function () {
+            if (history.forward(1)) {
+                location.replace(history.forward(1))
+            }
 
             $('input').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
@@ -49,9 +45,6 @@
                 increaseArea: '20%' // optional
             });
 
-            if (history.forward(1)) {
-                location.replace(history.forward(1))
-            }
         })
     </script>
 
@@ -61,7 +54,7 @@
         <script>
             $(function () {
                 new PNotify({
-                    title: "Informe: ",
+                    title: "Error iniciando sesión!  ",
                     type: "error",
                     text: "@TempData["notice"].",
                     addclass: 'error',

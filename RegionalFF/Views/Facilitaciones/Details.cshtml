@@ -1,4 +1,5 @@
 ﻿@model RegionalFF.Models.Facilitacion
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Facilitación";
@@ -62,70 +63,95 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>@ViewBag.SubTitle</h2>
+                <h2><i class="fa fa-calendar"></i> @ViewBag.SubTitle</h2>
+
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class=""><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <br />
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Ciudad)
-                    </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Ciudad.Nombre)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Pais)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Pais.Nombre)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Usuario)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Usuario.Nombre)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Fecha)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Fecha)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Cantidad)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Cantidad)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Estadia)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Estadia)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Observaciones)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Observaciones)
-                    </dd>
-
-                </dl>
+                <section class="content invoice">
+                    <!-- title row -->
+                    @*<div class="row">
+                            <div class="col-xs-12 invoice-header">
+                                <h1>
+                                    <i class="fa fa-info-circle"></i> Detalles
+                                    <small class="pull-right"><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</small>
+                                </h1>
+                            </div>
+                            <!-- /.col -->
+                        </div>*@
+                    <!-- info row -->
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            <em class="text-muted">@Html.DisplayNameFor(model => model.UserId)</em> 
+                            <address>
+                                <strong>@Html.DisplayFor(model => model.Usuario.Nombre) @Html.DisplayFor(model => model.Usuario.Apellido)</strong>
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Direccion): @Html.DisplayFor(model => model.Usuario.Direccion)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Documento): @Html.DisplayFor(model => model.Usuario.Documento)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.PhoneNumber):  @Html.DisplayFor(model => model.Usuario.PhoneNumber)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Email): @Html.DisplayFor(model => model.Usuario.Email)
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            <em class="text-muted">@Html.DisplayNameFor(model => model.Usuario.OficinaId)</em> 
+                            <address>
+                                <strong>@Html.DisplayFor(model => model.Usuario.Oficina.Nombre)</strong>
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Sigla): @Html.DisplayFor(model => model.Usuario.Oficina.Sigla)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Ciudad): @Html.DisplayFor(model => model.Usuario.Oficina.Ciudad)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Departamento): @Html.DisplayFor(model => model.Usuario.Oficina.Departamento)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Direccion):  @Html.DisplayFor(model => model.Usuario.Oficina.Direccion)
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            <em class="text-muted"><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</em>
+                            <address>
+                                <strong>Usuario del sistema</strong>
+                                <br>Usuario: @User.Identity.GetUserName()
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr />
+                            <table id="datatable" class="table table-striped table-hover table-bordered table-condensed dt-responsive " cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="bg-primary">
+                                        <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+                                        <th>@Html.DisplayNameFor(model => model.PaisId)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CiudadId)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Estadia)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Observaciones)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th><b class="badge">@Html.DisplayFor(model => model.Cantidad)</b></th>
+                                        <th>@Html.DisplayFor(model => model.Pais.Nombre)</th>
+                                        <th>@Html.DisplayFor(model => model.Ciudad.Nombre)</th>
+                                        <th>@Html.DisplayFor(model => model.Estadia)</th>
+                                        <th>@Html.DisplayFor(model => model.Observaciones)</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </section>
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/datatables")
+}

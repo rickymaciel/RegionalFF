@@ -3,37 +3,25 @@
 @using RegionalFF.Controllers
 
 @{
-    string Usuario = "";
     if (User.Identity.GetUserName() != "")
     {
-
-        OficinasController oficinacur = new OficinasController();
-        ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
-        ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
-        ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
-        ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
 
         FacilitacionesController hoy = new FacilitacionesController();
         ViewBag.Title = "Facilitación";
         ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
-        //ViewBag.CantHoy = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
-        //ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
-        //ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
 
-        //total todos los usuarios
+        HttpCookie RegionalFFCookie = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+        RegionalFFCookie.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
+        RegionalFFCookie.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
+        RegionalFFCookie.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
 
-        ViewBag.SumCantHoy = hoy.getCantidadRegistroHoy();
-        ViewBag.SumCantMes = hoy.getCantidadRegistroMes();
-        ViewBag.SumCantAnio = hoy.getCantidadRegistroAnio();
-
-        string Email = "";
-        int Index = 0;
-        Email = User.Identity.GetUserName();
-        Index = Email.IndexOf("@");
-        Usuario = Email.Substring(0, Index);
+        RegionalFFCookie.Expires = DateTime.Now.AddDays(1d);
+        Response.Cookies.Add(RegionalFFCookie);
     }
 }
-
+@{
+    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+}
 <div class="page-title">
     <div class="title_left">
         <h3>@ViewBag.Title</h3>
@@ -100,17 +88,17 @@
         <div class="tile-stats">
             <div class="icon"><i class="ion-person text-info"></i></div>
             <div class="count">
-                @ViewBag.Sigla
+                @RegionalFFCookies.Values["Sigla"]
             </div>
-            <h3>@Usuario </h3>
-            <p>@ViewBag.Oficina</p>
+            <h3>@RegionalFFCookies.Values["Usuario"] </h3>
+            <p>@RegionalFFCookies.Values["Oficina"]</p>
         </div>
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil text-info"></i></div>
             <div class="count">
-                @ViewBag.SumCantHoy
+                @RegionalFFCookies.Values["CantRegistroHoy"]
             </div>
             <h3>Hoy</h3>
             <p>Total turistas Registrados</p>
@@ -120,7 +108,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
             <div class="count">
-                @ViewBag.SumCantMes
+                @RegionalFFCookies.Values["CantTotalMes"]
             </div>
             <h3>Este Mes</h3>
             <p>Total turistas Registrados</p>
@@ -130,7 +118,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
             <div class="count">
-                @ViewBag.SumCantAnio
+                @RegionalFFCookies.Values["CantTotalAnio"]
             </div>
             <h3>Este Año</h3>
             <p>Total Turistas Registrados</p>
@@ -146,13 +134,10 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <div class="table-responsive">
-                        <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
+                    <div class="table-responsiv">
+                        <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th class="col-lg-2 col-xs-2 text-left">
-                                        <i class="fa fa-cog"></i>
-                                    </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.Fecha)
                                     </th>
@@ -174,6 +159,9 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Observaciones)
                                     </th>
+                                    <th class="col-lg-2">
+                                        <i class="fa fa-cog"></i>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -181,13 +169,6 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td class="col-lg-2 col-xs-2 text-center">
-                                            <span class="btn-group">
-                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
-                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
-                                            </span>
-                                        </td>
                                         <td>
                                             @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
                                         </td>
@@ -208,6 +189,13 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Observaciones)
+                                        </td>
+                                        <td class="col-lg-2 col-xs-2 text-center">
+                                            <span class="btn-group">
+                                                <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                                <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                                <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                            </span>
                                         </td>
                                     </tr>
                                 }
@@ -397,3 +385,6 @@
         </div><!-- /.modal-dialog -->
     }
 </div><!-- /.modal -->
+@section Scripts {
+    @Scripts.Render("~/bundles/datatables")
+}

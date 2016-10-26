@@ -1,4 +1,7 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@{
+    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+}
+@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -7,12 +10,12 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="">
                 <a href="#" class="user-profile dropdown-toggle visible-lg" data-toggle="dropdown" aria-expanded="false">
-                    <img src="~/Content/img/Uploads/Usuarios/@ViewBag.ImagenUsuarioCurrent" alt="@User.Identity.GetUserName()"> @User.Identity.GetUserName()
+                    <img src="~/Content/img/Uploads/Usuarios/@RegionalFFCookies.Values["ImagenUsuarioCurrent"]" alt="@User.Identity.GetUserName()"> @User.Identity.GetUserName()
                     <span class=" fa fa-angle-down"></span>
                 </a>
                 <a href="#" class="user-profile dropdown-toggle hidden-lg" data-toggle="dropdown" aria-expanded="false">
-                    <img src="~/Content/img/Uploads/Usuarios/@ViewBag.ImagenUsuarioCurrent" alt="@User.Identity.GetUserName()">
-                    <span class=" fa fa-angle-down"></span>
+                    <img src="~/Content/img/Uploads/Usuarios/@RegionalFFCookies.Values["ImagenUsuarioCurrent"]" alt="@User.Identity.GetUserName()">
+                    <span class="fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li>
@@ -39,12 +42,12 @@
             </li>
 
             <li>
-                <a href="javascript:;" class="user-profile visible-lg tip" title="@ViewBag.Oficina">
-                    <img src="~/Content/img/info_turistica.png" alt="@ViewBag.Oficina" />
-                    @ViewBag.Oficina
+                <a href="javascript:;" class="user-profile visible-lg tip" title="@RegionalFFCookies.Values["Oficina"]">
+                    <img src="~/Content/img/info_turistica.png" alt="@RegionalFFCookies.Values["Oficina"]" />
+                    @RegionalFFCookies.Values["Oficina"]
                 </a>
-                <a href="javascript:;" class="user-profile hidden-lg" title="@ViewBag.Oficina">
-                    <img src="~/Content/img/info_turistica.png" alt="@ViewBag.Oficina" />
+                <a href="javascript:;" class="user-profile hidden-lg" title="@RegionalFFCookies.Values["Oficina"]">
+                    <img src="~/Content/img/info_turistica.png" alt="@RegionalFFCookies.Values["Oficina"]" />
                 </a>
             </li>
         </ul>

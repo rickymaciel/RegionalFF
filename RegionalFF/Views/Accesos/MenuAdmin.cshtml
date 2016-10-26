@@ -13,7 +13,7 @@
     else
     {
         <li>
-            <a><i class="fa fa-chevron-right"></i> @Html.DisplayFor(model => item.Nombre) <span class="fa fa-chevron-down"></span></a>
+            <a><i class="fa fa-long-arrow-right"></i> @Html.DisplayFor(model => item.Nombre) <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
                 @foreach (var subitem in item.Hijo())
                 {

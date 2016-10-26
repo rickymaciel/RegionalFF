@@ -214,7 +214,7 @@ namespace RegionalFF.Migrations
                   Nombre = "Paises de origen",
                   Descripcion = "Informes de Principales Paises de origen de Facilitaciones",
                   Perfil = "Facilitador",
-                  Accion = "PaisesEsteMes",
+                  Accion = "PaisesPrincipales",
                   Controlador = "Facilitaciones",
                   Activo = true
               },
@@ -225,7 +225,7 @@ namespace RegionalFF.Migrations
                   Nombre = "Principales destinos",
                   Descripcion = "Informes de Principales destinos de Facilitaciones",
                   Perfil = "Facilitador",
-                  Accion = "PrincipalesDestinos",
+                  Accion = "DestinosPrincipales",
                   Controlador = "Facilitaciones",
                   Activo = true
               });

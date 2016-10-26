@@ -80,6 +80,30 @@ namespace RegionalFF.Controllers
             {
                 case SignInStatus.Success:
                     ApplicationUser user = await UserManager.FindAsync(model.Email, model.Password);
+                    var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    var userRoles = userManager.GetRoles(user.Id);
+
+                    if (userRoles[0] != null || userRoles[0] != "")
+                    {
+                        OficinasController oficinacurrent = new OficinasController();
+                        //crear Cookie y setear
+                        HttpCookie RegionalFFCookie = HttpContext.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+                        RegionalFFCookie.Values["Oficina"] = oficinacurrent.getEmpresaUsers(user.Email);
+                        RegionalFFCookie.Values["NombreUsuario"] = oficinacurrent.getEmpresaNombreUsuario(user.Email);
+                        RegionalFFCookie.Values["ApellidoUsuario"] = oficinacurrent.getEmpresaApellidoUsuario(user.Email);
+                        RegionalFFCookie.Values["ImagenUsuarioCurrent"] = oficinacurrent.getImagenUsuario(user.Email);
+                        RegionalFFCookie.Values["Sigla"] = oficinacurrent.getEmpresaSiglaUsers(user.Email);
+                        RegionalFFCookie.Values["UsernameUsuario"] = oficinacurrent.getEmpresaUsernameUsuario(user.Email);
+                        RegionalFFCookie.Values["Direccion"] = oficinacurrent.getEmpresaDireccionUsers(user.Email);
+                        RegionalFFCookie.Values["Rol"] = userRoles[0];
+                        int Index = 0;
+                        Index = user.Email.IndexOf("@");
+                        RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
+                        RegionalFFCookie.Expires = DateTime.Now.AddDays(1d);
+                        Response.Cookies.Add(RegionalFFCookie);
+                    }
+
+                
                 // Redirect to User landing page on SignIn, according to Role
                 if ((UserManager.IsInRole(user.Id, "Administrador")))
                 {
@@ -104,7 +128,7 @@ namespace RegionalFF.Controllers
                 case SignInStatus.Failure:
                 default:
                     //ModelState.AddModelError("", "Intento de acceso no válido.");
-                    TempData["notice"] = "Intento de acceso no válido";
+                    TempData["notice"] = "El correo electrónico o la contraseña es incorrecta. Por favor, inténtelo de nuevo. Si tiene dificultad puede recuperar su contraseña.";
                     return View(model);
             }
         }
@@ -414,19 +438,11 @@ namespace RegionalFF.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            Session.Clear();
-            Session.Abandon();
-            Session.RemoveAll();
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
-            Response.Cache.SetNoStore();
+            HttpContext.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddDays(-10);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
-            Session["Login"] = null;
             return RedirectToAction("Index", "Facilitaciones");
         }
 
-        //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
