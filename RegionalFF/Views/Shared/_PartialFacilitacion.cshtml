@@ -1,0 +1,177 @@
+﻿<!-- modals -->
+<!-- Large modal -->
+
+<div class="modal" id="crearFacilitacion" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroFacilitacion", "Facilitaciones", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Facilitacion"
+
+        }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Nueva Facilitación
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group hidden">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="UserId">Usuario</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
+                                <input name="UserId" readonly required class="hidden" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Fecha</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." placeholder="Fecha" data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" readonly required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Origen</label>
+                            <div class="col-lg-1 col-md-1 col-xs-2">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearPais"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-lg-9 col-md-11 col-xs-10">
+                                @Html.DropDownList("PaisId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Pais de origen", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Destino</label>
+                            <div class="col-lg-1 col-md-1 col-xs-2">
+                                <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearCiudad"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-lg-9 col-md-11 col-xs-10">
+                                @Html.DropDownList("CiudadId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione un Destino", @required = "true" })
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Cantidad">Cantidad</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" placeholder="Cantidad de dias en destino" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Estadia">Estadia</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" placeholder="Cantidad de dias en Destino" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Observaciones">Obs:.</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                <textarea class="form-control" cols="20" id="Observaciones" name="Observaciones" placeholder="Observaciones" rows="3"></textarea>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
+
+<div class="modal" id="crearCiudad" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroCiudad", "Ciudades", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Ciudad"
+
+        }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Ciudad de Destino
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->
+<!-- Large modal -->
+
+<div class="modal" id="crearPais" tabindex="-1" role="dialog">
+    @using (Ajax.BeginForm("AjaxRegistroPais", "Paises", FormMethod.Post,
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "Pais"
+
+        }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <span class="im-plus"></span>
+                        Registrar Pais de Origen
+                    </h4>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" data-val="true" data-val-required="Este campo es requerido" id="Nombre" name="Nombre" type="text" placeholder="Nombre" value="" required />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="Nombre" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    }
+</div><!-- /.modal -->

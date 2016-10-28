@@ -1086,8 +1086,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #f7f7f7;
-  background: #ddd url('img/egg_shell.jpg') repeat top left;
+  background-color: #fff;
 }
 input,
 button,

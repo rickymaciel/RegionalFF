@@ -25,13 +25,13 @@ namespace RegionalFF
                       "~/Scripts/icheck.min.js",
                       "~/Scripts/pnotify.js",
                       "~/Scripts/pnotify.buttons.js",
+                      "~/Scripts/nprogress.js",
                       "~/Scripts/custom.js",
                       "~/Scripts/respond.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
                       "~/Scripts/fastclick.js",
-                      "~/Scripts/nprogress.js",
                       "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
                       "~/Scripts/Moment.js",
                       "~/Scripts/moment-with-locales.js",
@@ -63,7 +63,6 @@ namespace RegionalFF
                       "~/Scripts/datatables/vfs_fonts.js"));
             
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/Selectize/css/selectize.bootstrap3.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/animate.min.css",
                       "~/Content/jquery.mCustomScrollbar.min.css",
@@ -75,7 +74,10 @@ namespace RegionalFF
                       "~/Content/bootstrap-fileinput/css/fileinput.css",
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.min.css",
-                      "~/Content/custom.css"
+                      "~/Content/nprogress.css",
+                      "~/Content/custom.css",
+                      "~/Content/docs.min.css",
+                      "~/Content/Selectize/css/selectize.bootstrap3.css"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(
@@ -93,7 +95,8 @@ namespace RegionalFF
                       "~/Content/animate.min.css",
                       "~/Content/pnotify.css",
                       "~/Content/pnotify.buttons.css",
-                      "~/Content/custom.css"));
+                      "~/Content/custom.css",
+                      "~/Content/docs.min.css"));
         }
     }
 }

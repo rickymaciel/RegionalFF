@@ -260,17 +260,15 @@
     <Content Include="Content\bootstrap-fileinput\img\loading.gif" />
     <Content Include="Content\bootstrap-fileinput\themes\fa\theme.js" />
     <Content Include="Content\bootstrap-fileinput\themes\gly\theme.js" />
-    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.css" />
-    <Content Include="Content\custom.min.css" />
     <Content Include="Content\datatables\buttons.bootstrap.min.css" />
     <Content Include="Content\datatables\dataTables.bootstrap.min.css" />
     <Content Include="Content\datatables\dataTables.bootstrap4.min.css" />
     <Content Include="Content\datatables\jquery.dataTables.min.css" />
     <Content Include="Content\datatables\responsive.bootstrap.min.css" />
+    <Content Include="Content\docs.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\img\egg_shell.jpg" />
     <Content Include="Content\img\info_turistica.png" />
@@ -320,8 +318,6 @@
     <Content Include="fonts\ionicons.eot" />
     <Content Include="fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons.woff" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -519,6 +515,7 @@
     <Content Include="Views\Facilitaciones\PaisesPrincipales.cshtml" />
     <Content Include="Views\Facilitaciones\InformePaises.cshtml" />
     <Content Include="Views\Facilitaciones\DestinosPrincipales.cshtml" />
+    <Content Include="Views\Shared\_PartialFacilitacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

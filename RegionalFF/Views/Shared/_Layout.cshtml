@@ -60,7 +60,7 @@
                                 <h3 class="text-red">@RegionalFFCookies.Values["Rol"]</h3>
                                 <ul class="nav side-menu">
                                     @{
-                                        Html.RenderAction("MenuAdmin", "Accesos");
+                            Html.RenderAction("MenuAdmin", "Accesos");
                                     }
                                 </ul>
                             </div>
@@ -98,7 +98,7 @@
             <!-- top navigation -->
             <div class="top_nav">
                 <div class="nav_menu">
-                    <nav class="" role="navigation">
+                    <nav class="navbar-bootsnipp" role="navigation">
                         <div class="nav toggle">
                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                         </div>
@@ -110,17 +110,41 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
+
                 @RenderBody()
+
             </div>
             <footer>
                 <div class="pull-right">
                     &copy; @DateTime.Now.Year - @ViewBag.Denominacion | @RegionalFFCookies.Values["Oficina"]
                 </div>
                 <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
             </footer>
             <!-- /footer content -->
+            @*@if (User.IsInRole("Fiscalizador"))
+            {
+
+                <div id="container-floating" data-toggle="modal" data-target="#crearFiscalizacion">
+                    <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
+                        <p class="plus">+</p>
+                        <img class="edit" src="~/Content/bt_compose2_1x.png">
+                    </div>
+                </div>
+            }
+            @if (User.IsInRole("Facilitador"))
+            {
+                <div id="container-floating" data-toggle="modal" data-target="#crearFacilitacion">
+                    <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
+                        <p class="plus">+</p>
+                        <img class="edit" src="~/Content/bt_compose2_1x.png">
+                    </div>
+                </div>
+            }*@
         </div>
     </div>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/plugins")
@@ -133,6 +157,10 @@
             } else {
                 $(this).attr("value", "false");
             }
+        });
+
+        $(document).on("hover", ".dropdown-toggle", function (e) {
+            $('.dropdown-toggle').dropdown();
         });
         $(function () {
             if (history.forward(1)) {
@@ -177,7 +205,7 @@
             });
 
             $('#Fecha').val('@ViewBag.Fecha');
-            $('#UserId').val('@ViewBag.User');
+            $('#UserId').val('@User.Identity.GetUserId()');
 
             $('#Fecha').datetimepicker({
                 icons: {
@@ -201,16 +229,15 @@
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'icheckbox_minimal-blue',
                 increaseArea: '20%' // optional
-                //});
-                //$('#mensaje').delay(6000).fadeOut(2000);
-            })
+            });
+            $('#mensaje').delay(2000).fadeOut(1000);
         });
     </script>
 
     <!-- /Datatables -->
     @if (TempData["notice"] != null)
     {
-        <script>
+        <script id="mensaje">
             $(function () {
                 new PNotify({
                     title: "Realizado",

@@ -44,6 +44,7 @@
                 radioClass: 'icheckbox_minimal-blue',
                 increaseArea: '20%' // optional
             });
+            $('#mensaje').delay(6000).fadeOut(2000);
 
         })
     </script>
@@ -51,7 +52,7 @@
 
     @if (TempData["notice"] != null)
     {
-        <script>
+        <script id="mensaje">
             $(function () {
                 new PNotify({
                     title: "Error iniciando sesión!  ",
