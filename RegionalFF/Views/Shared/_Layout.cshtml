@@ -1,10 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
 @using RegionalFF.Controllers
 
-@if (!Request.IsAuthenticated)
+@*@if (!Request.IsAuthenticated)
 {
     Response.Redirect("http://localhost:2491/Account/Login");
-}
+}*@
 
 @{
     ViewBag.Denominacion = "RegionalFF";
@@ -13,6 +13,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    @{
+        HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+    }
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title @ViewBag.Titulo - @ViewBag.SubTitle @ViewBag.SubTiTulo - @ViewBag.Denominacion</title>
@@ -20,9 +23,6 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/datatables")
     @Scripts.Render("~/bundles/modernizr")
-    @{
-        HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-    }
 </head>
 <body class="nav-md">
     <div class="container body">
@@ -30,8 +30,7 @@
             <div class="col-md-3 left_col menu_fixed">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="http://localhost:2491" class="site_title">
-                            @*<i class="fa fa-pencil-square-o"></i>*@
+                        <a href="@Url.Action("Index", "Home")" class=" site_title">
                             <img src="~/Content/img/RegionalFF.jpg" alt="@RegionalFFCookies.Values["Usuario"]" class="image" width="50" title="@RegionalFFCookies.Values["Usuario"]" />
                             <span>@ViewBag.Denominacion</span>
 
@@ -60,7 +59,7 @@
                                 <h3 class="text-red">@RegionalFFCookies.Values["Rol"]</h3>
                                 <ul class="nav side-menu">
                                     @{
-                            Html.RenderAction("MenuAdmin", "Accesos");
+                                        Html.RenderAction("MenuAdmin", "Accesos");
                                     }
                                 </ul>
                             </div>
@@ -102,7 +101,6 @@
                         <div class="nav toggle">
                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                         </div>
-
                         @Html.Partial("_LoginPartial")
                     </nav>
                 </div>
@@ -110,9 +108,7 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
-
                 @RenderBody()
-
             </div>
             <footer>
                 <div class="pull-right">
@@ -124,24 +120,24 @@
             </footer>
             <!-- /footer content -->
             @*@if (User.IsInRole("Fiscalizador"))
-            {
+                {
 
-                <div id="container-floating" data-toggle="modal" data-target="#crearFiscalizacion">
-                    <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
-                        <p class="plus">+</p>
-                        <img class="edit" src="~/Content/bt_compose2_1x.png">
+                    <div id="container-floating" data-toggle="modal" data-target="#crearFiscalizacion">
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
+                            <p class="plus">+</p>
+                            <img class="edit" src="~/Content/bt_compose2_1x.png">
+                        </div>
                     </div>
-                </div>
-            }
-            @if (User.IsInRole("Facilitador"))
-            {
-                <div id="container-floating" data-toggle="modal" data-target="#crearFacilitacion">
-                    <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
-                        <p class="plus">+</p>
-                        <img class="edit" src="~/Content/bt_compose2_1x.png">
+                }
+                @if (User.IsInRole("Facilitador"))
+                {
+                    <div id="container-floating" data-toggle="modal" data-target="#crearFacilitacion">
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
+                            <p class="plus">+</p>
+                            <img class="edit" src="~/Content/bt_compose2_1x.png">
+                        </div>
                     </div>
-                </div>
-            }*@
+                }*@
         </div>
     </div>
 
@@ -151,18 +147,15 @@
     @RenderSection("scripts", required: false)
     <!-- Datatables -->
     <script>
-        $(document).on("click", "[type='checkbox']", function (e) {
-            if (this.checked) {
-                $(this).attr("value", "true");
-            } else {
-                $(this).attr("value", "false");
-            }
-        });
 
-        $(document).on("hover", ".dropdown-toggle", function (e) {
-            $('.dropdown-toggle').dropdown();
-        });
         $(function () {
+            $(document).on("click", "[type='checkbox']", function (e) {
+                if (this.checked) {
+                    $(this).attr("value", "true");
+                } else {
+                    $(this).attr("value", "false");
+                }
+            });
             if (history.forward(1)) {
                 location.replace(history.forward(1))
             }
@@ -240,7 +233,7 @@
         <script id="mensaje">
             $(function () {
                 new PNotify({
-                    title: "Realizado",
+                    title: "Operación exitosa!",
                     type: "success",
                     text: "@TempData["notice"].",
                     //addclass: 'dark',
@@ -251,6 +244,4 @@
         </script>
     }
 </body>
-
-
 </html>

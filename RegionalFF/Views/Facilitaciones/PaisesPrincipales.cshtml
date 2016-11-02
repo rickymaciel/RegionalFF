@@ -7,7 +7,6 @@
     {
         ViewBag.Title = "Facilitación";
         ViewBag.SubTituloMes = ViewBag.Mes + "/" + ViewBag.Año;
-
         ViewBag.SubTituloAño = ViewBag.Año;
     }
 }
@@ -122,15 +121,15 @@
 
 @section Scripts {
     <script>
-    var TextoMes = @Html.Raw(Json.Encode(ViewBag.SubTituloMes));
-    var TituloMes = 'País de origen  @Html.Raw(Json.Encode(ViewBag.SubTituloMes))';
+        var TextoMes = @Html.Raw(Json.Encode(ViewBag.SubTituloMes));
+        var TituloMes = 'País de origen  @Html.Raw(Json.Encode(ViewBag.SubTituloMes))';
         var LegendDataMes = @Html.Raw(Json.Encode(ViewBag.LegendDataMes));
-    var SeriesDataMes = @Html.Raw(Json.Encode(ViewBag.SeriesDataMes));
+        var SeriesDataMes = @Html.Raw(Json.Encode(ViewBag.SeriesDataMes));
 
-    var TextoAño = @Html.Raw(Json.Encode(ViewBag.SubTituloAño));
-    var TituloAño = 'País de origen  @Html.Raw(Json.Encode(ViewBag.SubTituloAño))';
-    var LegendDataAño = @Html.Raw(Json.Encode(ViewBag.LegendDataAño));
-    var SeriesDataAño = @Html.Raw(Json.Encode(ViewBag.SeriesDataAño));
+        var TextoAño = @Html.Raw(Json.Encode(ViewBag.SubTituloAño));
+        var TituloAño = 'País de origen  @Html.Raw(Json.Encode(ViewBag.SubTituloAño))';
+        var LegendDataAño = @Html.Raw(Json.Encode(ViewBag.LegendDataAño));
+        var SeriesDataAño = @Html.Raw(Json.Encode(ViewBag.SeriesDataAño));
 
     </script>
     @Scripts.Render("~/bundles/echarts")

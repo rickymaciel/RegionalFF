@@ -1,6 +1,6 @@
 ﻿@if (Request.IsAuthenticated)
 {
-    Response.Redirect("http://localhost:2491");
+    Response.Redirect("http://localhost:2491/Home/Index");
 }
 
 @{
@@ -55,9 +55,9 @@
         <script id="mensaje">
             $(function () {
                 new PNotify({
-                    title: "Error iniciando sesión!  ",
+                    title: "@TempData["noticeTitle"]",
                     type: "error",
-                    text: "@TempData["notice"].",
+                    text: "@TempData["notice"]",
                     addclass: 'error',
                     styling: 'bootstrap3',
                 });
@@ -65,6 +65,20 @@
                 $('#Email').focus();
                 $('#Password').focus();
 
+            });
+        </script>
+    }
+    @if (TempData["confirmacion"] != null)
+    {
+        <script id="mensaje">
+            $(function () {
+                new PNotify({
+                    title: "@TempData["confirmacionTitle"]",
+                    type: "info",
+                    text: "@TempData["confirmacion"].",
+                    addclass: 'info',
+                    styling: 'bootstrap3',
+                });
             });
         </script>
     }

@@ -23,13 +23,19 @@ namespace RegionalFF
         public async Task SendAsync(IdentityMessage message)
         {
             // Credentials:
-
-            string smtpServer = "";
+            string smtpServer = "smtp.live.com";
             int smtpPort = 587;
             bool enableSsl = true;
-            string smtpUsername = "";
-            string smtpPassword = "";
-            string sentFrom = "";
+            string smtpUsername = "rickymaciel@hotmail.es";
+            string smtpPassword = "!@#$%^&*./Hot17614";
+            string sentFrom = "rickymaciel@hotmail.es";
+
+            //string smtpServer = "";
+            //int smtpPort = 587;
+            //bool enableSsl = true;
+            //string smtpUsername = "";
+            //string smtpPassword = "";
+            //string sentFrom = "";
 
             // Configure the client:
             var client = new SmtpClient(smtpServer, Convert.ToInt32(587));

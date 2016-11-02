@@ -1,13 +1,16 @@
 ﻿
 var theme = {
     color: [
-        //green
-        '#408829','#68a54a','#a9cba2','#86b379',
-        '#397b29','#8abb6f','#759c6a','#bfd3b7',
         //infographic
         '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
         '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
         '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0',
+        //shine
+        '#c12e34', '#e6b600', '#0098d9', '#2b821d',
+        '#005eaa', '#339ca8', '#cda819', '#32a487',
+        //green
+        '#408829','#68a54a','#a9cba2','#86b379',
+        '#397b29','#8abb6f','#759c6a','#bfd3b7',
         //dark
         '#FE8463','#9BCA63','#FAD860','#60C0DD','#0084C6',
         '#D7504B','#C6E579','#26C0C0','#F0805A','#F4E001',
@@ -18,9 +21,6 @@ var theme = {
         //red
         '#d8361b','#f16b4c','#f7b4a9','#d26666',
         '#99311c', '#c42703', '#d07e75',
-        //shine
-        '#c12e34', '#e6b600', '#0098d9', '#2b821d',
-        '#005eaa', '#339ca8', '#cda819', '#32a487',
     ],
 
     title: {
@@ -231,7 +231,7 @@ echartMap.setOption({
         formatter: function (params) {
             //var value = (params.value + '').split('.');
             //var value = parseInt(params.value);
-            if (params.value > 0) {
+            if ( parseInt(params.value) > 0) {
                 var value = parseInt(params.value);
             } else {
                 var value = 0;
@@ -249,16 +249,16 @@ echartMap.setOption({
             mark: {
                 show: true
             },
-            //dataView: {
-            //    show: true,
-            //    title: "Text View",
-            //    lang: [
-            //      "Text View",
-            //      "Cerrar",
-            //      "Refrescar",
-            //    ],
-            //    readOnly: false
-            //},
+            dataView: {
+                show: true,
+                title: "Ver Texto",
+                lang: [
+                  "Ver Texto",
+                  "Cerrar",
+                  "Refrescar",
+                ],
+                readOnly: false
+            },
             restore: {
                 show: true,
                 title: "Restaurar"
@@ -271,7 +271,7 @@ echartMap.setOption({
     },
     dataRange: {
         min: 0,
-        max: 10000,
+        max: 1000,
         text: ['Alto', 'Bajo'],
         realtime: true,
         calculable: true,
@@ -292,6 +292,6 @@ echartMap.setOption({
                 }
             }
         },
-        data: SeriesDataAño
+        data: SeriesDataMes
     }]
 });

@@ -128,6 +128,8 @@ namespace RegionalFF.Controllers
                 case SignInStatus.Failure:
                 default:
                     //ModelState.AddModelError("", "Intento de acceso no válido.");
+
+                    TempData["noticeTitle"] = "No se pudo iniciar sesión.";
                     TempData["notice"] = "El correo electrónico o la contraseña es incorrecta. Por favor, inténtelo de nuevo. Si tiene dificultad puede recuperar su contraseña.";
                     return View(model);
             }
@@ -172,6 +174,7 @@ namespace RegionalFF.Controllers
                 case SignInStatus.Failure:
                 default:
                     //ModelState.AddModelError("", "Invalid code.");
+                    TempData["noticeTitle"] = "Error.";
                     TempData["notice"] = "Codigo inválido";
                     return View(model);
             }
@@ -252,18 +255,23 @@ namespace RegionalFF.Controllers
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
+                    TempData["noticeTitle"] = "No encontrado!";
                     TempData["notice"] = "No se encontró el usuario";
                     return View("ForgotPasswordConfirmation");
                 }
 
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Por favor confirmar su cuenta haciendo clic en este enlace:  " + callbackUrl));
 
-                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Por favor confirmar su cuenta haciendo clic en este enlace: <a href = \""+ callbackUrl + "\"> Enlace </a>");
+                TempData["confirmacionTitle"] = "Correo enviado";
+                TempData["confirmacion"] = "Te enviamos un enlace para restablecer tu contraseña. Si no aparece dentro de unos minutos, revisa tu carpeta de correo no deseado.";
+                
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
+            TempData["noticeTitle"] = "Ocurrió un error.";
             TempData["notice"] = "No válido";
             return View(model);
         }
@@ -304,6 +312,8 @@ namespace RegionalFF.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
+                TempData["noticeTitle"] = "Contraseña restablecida";
+                TempData["notice"] = "Su contraseña ha sido restablecida.";
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
