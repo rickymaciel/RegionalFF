@@ -211,10 +211,10 @@ namespace RegionalFF.Migrations
               {
                   //18
                   PadreId = 17,
-                  Nombre = "Paises de origen",
+                  Nombre = "10 Paises de origen",
                   Descripcion = "Informes de Principales Paises de origen de Facilitaciones",
                   Perfil = "Facilitador",
-                  Accion = "PaisesPrincipales",
+                  Accion = "PaisesPrincipales10",
                   Controlador = "Facilitaciones",
                   Activo = true
               },
@@ -222,10 +222,10 @@ namespace RegionalFF.Migrations
               {
                   //19
                   PadreId = 17,
-                  Nombre = "Principales destinos",
+                  Nombre = "10 Principales destinos",
                   Descripcion = "Informes de Principales destinos de Facilitaciones",
                   Perfil = "Facilitador",
-                  Accion = "DestinosPrincipales",
+                  Accion = "DestinosPrincipales10",
                   Controlador = "Facilitaciones",
                   Activo = true
               });

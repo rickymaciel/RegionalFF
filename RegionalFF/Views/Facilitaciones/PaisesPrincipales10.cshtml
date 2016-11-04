@@ -1,0 +1,149 @@
+﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
+@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
+
+@{
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "10 Principales Paises de origen";
+}
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    <i class="fa fa-pie-chart"></i> @ViewBag.SubTitle
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div role="tabpanel" data-example-id="togglable-tabs">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#mostrar_columna" role="tab" id="granadiente-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-bar-chart"></i></a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#mostrar_pie" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-pie-chart"></i></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="mostrar_columna" aria-labelledby="mostrar_columna">
+                            <div id="columna" style="height:350px;"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="mostrar_pie" aria-labelledby="mostrar_pie">
+                            <div id="pie" style="height:350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/amcharts")
+    <script>
+        var Texto = @Html.Raw(Json.Encode(ViewBag.Title));
+        var SubTitulo = @Html.Raw(Json.Encode(ViewBag.SubTitle));
+        var Titulo = @Html.Raw(Json.Encode(ViewBag.SubTitle))+@Html.Raw(Json.Encode(ViewBag.Mes))+"/@Html.Raw(Json.Encode(ViewBag.Año))";
+        var LegendData = @Html.Raw(Json.Encode(ViewBag.LegendData));
+        var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
+
+        AmCharts.makeChart("pie", {
+            "type": "pie",
+            "theme": "light",
+            "language": "es",
+            "dataProvider": SeriesData,
+            "titleField": "name",
+            "valueField": "value",
+            "startEffect": "elastic",
+            "startDuration": 3,
+            "labelRadius": 35,
+            "innerRadius": "20%",
+            "depth3D": 15,
+            "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": true,
+                "cursorAlpha": 0,
+                "zoomable": true
+            },
+            "legend": {
+                "position": "left"
+            },
+            "autoMargins": true,
+            "outlineThickness": 2,
+            "outlineColor": "#FFFFFF",
+            "outlineAlpha": 0.8,
+            "balloonText": "[[name]]<br><span class='text-primary' style='font-size:16px'><b>[[value]]</b> ([[percents]]%)</span>",
+            "colorField": "color",
+            "labelText": "[[name]]:  [[value]] ([[percents]]%)",
+            "responsive": {
+                "enabled": false
+            },
+            "export": {
+                "enabled": true
+            }
+        });
+
+
+        var chart = AmCharts.makeChart("columna", {
+            "theme": "light",
+            "type": "serial",
+            "startDuration": 2,
+            "dataProvider": SeriesData,
+            "valueAxes": [{
+                "position": "left",
+                "title": SubTitulo
+            }],
+            "graphs": [{
+                "balloonText": "[[name]]: <b>[[value]]</b>",
+                "fillColorsField": "color",
+                "fillAlphas": 1,
+                "lineAlpha": 0.1,
+                "type": "column",
+                "labelText": "[[value]]",
+                "valueField": "value"
+            }],
+            "depth3D": 20,
+            "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": true,
+                "cursorAlpha": 0,
+                "zoomable": true
+            },
+            "categoryField": "name",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 90
+            },
+            "export": {
+                "enabled": true
+            }
+
+        });
+    </script>
+}

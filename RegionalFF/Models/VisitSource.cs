@@ -10,5 +10,6 @@ namespace RegionalFF.Models
         public string value { get; set; }
 
         public string name { get; set; }
+        public string color { get; set; }
     }
 }

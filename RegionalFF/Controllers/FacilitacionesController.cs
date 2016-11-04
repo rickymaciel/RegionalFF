@@ -549,7 +549,55 @@ namespace RegionalFF.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult PaisesPrincipales10()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            //Consultas a la base de datos
+            var paisesQuery = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
+            
+            var i = 0;
 
+            List<VisitSource> paisesLista = new List<VisitSource>();
+            List<String> color = new List<String>();
+            color.Add("#FF0F00");
+            color.Add("#FF6600");
+            color.Add("#FF9E01");
+            color.Add("#FCD202");
+            color.Add("#F8FF01");
+
+            color.Add("#B0DE09");
+            color.Add("#04D215");
+            color.Add("#0D8ECF");
+            color.Add("#0D52D1");
+            color.Add("#2A0CD0");
+
+            foreach (var item in paisesQuery)
+            {
+                paisesLista.Add(new VisitSource()
+                {
+                    name = item.Nombre,
+                    value = item.Cantidad.ToString(),
+                    color = color[i],
+                });
+                i++;
+            }
+
+
+            var pie = new PieMapViewModel()
+            {
+                LegendData = getPrincipalesPaisesMes(),
+                SeriesData = paisesLista
+            };
+
+            ViewBag.LegendData = pie.LegendData;
+            ViewBag.SeriesData = pie.SeriesData;
+
+            ViewBag.Mes = Fecha.ToString("MMMM");
+            ViewBag.Año = Fecha.Year;
+            return View();
+        }
 
         //Informes Destinos Principales
         [Authorize(Roles = "Facilitador,Administrador")]
@@ -625,6 +673,55 @@ namespace RegionalFF.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult DestinosPrincipales10()
+        {
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            //Consultas a la base de datos
+            var destinosQuery = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Ciudad.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Ciudad.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
+           
+            var i = 0;
+
+            List<VisitSource> destinosListaMes = new List<VisitSource>();
+            List<String> color = new List<String>();
+            color.Add("#FF0F00");
+            color.Add("#FF6600");
+            color.Add("#FF9E01");
+            color.Add("#FCD202");
+            color.Add("#F8FF01");
+
+            color.Add("#B0DE09");
+            color.Add("#04D215");
+            color.Add("#0D8ECF");
+            color.Add("#0D52D1");
+            color.Add("#2A0CD0");
+
+            foreach (var item in destinosQuery)
+            {
+                destinosListaMes.Add(new VisitSource()
+                {
+                    name = item.Nombre,
+                    value = item.Cantidad.ToString(),
+                    color = color[i],
+                });
+                i++;
+            }
+
+
+            var pie = new PieMapViewModel()
+            {
+                LegendData = getPrincipalesDestinosMes(),
+                SeriesData = destinosListaMes
+            };
+
+            ViewBag.LegendData = pie.LegendData;
+            ViewBag.SeriesData = pie.SeriesData;
+
+            ViewBag.Mes = Fecha.ToString("MMMM");
+            ViewBag.Año = Fecha.Year;
+            return View();
+        }
 
 
 

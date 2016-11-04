@@ -1,0 +1,163 @@
+﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
+@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
+
+@{
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "10 Principales Destinos";
+}
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 class="text-uppercase">@ViewBag.SubTitle</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div>
+                    <div id="pie" style="height:350px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 class="text-uppercase">@ViewBag.SubTitle</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div>
+                    <div id="column3D" style="height:350px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/amcharts")
+    <script>
+        var Texto = @Html.Raw(Json.Encode(ViewBag.Title));
+        var Titulo = '@Html.Raw(Json.Encode(ViewBag.SubTitle)) del @Html.Raw(Json.Encode(ViewBag.Mes)) / @Html.Raw(Json.Encode(ViewBag.Año))';
+        var LegendDataMes = @Html.Raw(Json.Encode(ViewBag.LegendDataMes));
+        var SeriesDataMes = @Html.Raw(Json.Encode(ViewBag.SeriesDataMes));
+
+        var chartDataMes = SeriesDataMes;
+        AmCharts.makeChart("pie", {
+            "type": "pie",
+            "theme": "light",
+            "language": "es",
+            "dataProvider": chartDataMes,
+            "titleField": "name",
+            "valueField": "value",
+            "startEffect": "elastic",
+            "startDuration": 1,
+            "labelRadius": 15,
+            "innerRadius": "40%",
+            "outlineAlpha": 0.4,
+            "depth3D": 15,
+            "angle": 30,
+            "legend": {
+                "position": "right"
+            },
+            "autoMargins": true,
+            "outlineThickness": 1,
+            "balloonText": "[[title]]<br><span class='text-primary' style='font-size:16px'><b>[[value]]</b> ([[percents]]%)</span>",
+            "responsive": {
+                "enabled": true
+            },
+            "export": {
+                "enabled": true
+            }
+
+        });
+
+        var chart = AmCharts.makeChart("column3D", {
+            "theme": "light",
+            "type": "serial",
+            "startDuration": 2,
+            "dataProvider": chartDataMes,
+            "valueAxes": [{
+                "position": "left",
+                "axisAlpha":0,
+                "gridAlpha":0
+            }],
+            "graphs": [{
+                "balloonText": "[[name]]<br><span style='font-size:14px'><b>[[value]]</b></span>",
+                "colorField": "color",
+                "fillAlphas": 0.85,
+                "lineAlpha": 0.1,
+                "type": "column",
+                "topRadius":1,
+                "valueField": "value"
+            }],
+            "depth3D": 40,
+            "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": true,
+                "cursorAlpha": 0,
+                "zoomable": true
+            },
+            "categoryField": "name",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "axisAlpha":0,
+                "gridAlpha":0
+
+            },
+            "export": {
+                "enabled": true
+            }
+
+        }, 100);
+    </script>
+}

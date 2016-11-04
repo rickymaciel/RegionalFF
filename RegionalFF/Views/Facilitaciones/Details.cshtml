@@ -13,82 +13,60 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver al listado">
-                    <i class="fa fa-reply"></i>
-                    Volver
-                </a>
-                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver al listado">
-                    <i class="fa fa-reply"></i>
-                </a>
-
-                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Mes">
-                    <i class="fa fa-list"></i>
-                    <strong>Este Mes</strong>
-                </a>
-                <a href="@Url.Action("EsteMes", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Mes">
-                    <i class="fa fa-list"></i>
-                </a>
-                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Este Año">
-                    <i class="fa fa-list"></i>
-                    <strong>Este Año</strong>
-                </a>
-                <a href="@Url.Action("EsteAño", "Facilitaciones")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Este Año">
-                    <i class="fa fa-list"></i>
-                </a>
-                <a href="@Url.Action("Edit", "Facilitaciones", new { id = Model.Id })" class="btn btn-default visible-lg" data-toggle="tooltip" title="Editar">
-                    <i class="fa fa-edit"></i>
-                    <strong>Editar</strong>
-                </a>
-                <a href="@Url.Action("Edit", "Facilitaciones", new { id = Model.Id })" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Editar">
-                    <i class="fa fa-edit"></i>
-                </a>
-                @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
-                {
-                    <a href="#" class="btn btn-default hidden-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                    <a href="#" class="btn btn-default visible-lg" data-toggle="modal" data-placement="top" title="Registrar Nuevo" data-target="#crearFacilitacion">
-                        <i class="fa fa-plus"></i>
-                        <strong>Registrar Nuevo</strong>
-                    </a>
-                }
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" title="Volver"><i class="fa fa-reply"></i> Volver</a>
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" title="Volver"><i class="fa fa-reply"></i></a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="clearfix"></div>
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-calendar"></i> @ViewBag.SubTitle</h2>
-
+                <h2>@ViewBag.SubTitle</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <a class=""><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</a>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle text-info " data-toggle="dropdown" title="Ir a" role="button" aria-expanded="false">
+                            <i class="fa fa-filter"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="@Url.Action("VerTodo", "Facilitaciones")"><i class="fa fa-list"></i> Ver Todo</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("EsteMes", "Facilitaciones")"><i class="fa fa-list"></i> Este Mes</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("EsteAño", "Facilitaciones")"><i class="fa fa-list"></i> Este Año</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-
                 <section class="content invoice">
                     <!-- title row -->
-                    @*<div class="row">
-                            <div class="col-xs-12 invoice-header">
-                                <h1>
-                                    <i class="fa fa-info-circle"></i> Detalles
-                                    <small class="pull-right"><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</small>
-                                </h1>
-                            </div>
-                            <!-- /.col -->
-                        </div>*@
-                    <!-- info row -->
+                    <div class="row">
+                        <div class="col-xs-12 invoice-header">
+                            <h1>
+                                <i class="fa fa-pencil"></i> @ViewBag.Title
+                                <small class="pull-right">@Html.DisplayNameFor(model => model.Fecha): @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</small>
+                            </h1>
+                        </div>
+                        <!-- /.col -->
+                    </div>
                     <div class="row invoice-info">
                         <div class="col-sm-4 invoice-col">
-                            <em class="text-muted">@Html.DisplayNameFor(model => model.UserId)</em> 
+                            <em class="text-muted"><i class="fa fa-user"></i> @Html.DisplayNameFor(model => model.UserId)</em>
                             <address>
                                 <strong>@Html.DisplayFor(model => model.Usuario.Nombre) @Html.DisplayFor(model => model.Usuario.Apellido)</strong>
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Direccion): @Html.DisplayFor(model => model.Usuario.Direccion)
@@ -99,7 +77,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                            <em class="text-muted">@Html.DisplayNameFor(model => model.Usuario.OficinaId)</em> 
+                            <em class="text-muted"><i class="fa fa-building"></i> @Html.DisplayNameFor(model => model.Usuario.OficinaId)</em>
                             <address>
                                 <strong>@Html.DisplayFor(model => model.Usuario.Oficina.Nombre)</strong>
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Sigla): @Html.DisplayFor(model => model.Usuario.Oficina.Sigla)
@@ -108,21 +86,17 @@
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Direccion):  @Html.DisplayFor(model => model.Usuario.Oficina.Direccion)
                             </address>
                         </div>
-                        <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                            <em class="text-muted"><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</em>
+                            <em class="text-muted"><i class="fa fa-calendar"></i> @Html.DisplayNameFor(model => model.Fecha)</em>
                             <address>
-                                <strong>Usuario del sistema</strong>
-                                <br>Usuario: @User.Identity.GetUserName()
+                                @Html.DisplayNameFor(model => model.Fecha): @String.Format("{0:dd/MM/yyyy}", Model.Fecha)
                             </address>
                         </div>
-                        <!-- /.col -->
                     </div>
                     <!-- /.row -->
                     <!-- Table row -->
                     <div class="row">
-                        <div class="col-xs-12">
-                            <hr />
+                        <div class="col-xs-12 table">
                             <table id="datatable" class="table table-striped table-hover table-bordered table-condensed dt-responsive " cellspacing="0" width="100%">
                                 <thead>
                                     <tr class="bg-primary">

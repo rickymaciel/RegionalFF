@@ -48,6 +48,15 @@ namespace RegionalFF
                       "~/Scripts/pieconfig.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/bundles/amcharts").Include(
+                      "~/Scripts/amcharts/amcharts.js",
+                      "~/Scripts/amcharts/serial.js",
+                      "~/Scripts/amcharts/pie.js",
+                      "~/Scripts/amcharts/themes/light.js",
+                      "~/Scripts/amcharts/plugins/export/export.js"
+            ));
+
+
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
                       "~/Scripts/datatables/jquery.dataTables.min.js",
                       "~/Scripts/datatables/dataTables.responsive.min.js",
@@ -77,7 +86,8 @@ namespace RegionalFF
                       "~/Content/nprogress.css",
                       "~/Content/custom.css",
                       "~/Content/docs.min.css",
-                      "~/Content/Selectize/css/selectize.bootstrap3.css"
+                      "~/Content/Selectize/css/selectize.bootstrap3.css",
+                      "~/Scripts/amcharts/plugins/export/export.css"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(

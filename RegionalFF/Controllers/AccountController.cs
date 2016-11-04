@@ -262,7 +262,7 @@ namespace RegionalFF.Controllers
 
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Por favor confirmar su cuenta haciendo clic en este enlace:  " + callbackUrl));
+                await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", callbackUrl);
 
                 TempData["confirmacionTitle"] = "Correo enviado";
                 TempData["confirmacion"] = "Te enviamos un enlace para restablecer tu contraseña. Si no aparece dentro de unos minutos, revisa tu carpeta de correo no deseado.";

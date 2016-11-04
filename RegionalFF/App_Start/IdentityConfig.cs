@@ -38,11 +38,10 @@ namespace RegionalFF
             //string sentFrom = "";
 
             // Configure the client:
-            var client = new SmtpClient(smtpServer, Convert.ToInt32(587));
+            var client = new SmtpClient(smtpServer, smtpPort);
 
-            client.Port = smtpPort;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
+            client.UseDefaultCredentials = true;
             client.EnableSsl = enableSsl;
 
             // Create the credentials:
@@ -51,11 +50,13 @@ namespace RegionalFF
 
             // Create the message:
             var mail = new System.Net.Mail.MailMessage(sentFrom, message.Destination);
-
+            mail.Body += "Por favor confirmar su cuenta haciendo clic en este enlace: ";
+            mail.Body += Environment.NewLine + "<a href=\"" + message.Body + "\">enlace</a>";
+            mail.IsBodyHtml = true;
+            mail.BodyEncoding = System.Text.Encoding.Unicode;
+            mail.SubjectEncoding = System.Text.Encoding.Unicode;
             mail.Subject = message.Subject;
-            mail.Body = message.Body;
-
-            // Send:
+            // Send: 
             await client.SendMailAsync(mail);
         }
     }
