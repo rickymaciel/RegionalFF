@@ -21,6 +21,8 @@ namespace RegionalFF.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
 
+
+
         // Controllers
         // GET: /Admin/EditarRol/5
         [Authorize(Roles = "Administrador")]
@@ -58,7 +60,7 @@ namespace RegionalFF.Controllers
         public ActionResult Index()
         {
             List<UsuarioAmpliado> col_Usuario = new List<UsuarioAmpliado>();
-            var result = UserManager.Users.ToList().OrderBy(x => x.UserName);
+            var result = UserManager.Users.ToList().OrderBy(x => x.Email);
             foreach (var item in result)
             {
                 UsuarioAmpliado objUsuario = new UsuarioAmpliado();
@@ -69,7 +71,6 @@ namespace RegionalFF.Controllers
                 objUsuario.Numero = item.Numero;
                 objUsuario.OficinaId = item.OficinaId;
                 objUsuario.Oficina = item.Oficina;
-                objUsuario.UserName = item.UserName;
                 objUsuario.Documento = item.Documento;
                 objUsuario.Email = item.Email;
                 objUsuario.LockoutEndDateUtc = item.LockoutEndDateUtc;
@@ -91,7 +92,7 @@ namespace RegionalFF.Controllers
         public ActionResult Usuarios()
         {
             List<UsuarioAmpliado> col_Usuario = new List<UsuarioAmpliado>();
-            var result = UserManager.Users.ToList().OrderBy(x => x.UserName);
+            var result = UserManager.Users.ToList().OrderBy(x => x.Email);
             foreach (var item in result)
             {
                 UsuarioAmpliado objUsuario = new UsuarioAmpliado();
@@ -102,7 +103,6 @@ namespace RegionalFF.Controllers
                 objUsuario.Numero = item.Numero;
                 objUsuario.OficinaId = item.OficinaId;
                 objUsuario.Oficina = item.Oficina;
-                objUsuario.UserName = item.UserName;
                 objUsuario.Documento = item.Documento;
                 objUsuario.Email = item.Email;
                 objUsuario.LockoutEndDateUtc = item.LockoutEndDateUtc;
@@ -180,7 +180,7 @@ namespace RegionalFF.Controllers
                 }
 
                 // Setear UserName con Email en minuscula
-                UserName = Email.ToLower();
+                Email = Email.ToLower();
 
                 // Crear Usuario
 
@@ -212,7 +212,7 @@ namespace RegionalFF.Controllers
 
                     }
                     TempData["notice"] = "El usuario " + paramUsuarioAmpliado.Nombre + " " + paramUsuarioAmpliado.Apellido + " ha sido creado!";
-                    return Redirect("~/Admin");
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
@@ -237,15 +237,20 @@ namespace RegionalFF.Controllers
 
         // GET: /Admin/Edit/TestUser 
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult EditarUsuario(string UserName)
-        public ActionResult EditarUsuario(string UserName)
+        #region public ActionResult EditarUsuario(string Email)
+        public ActionResult EditarUsuario(string Email)
         {
-            if (UserName == null)
+            if (Email == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
-            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
+
+            if (Email == User.Identity.GetUserName())
+            {
+                return RedirectToAction("ModificarUsuario", "Admin");
+            }
+            UsuarioAmpliado objExpandedUserDTO = GetUser(Email);
+            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
             if (objExpandedUserDTO == null)
             {
                 return HttpNotFound();
@@ -290,26 +295,23 @@ namespace RegionalFF.Controllers
                 {
                     return HttpNotFound();
                 }
-
                 if (Imagen != null)
                 {
-                    string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
-                    var fileName = Path.GetFileName(objExpandedUserDTO.Nombre + fecha + Imagen.FileName);
+                    var fileName = Path.GetFileName(objExpandedUserDTO.Nombre + Imagen.FileName);
                     var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
                     Imagen.SaveAs(path);
                     objExpandedUserDTO.Imagen = fileName;
+                    UsuarioAmpliado objExpandedUserDTO2 = ModifUsuario(objExpandedUserDTO);
+                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
+
+                    if (objExpandedUserDTO2 == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
+                    return RedirectToAction("Index", "Manage");
                 }
-
-                UsuarioAmpliado objExpandedUserDTO2 = ModifUsuario(objExpandedUserDTO);
-                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
-
-                if (objExpandedUserDTO2 == null)
-                {
-                    return HttpNotFound();
-                }
-
-                TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
-
+                TempData["notice"] = "La Imagen es requerida!";
                 return RedirectToAction("Index", "Manage");
             }
             catch (Exception ex)
@@ -320,7 +322,7 @@ namespace RegionalFF.Controllers
             }
         }
         #endregion
-        // PUT: /Admin/ModificarUsuario
+        // PUT: /Admin/CambiarImagen
         [HttpPost]
         [ValidateAntiForgeryToken]
         #region public ActionResult CambiarImagen(UsuarioAmpliado paramExpandedUserDTO)
@@ -393,7 +395,7 @@ namespace RegionalFF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         #region public ActionResult ModificarUsuario(UsuarioAmpliado paramExpandedUserDTO)
-        public ActionResult ModificarUsuario(UsuarioAmpliado paramExpandedUserDTO, HttpPostedFileBase Imagen)
+        public ActionResult ModificarUsuario(UsuarioAmpliado paramExpandedUserDTO)
         {
             try
             {
@@ -401,17 +403,15 @@ namespace RegionalFF.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
+                ApplicationUser user = UserManager.FindByEmail(paramExpandedUserDTO.Email);
+                paramExpandedUserDTO.Imagen = user.Imagen;
                 UsuarioAmpliado objExpandedUserDTO = ModifUsuario(paramExpandedUserDTO);
-                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
-
                 if (objExpandedUserDTO == null)
                 {
                     return HttpNotFound();
                 }
-
+                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
                 TempData["notice"] = "El Usuario fue modificado satisfactoriamente!";
-
                 return RedirectToAction("Index", "Manage");
             }
             catch (Exception ex)
@@ -438,23 +438,9 @@ namespace RegionalFF.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                if (Imagen != null)
-                {
-                    string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
-                    var fileName = Path.GetFileName(paramExpandedUserDTO.Nombre + fecha + Imagen.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
-                    Imagen.SaveAs(path);
-                    paramExpandedUserDTO.Imagen = fileName;
-                }
-                else
-                {
-                    var fileName = Path.GetFileName("Content/img/Uploads/Usuarios/user.jpg");
-                    paramExpandedUserDTO.Imagen = fileName;
 
-                }
                 UsuarioAmpliado objExpandedUserDTO = UpdateDTOUser(paramExpandedUserDTO);
                 ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
-
                 if (objExpandedUserDTO == null)
                 {
                     return HttpNotFound();
@@ -462,30 +448,30 @@ namespace RegionalFF.Controllers
 
                 TempData["notice"] = "El Usuario fue modificado satisfactoriamente!";
 
-                return Redirect("~/Admin");
+                return RedirectToAction("Index", "Admin");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex); ;
                 TempData["notice"] = "Error: " + ex;
-                return View("EditarUsuario", GetUser(paramExpandedUserDTO.UserName));
+                return View("EditarUsuario", GetUser(paramExpandedUserDTO.Email));
             }
         }
         #endregion
 
         // DELETE: /Admin/DeleteUser
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult DeleteUser(string UserName)
-        public ActionResult DeleteUser(string UserName)
+        #region public ActionResult DeleteUser(string Email)
+        public ActionResult DeleteUser(string Email)
         {
             try
             {
-                if (UserName == null)
+                if (Email == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                if (UserName.ToLower() == this.User.Identity.Name.ToLower())
+                if (Email.ToLower() == this.User.Identity.Name.ToLower())
                 {
                     ModelState.AddModelError(
                         string.Empty, "Error : No se puede suprimir la función de administrador para el usuario actual");
@@ -494,7 +480,7 @@ namespace RegionalFF.Controllers
                     return View("EditarUsuario");
                 }
 
-                UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
+                UsuarioAmpliado objExpandedUserDTO = GetUser(Email);
 
                 if (objExpandedUserDTO == null)
                 {
@@ -506,31 +492,31 @@ namespace RegionalFF.Controllers
                     TempData["notice"] = "El Usuario fue eliminado satisfactoriamente!";
                 }
 
-                return Redirect("~/Admin");
+                return RedirectToAction("Index", "Admin");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
                 TempData["notice"] = "Error: " + ex;
-                return View("EditarUsuario", GetUser(UserName));
+                return View("EditarUsuario", GetUser(Email));
             }
         }
         #endregion
 
         // GET: /Admin/EditarRoles/TestUser 
         [Authorize(Roles = "Administrador")]
-        #region ActionResult EditarRoles(string UserName)
-        public ActionResult EditarRoles(string UserName)
+        #region ActionResult EditarRoles(string Email)
+        public ActionResult EditarRoles(string Email)
         {
-            if (UserName == null)
+            if (Email == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            UserName = UserName.ToLower();
+            Email = Email.ToLower();
 
             // Check that we have an actual user
-            UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
+            UsuarioAmpliado objExpandedUserDTO = GetUser(Email);
 
             if (objExpandedUserDTO == null)
             {
@@ -538,7 +524,7 @@ namespace RegionalFF.Controllers
             }
 
             UsuarioyRoles objUserAndRolesDTO =
-                GetUserAndRoles(UserName);
+                GetUserAndRoles(Email);
 
             return View(objUserAndRolesDTO);
         }
@@ -558,22 +544,21 @@ namespace RegionalFF.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                string UserName = paramUserAndRolesDTO.UserName;
+                string Email = paramUserAndRolesDTO.Email;
                 string strNewRole = Convert.ToString(Request.Form["NuevoRol"]);
 
                 if (strNewRole != "No se encontraron roles")
                 {
                     // Go get the User
-                    ApplicationUser user = UserManager.FindByName(UserName);
+                    ApplicationUser user = UserManager.FindByEmail(Email);
 
                     // Put user in role
                     UserManager.AddToRole(user.Id, strNewRole);
                 }
 
-                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
+                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(Email));
 
-                UsuarioyRoles objUserAndRolesDTO =
-                    GetUserAndRoles(UserName);
+                UsuarioyRoles objUserAndRolesDTO = GetUserAndRoles(Email);
 
                 return View(objUserAndRolesDTO);
             }
@@ -587,27 +572,27 @@ namespace RegionalFF.Controllers
 
         // DELETE: /Admin/DeleteRole?UserName="TestUser&RoleName=Administrator
         [Authorize(Roles = "Administrador")]
-        #region public ActionResult DeleteRole(string UserName, string RoleName)
-        public ActionResult DeleteRole(string UserName, string RoleName)
+        #region public ActionResult DeleteRole(string Email, string RoleName)
+        public ActionResult DeleteRole(string Email, string RoleName)
         {
             try
             {
-                if ((UserName == null) || (RoleName == null))
+                if ((Email == null) || (RoleName == null))
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                UserName = UserName.ToLower();
+                Email = Email.ToLower();
 
                 // Check that we have an actual user
-                UsuarioAmpliado objExpandedUserDTO = GetUser(UserName);
+                UsuarioAmpliado objExpandedUserDTO = GetUser(Email);
 
                 if (objExpandedUserDTO == null)
                 {
                     return HttpNotFound();
                 }
 
-                if (UserName.ToLower() ==
+                if (Email.ToLower() ==
                     this.User.Identity.Name.ToLower() && RoleName == "Administrador")
                 {
                     ModelState.AddModelError(string.Empty,
@@ -615,23 +600,23 @@ namespace RegionalFF.Controllers
                 }
 
                 // Go get the User
-                ApplicationUser user = UserManager.FindByName(UserName);
+                ApplicationUser user = UserManager.FindByEmail(Email);
                 // Remove User from role
                 UserManager.RemoveFromRoles(user.Id, RoleName);
                 UserManager.Update(user);
 
-                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
+                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(Email));
 
-                return RedirectToAction("EditarRoles", new { UserName = UserName });
+                return RedirectToAction("EditarRoles", new { Email = Email });
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex);
 
-                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
+                ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(Email));
 
                 UsuarioyRoles objUserAndRolesDTO =
-                    GetUserAndRoles(UserName);
+                    GetUserAndRoles(Email);
 
                 return View("EditarRoles", objUserAndRolesDTO);
             }
@@ -705,7 +690,7 @@ namespace RegionalFF.Controllers
                     roleManager.Create(new IdentityRole(RoleName));
                 }
 
-                return Redirect("~/Admin/Roles");
+                return RedirectToAction("Roles", "Admin");
             }
             catch (Exception ex)
             {
@@ -826,6 +811,43 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
+
+        #region public ActionResult ActualizarCookies(UsuarioAmpliado parametros)
+        public bool ActualizarCookies(String a)
+        {
+            ApplicationUser user = UserManager.FindByEmail(a);
+            var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var userRoles = userManager.GetRoles(user.Id);
+            if (userRoles[0] != null || userRoles[0] != "")
+            {
+                HttpCookie RegionalFFCookie = HttpContext.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF");
+                RegionalFFCookie.Values["Oficina"] = user.Oficina.Nombre;
+                RegionalFFCookie.Values["Email"] = user.Email;
+                RegionalFFCookie.Values["Documento"] = user.Documento.ToString();
+                RegionalFFCookie.Values["Numero"] = user.Numero.ToString();
+                RegionalFFCookie.Values["NumeroUsuario"] = user.PhoneNumber;
+                RegionalFFCookie.Values["NombreUsuario"] = user.Nombre;
+                RegionalFFCookie.Values["ApellidoUsuario"] = user.Apellido;
+                RegionalFFCookie.Values["ImagenUsuarioCurrent"] = user.Imagen;
+                RegionalFFCookie.Values["Sigla"] = user.Oficina.Sigla;
+                RegionalFFCookie.Values["UsernameUsuario"] = user.UserName;
+                RegionalFFCookie.Values["Direccion"] = user.Direccion;
+                RegionalFFCookie.Values["Rol"] = userRoles[0];
+                int Index = 0;
+                Index = user.Email.IndexOf("@");
+                RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
+                RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Add(RegionalFFCookie);
+                if (RegionalFFCookie != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        #endregion
+
+
         #region private List<SelectListItem> GetTodoRolesComoSelectList()
         private List<SelectListItem> GetTodoRolesComoSelectList()
         {
@@ -891,12 +913,12 @@ namespace RegionalFF.Controllers
         #endregion
 
 
-        #region private UsuarioAmpliado GetUser(string paramUserName)
-        private UsuarioAmpliado GetUser(string paramUserName)
+        #region private UsuarioAmpliado GetUser(string Email)
+        private UsuarioAmpliado GetUser(string Email)
         {
             UsuarioAmpliado objExpandedUserDTO = new UsuarioAmpliado();
 
-            var result = UserManager.FindByName(paramUserName);
+            var result = UserManager.FindByEmail(Email);
 
             // If we could not find the user, throw an exception
             if (result == null) throw new Exception("No se pudo encontrar el usuario");
@@ -949,8 +971,7 @@ namespace RegionalFF.Controllers
         #region private ExpandedUserDTO UpdateDTOUser(UsuarioAmpliado objExpandedUserDTO)
         private UsuarioAmpliado UpdateDTOUser(UsuarioAmpliado paramExpandedUserDTO)
         {
-            ApplicationUser result =
-                UserManager.FindByName(paramExpandedUserDTO.UserName);
+            ApplicationUser result = UserManager.FindByEmail(paramExpandedUserDTO.Email);
 
             // If we could not find the user, throw an exception
             if (result == null)
@@ -966,7 +987,8 @@ namespace RegionalFF.Controllers
             result.Documento = paramExpandedUserDTO.Documento;
             result.UserName = paramExpandedUserDTO.UserName;
             result.OficinaId = paramExpandedUserDTO.OficinaId;
-            result.Imagen = paramExpandedUserDTO.Imagen;
+            result.Oficina = paramExpandedUserDTO.Oficina;
+            //result.Imagen = paramExpandedUserDTO.Imagen;
             result.Direccion = paramExpandedUserDTO.Direccion;
 
             // Lets check if the account needs to be unlocked
@@ -976,30 +998,32 @@ namespace RegionalFF.Controllers
                 UserManager.ResetAccessFailedCountAsync(result.Id);
             }
 
-            UserManager.Update(result);
-
-            // Was a password sent across?
-            if (!string.IsNullOrEmpty(paramExpandedUserDTO.Password))
+            IdentityResult estado = UserManager.Update(result);
+            if (estado.Succeeded)
             {
-                // Remove current password
-                var removePassword = UserManager.RemovePassword(result.Id);
-                if (removePassword.Succeeded)
+                // Was a password sent across?
+                if (!string.IsNullOrEmpty(paramExpandedUserDTO.Password))
                 {
-                    // Add new password
-                    var AddPassword =
-                        UserManager.AddPassword(
-                            result.Id,
-                            paramExpandedUserDTO.Password
-                            );
-
-                    if (AddPassword.Errors.Count() > 0)
+                    // Remove current password
+                    var removePassword = UserManager.RemovePassword(result.Id);
+                    if (removePassword.Succeeded)
                     {
-                        throw new Exception(AddPassword.Errors.FirstOrDefault());
+                        // Add new password
+                        var AddPassword =
+                            UserManager.AddPassword(
+                                result.Id,
+                                paramExpandedUserDTO.Password
+                                );
+
+                        if (AddPassword.Errors.Count() > 0)
+                        {
+                            throw new Exception(AddPassword.Errors.FirstOrDefault());
+                        }
                     }
                 }
+                return paramExpandedUserDTO;
             }
-
-            return paramExpandedUserDTO;
+            throw new Exception("No se realizo ningun cambio!");
         }
         #endregion
 
@@ -1025,6 +1049,7 @@ namespace RegionalFF.Controllers
             result.Documento = paramExpandedUserDTO.Documento;
             result.UserName = paramExpandedUserDTO.UserName;
             result.OficinaId = paramExpandedUserDTO.OficinaId;
+            result.Oficina = paramExpandedUserDTO.Oficina;
             result.Imagen = paramExpandedUserDTO.Imagen;
             result.Direccion = paramExpandedUserDTO.Direccion;
 
@@ -1035,27 +1060,11 @@ namespace RegionalFF.Controllers
                 UserManager.ResetAccessFailedCountAsync(result.Id);
             }
 
-            UserManager.Update(result);
-
-            // Was a password sent across?
-            if (!string.IsNullOrEmpty(paramExpandedUserDTO.Password))
+            IdentityResult estado = UserManager.Update(result);
+            if (estado.Succeeded)
             {
-                // Remove current password
-                var removePassword = UserManager.RemovePassword(result.Id);
-                if (removePassword.Succeeded)
-                {
-                    // Add new password
-                    var AddPassword =
-                        UserManager.AddPassword(
-                            result.Id,
-                            paramExpandedUserDTO.Password
-                            );
-
-                    if (AddPassword.Errors.Count() > 0)
-                    {
-                        throw new Exception(AddPassword.Errors.FirstOrDefault());
-                    }
-                }
+                ActualizarCookies(paramExpandedUserDTO.Email);
+                return paramExpandedUserDTO;
             }
 
             return paramExpandedUserDTO;
@@ -1069,7 +1078,7 @@ namespace RegionalFF.Controllers
         private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)
         {
             ApplicationUser user =
-                UserManager.FindByName(paramExpandedUserDTO.UserName);
+                UserManager.FindByName(paramExpandedUserDTO.Email);
 
             // If we could not find the user, throw an exception
             if (user == null)
@@ -1083,18 +1092,18 @@ namespace RegionalFF.Controllers
         }
         #endregion
 
-        #region private UserAndRolesDTO GetUserAndRoles(string UserName)
-        private UsuarioyRoles GetUserAndRoles(string UserName)
+        #region private UserAndRolesDTO GetUserAndRoles(string Email)
+        private UsuarioyRoles GetUserAndRoles(string Email)
         {
             // Go get the User
-            ApplicationUser user = UserManager.FindByName(UserName);
+            ApplicationUser user = UserManager.FindByName(Email);
 
             List<UsuarioRol> colUserRoleDTO =
                 (from objRole in UserManager.GetRoles(user.Id)
                  select new UsuarioRol
                  {
                      RoleName = objRole,
-                     UserName = UserName
+                     Email = Email
                  }).ToList();
 
             if (colUserRoleDTO.Count() == 0)
@@ -1102,25 +1111,25 @@ namespace RegionalFF.Controllers
                 colUserRoleDTO.Add(new UsuarioRol { RoleName = "No se encontraron roles" });
             }
 
-            ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(UserName));
+            ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(Email));
 
             // Create UserRolesAndPermissionsDTO
             UsuarioyRoles objUserAndRolesDTO =
                 new UsuarioyRoles();
-            objUserAndRolesDTO.UserName = UserName;
+            objUserAndRolesDTO.Email = Email;
             objUserAndRolesDTO.colUsuarioRol = colUserRoleDTO;
             return objUserAndRolesDTO;
         }
         #endregion
 
-        #region private List<string> RolesUserIsNotIn(string UserName)
-        private List<string> RolesUserIsNotIn(string UserName)
+        #region private List<string> RolesUserIsNotIn(string Email)
+        private List<string> RolesUserIsNotIn(string Email)
         {
             // Get roles the user is not in
             var colAllRoles = RoleManager.Roles.Select(x => x.Name).ToList();
 
             // Go get the roles for an individual
-            ApplicationUser user = UserManager.FindByName(UserName);
+            ApplicationUser user = UserManager.FindByEmail(Email);
 
             // If we could not find the user, throw an exception
             if (user == null)

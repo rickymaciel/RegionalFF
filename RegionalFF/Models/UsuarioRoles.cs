@@ -8,6 +8,7 @@ namespace RegionalFF.Models
     public class UsuarioAmpliado
     {
         [Key]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Nombre de Usuario")]
         public string UserName { get; set; }
 
@@ -16,22 +17,25 @@ namespace RegionalFF.Models
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "El Nº Funcionario es requerido")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Nº Funcionario")]
         public int Numero { get; set; }
 
-        [Required(ErrorMessage = "La Oficina es requerida")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Oficina")]
         public int OficinaId { get; set; }
 
-        [Required(ErrorMessage = "El Documento es requerido")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Documento")]
         public int Documento { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         public string Nombre { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         public string Apellido { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         [ForeignKey("OficinaId")]
         [Display(Name = "Oficina")]
         public virtual Oficina Oficina { get; set; }
@@ -41,6 +45,7 @@ namespace RegionalFF.Models
         public int AccessFailedCount { get; set; }
 
         public string Direccion { get; set; }
+
         [DataType(DataType.ImageUrl)]
         public string Imagen { get; set; }
 
@@ -53,15 +58,15 @@ namespace RegionalFF.Models
     public class UsuarioRole
     {
         [Key]
-        [Display(Name = "Nombre del Rol")]
-        public string RoleName { get; set; }
+        [Display(Name = "Email del Rol")]
+        public string Email { get; set; }
     }
 
     public class UsuarioRol
     {
         [Key]
         [Display(Name = "Nombre de Usuario")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
         [Display(Name = "Nombre del Rol")]
         public string RoleName { get; set; }
     }
@@ -78,7 +83,7 @@ namespace RegionalFF.Models
     {
         [Key]
         [Display(Name = "Nombre de Usuario")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
         public List<UsuarioRol> colUsuarioRol { get; set; }
     }
 }

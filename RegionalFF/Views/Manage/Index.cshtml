@@ -1,65 +1,25 @@
 ﻿@model RegionalFF.Models.IndexViewModel
-@{
-    ViewBag.Title = "Administración";
-    ViewBag.SubTitle = "Información del Usuario";
-}
-
 @using Microsoft.AspNet.Identity
 @using RegionalFF.Controllers
 
 @{
-    string Usuario = "";
-    if (User.Identity.GetUserName() != "")
-    {
+    ViewBag.Title = "Administración";
+    ViewBag.SubTitle = "Información del Usuario";
 
-        OficinasController oficinacur = new OficinasController();
-        ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
-        ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
-        ViewBag.ImagenUsuarioCurrent = oficinacur.getImagenUsuario(User.Identity.GetUserName());
-        ViewBag.NumeroUsuario = oficinacur.getEmpresaNumeroUsers(User.Identity.GetUserName());
-        ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
-        ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
-        ViewBag.UsernameUsuario = oficinacur.getEmpresaUsernameUsuario(User.Identity.GetUserName());
-        ViewBag.Documento = oficinacur.getEmpresaDocumentoUsers(User.Identity.GetUserName());
-        ViewBag.Direccion = oficinacur.getEmpresaDireccionUsers(User.Identity.GetUserName());
-        ViewBag.Email = User.Identity.GetUserName();
-
-        FacilitacionesController hoy = new FacilitacionesController();
-        ViewBag.Cant = hoy.getTotalRegistroHoy(User.Identity.GetUserName());
-        ViewBag.CantMes = hoy.getTotalRegistroMes(User.Identity.GetUserName());
-        ViewBag.CantAnio = hoy.getTotalRegistroAnio(User.Identity.GetUserName());
-
-        string Email = "";
-        int Index = 0;
-        Email = User.Identity.GetUserName();
-        Index = Email.IndexOf("@");
-        Usuario = Email.Substring(0, Index);
-    }
+    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+    var archivo = Path.GetFileName(RegionalFFCookies.Values["ImagenUsuarioCurrent"]);
+    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), archivo);
+    byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+    string imageBase64Data = Convert.ToBase64String(imageByteData);
+    string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+    ViewBag.ImagenUsuarioCurrent = imageDataURL;
 }
 
 <div class="page-title">
     <div class="title_left">
         <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
     </div>
-
-    @*<div class="title_right">
-        <div class="pull-right">
-            <div class="btn-group">
-                <a href="@Url.Action("Index", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver">
-                    <i class="fa fa-reply"></i>
-                    Volver
-                </a>
-                <a href="@Url.Action("Index", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Volver">
-                    <i class="fa fa-reply"></i>
-                </a>
-            </div>
-        </div>
-    </div>*@
 </div>
-
-<div class="clearfix"></div>
-
-
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -71,68 +31,72 @@
             </div>
             <div class="x_content">
                 <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-                    <h3 class="text-center">@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario</h3>
                     <div class="profile_img image view view-first">
                         <div id="crop-avatar" class="img-responsive">
                             <!-- Current avatar -->
-                            <img class="img-thumbnail avatar-view" src="~/Content/img/Uploads/Usuarios/@ViewBag.ImagenUsuarioCurrent" alt="@Usuario" title="@Usuario">
+                            <img src="@ViewBag.ImagenUsuarioCurrent" alt="@RegionalFFCookies.Values["Usuario"]" width="100%" class="img-responsive img-thumbnail avatar-view tip" title="@RegionalFFCookies.Values["Usuario"]" />
+
                             <div class="mask">
                                 <p>Cambiar Foto de Perfil</p>
-                                <div class="tools tools-top">
-                                    <a class="" href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Cambiar Foto"><i class="fa fa-edit"></i>Cambiar</a>
+                                <div class="tools tools-bottom">
+                                    <a class="" href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Cambiar Foto"><i class="fa fa-edit"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-link btn-block"><i class="fa fa-edit"></i> Modificar Información</a>
+                    <div class="caption">
+                        <p>
+                            <a class="btn btn-default btn-sm btn-block" href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Cambiar Foto"><i class="fa fa-camera"></i> Cambiar foto de perfil</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-primary btn-sm btn-block"><i class="fa fa-edit"></i> Modificar Información</a>
+                        </p>
+                    </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
+                    <h3 class="page-header text-center">@RegionalFFCookies.Values["NombreUsuario"] @RegionalFFCookies.Values["ApellidoUsuario"]</h3>
                     <dl class="dl-horizontal">
                         <dt>Email:</dt>
                         <dd class="text-muted">
                             <i class="fa fa-envelope user-profile-icon"></i>
-                            @ViewBag.Email
+                            @RegionalFFCookies.Values["Email"]
                         </dd>
 
 
                         <dt>Usuario:</dt>
                         <dd class="text-muted">
                             <i class="fa fa-user user-profile-icon"></i>
-                            @ViewBag.UserNameUsuario
+                            @RegionalFFCookies.Values["UserNameUsuario"]
                         </dd>
 
 
                         <dt>Documento:</dt>
                         <dd class="text-muted">
-                            <i class="fa fa-certificate user-profile-icon"></i>
-                            @ViewBag.Documento
+                            @RegionalFFCookies.Values["Documento"]
                         </dd>
 
                         <dt>Oficina:</dt>
                         <dd class="text-muted">
                             <i class="fa fa-map-marker user-profile-icon"></i>
-                            @ViewBag.Oficina
+                            @RegionalFFCookies.Values["Oficina"]
                         </dd>
 
                         <dt>Sigla: </dt>
                         <dd class="text-muted">
-                            <i class="fa fa-strikethrough user-profile-icon"></i>
-                            @ViewBag.Sigla
+                            @RegionalFFCookies.Values["Sigla"]
                         </dd>
 
                         <dt>Dirección:</dt>
                         <dd class="text-muted">
                             <i class="fa fa-location-arrow user-profile-icon"></i>
-                            @ViewBag.Direccion
+                            @RegionalFFCookies.Values["Direccion"]
                         </dd>
 
                         <dt> Nº de Funcionario:</dt>
                         <dd class="text-muted">
                             <i class="fa fa-ticket user-profile-icon"></i>
-                            @ViewBag.NumeroUsuario
+                            @RegionalFFCookies.Values["Numero"]
                         </dd>
-                        <dt><br /></dt>
-                        <dd><br /></dd>
                         <dt>Foto de perfil:</dt>
                         <dd class="text-muted">
                             [

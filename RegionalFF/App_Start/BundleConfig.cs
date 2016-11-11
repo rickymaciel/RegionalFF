@@ -21,24 +21,42 @@ namespace RegionalFF
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
-                      "~/Content/Selectize/js/standalone/selectize.js",
+                      "~/Scripts/Selectize/js/standalone/selectize.min.js",
                       "~/Scripts/icheck.min.js",
-                      "~/Scripts/pnotify.js",
-                      "~/Scripts/pnotify.buttons.js",
+                      "~/Scripts/Pnotify/pnotify.js",
+                      "~/Scripts/Pnotify/pnotify.buttons.js",
                       "~/Scripts/nprogress.js",
-                      "~/Scripts/custom.js",
-                      "~/Scripts/respond.js"
+                      "~/Scripts/custom.min.js",
+                      "~/Scripts/respond.min.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
+                      "~/Scripts/datatables/jquery.dataTables.min.js",
+                      "~/Scripts/datatables/dataTables.responsive.min.js",
+                      "~/Scripts/datatables/dataTables.bootstrap4.min.js",
+                      "~/Scripts/datatables/dataTables.buttons.min.js",
+                      "~/Scripts/datatables/buttons.bootstrap.min.js",
+                      "~/Scripts/datatables/buttons.flash.min.js",
+                      "~/Scripts/datatables/buttons.html5.min.js",
+                      "~/Scripts/datatables/buttons.print.min.js",
+                      "~/Scripts/datatables/jszip.min.js",
+                      "~/Scripts/datatables/pdfmake.min.js",
+                      "~/Scripts/datatables/ScriptDatatables.js",
+                      "~/Scripts/datatables/vfs_fonts.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
-                      "~/Scripts/fastclick.js",
+                //"~/Scripts/fastclick.js",
                       "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
                       "~/Scripts/Moment.js",
                       "~/Scripts/moment-with-locales.js",
                       "~/Scripts/bootstrap-datetimepicker.min.js",
-                      "~/Scripts/fileinput.min.js",
-                      "~/Content/bootstrap-fileinput/themes/fa/theme.js",
-                      "~/Content/bootstrap-fileinput/themes/gly/theme.js"
+                      "~/Content/bootstrap-fileinput/js/plugins/purify.min.js",
+                      "~/Content/bootstrap-fileinput/js/plugins/sortable.min.js",
+                      "~/Content/bootstrap-fileinput/js/plugins/purify.min.js",
+                      "~/Content/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js",
+                      "~/Content/bootstrap-fileinput/js/fileinput.min.js",
+                      "~/Content/bootstrap-fileinput/themes/fa/theme.js"
             ));
 
 
@@ -57,43 +75,30 @@ namespace RegionalFF
             ));
 
 
-            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
-                      "~/Scripts/datatables/jquery.dataTables.min.js",
-                      "~/Scripts/datatables/dataTables.responsive.min.js",
-                      "~/Scripts/datatables/dataTables.bootstrap4.min.js",
-                      "~/Scripts/datatables/dataTables.buttons.min.js",
-                      "~/Scripts/datatables/buttons.bootstrap.min.js",
-                      "~/Scripts/datatables/buttons.flash.min.js",
-                      "~/Scripts/datatables/buttons.html5.min.js",
-                      "~/Scripts/datatables/buttons.print.min.js",
-                      "~/Scripts/datatables/jszip.min.js",
-                      "~/Scripts/datatables/pdfmake.min.js",
-                      "~/Scripts/datatables/ScriptDatatables.js",
-                      "~/Scripts/datatables/vfs_fonts.js"));
-            
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/font-awesome.min.css",
                       "~/Content/animate.min.css",
                       "~/Content/jquery.mCustomScrollbar.min.css",
                       "~/Content/blue.css",
-                      "~/Content/pnotify.css",
-                      "~/Content/pnotify.buttons.css",
+                      "~/Scripts/Pnotify/pnotify.css",
+                      "~/Scripts/Pnotify/pnotify.buttons.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/ionicons.min.css",
-                      "~/Content/bootstrap-fileinput/css/fileinput.css",
+                      "~/Content/bootstrap-fileinput/css/fileinput.min.css",
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.min.css",
                       "~/Content/nprogress.css",
                       "~/Content/custom.css",
                       "~/Content/docs.min.css",
-                      "~/Content/Selectize/css/selectize.bootstrap3.css",
+                      "~/Scripts/Selectize/css/selectize.bootstrap3.css",
                       "~/Scripts/amcharts/plugins/export/export.css"
                       ));
 
-            bundles.Add(new StyleBundle("~/Content/datatables").Include(
-                      //"~/Content/datatables/jquery.dataTables.min.css",
+
+            bundles.Add(new StyleBundle("~/Content/datatable").Include(
+                //"~/Content/datatables/jquery.dataTables.min.css",
                       "~/Content/datatables/dataTables.bootstrap4.min.css",
-                      //"~/Content/datatables/dataTables.bootstrap.min.css",
+                //"~/Content/datatables/dataTables.bootstrap.min.css",
                       "~/Content/datatables/buttons.bootstrap.min.css",
                       "~/Content/datatables/responsive.bootstrap.min.css"));
 
@@ -103,8 +108,8 @@ namespace RegionalFF
                       "~/Content/blue.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/animate.min.css",
-                      "~/Content/pnotify.css",
-                      "~/Content/pnotify.buttons.css",
+                      "~/Scripts/Pnotify/pnotify.css",
+                      "~/Scripts/Pnotify/pnotify.buttons.css",
                       "~/Content/custom.css",
                       "~/Content/docs.min.css"));
         }

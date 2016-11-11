@@ -32,15 +32,15 @@ if ( !AmCharts.translations[ "export" ] ) {
 }
 if ( !AmCharts.translations[ "export" ][ "en" ] ) {
 	AmCharts.translations[ "export" ][ "en" ] = {
-		"fallback.save.text": "CTRL + C para copiar the data into the clipboard.",
+		"fallback.save.text": "CTRL + C para copiar los datos en la memoria.",
 		"fallback.save.image": "Rightclick -> Guardar imagen como... para guardar la imagen.",
 
 		"capturing.delayed.menu.label": "{{duration}}",
 		"capturing.delayed.menu.title": "Click para cancelar",
 
 		"menu.label.print": "Imprimir",
-		"menu.label.undo": "Undo",
-		"menu.label.redo": "Redo",
+		"menu.label.undo": "Deshacer",
+		"menu.label.redo": "Rehacer",
 		"menu.label.cancel": "Cancelar",
 
 		"menu.label.save.image": "Descargar como ...",
@@ -53,7 +53,7 @@ if ( !AmCharts.translations[ "export" ][ "en" ] ) {
 		"menu.label.draw.colors": "Color ...",
 		"menu.label.draw.widths": "Tamaño ...",
 		"menu.label.draw.opacities": "Opacidad ...",
-		"menu.label.draw.text": "Text0",
+		"menu.label.draw.text": "Texto",
 
 		"menu.label.draw.modes": "Modo ...",
 		"menu.label.draw.modes.pencil": "Lápiz",

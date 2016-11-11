@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using RegionalFF.Models;
+using System.IO;
 
 namespace RegionalFF.Controllers
 {
@@ -80,47 +81,28 @@ namespace RegionalFF.Controllers
             {
                 case SignInStatus.Success:
                     ApplicationUser user = await UserManager.FindAsync(model.Email, model.Password);
-                    var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                    var userRoles = userManager.GetRoles(user.Id);
-
-                    if (userRoles[0] != null || userRoles[0] != "")
+                    if (user != null)
                     {
-                        OficinasController oficinacurrent = new OficinasController();
-                        //crear Cookie y setear
-                        HttpCookie RegionalFFCookie = HttpContext.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-                        RegionalFFCookie.Values["Oficina"] = oficinacurrent.getEmpresaUsers(user.Email);
-                        RegionalFFCookie.Values["NombreUsuario"] = oficinacurrent.getEmpresaNombreUsuario(user.Email);
-                        RegionalFFCookie.Values["ApellidoUsuario"] = oficinacurrent.getEmpresaApellidoUsuario(user.Email);
-                        RegionalFFCookie.Values["ImagenUsuarioCurrent"] = oficinacurrent.getImagenUsuario(user.Email);
-                        RegionalFFCookie.Values["Sigla"] = oficinacurrent.getEmpresaSiglaUsers(user.Email);
-                        RegionalFFCookie.Values["UsernameUsuario"] = oficinacurrent.getEmpresaUsernameUsuario(user.Email);
-                        RegionalFFCookie.Values["Direccion"] = oficinacurrent.getEmpresaDireccionUsers(user.Email);
-                        RegionalFFCookie.Values["Rol"] = userRoles[0];
-                        int Index = 0;
-                        Index = user.Email.IndexOf("@");
-                        RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
-                        RegionalFFCookie.Expires = DateTime.Now.AddDays(1d);
-                        Response.Cookies.Add(RegionalFFCookie);
+                        ActualizarCookies(user.Email);
+                        // Redirect to User landing page on SignIn, according to Role
+                        if ((UserManager.IsInRole(user.Id, "Administrador")))
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        if ((UserManager.IsInRole(user.Id, "Facilitador")))
+                        {
+                            return RedirectToAction("Index", "Facilitaciones");
+                        }
+                        if ((UserManager.IsInRole(user.Id, "Fiscalizador")))
+                        {
+                            return RedirectToAction("Index", "Fiscalizaciones");
+                        }
+                        else
+                        {
+                            return RedirectToLocal(returnUrl);
+                        }
                     }
-
-                
-                // Redirect to User landing page on SignIn, according to Role
-                if ((UserManager.IsInRole(user.Id, "Administrador")))
-                {
-                       return RedirectToAction("Index", "Admin");
-                }
-                if ((UserManager.IsInRole(user.Id, "Facilitador")))
-                {
-                    return RedirectToAction("Index", "Facilitaciones");
-                }
-                if ((UserManager.IsInRole(user.Id, "Fiscalizador")))
-                {
-                    return RedirectToAction("Index", "Fiscalizaciones");
-                }
-                else
-                {
                     return RedirectToLocal(returnUrl);
-                }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -442,6 +424,44 @@ namespace RegionalFF.Controllers
             return View(model);
         }
 
+
+        #region public ActionResult ActualizarCookies(UsuarioAmpliado parametros)
+        public bool ActualizarCookies(String a)
+        {
+            ApplicationUser user = UserManager.FindByEmail(a);
+            var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var userRoles = userManager.GetRoles(user.Id);
+            if (userRoles[0] != null || userRoles[0] != "")
+            {
+                HttpCookie RegionalFFCookie = HttpContext.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF");
+                RegionalFFCookie.Values["Oficina"] = user.Oficina.Nombre;
+                RegionalFFCookie.Values["Email"] = user.Email;
+                RegionalFFCookie.Values["Documento"] = user.Documento.ToString();
+                RegionalFFCookie.Values["Numero"] = user.Numero.ToString();
+                RegionalFFCookie.Values["NumeroUsuario"] = user.PhoneNumber;
+                RegionalFFCookie.Values["NombreUsuario"] = user.Nombre;
+                RegionalFFCookie.Values["ApellidoUsuario"] = user.Apellido;
+                RegionalFFCookie.Values["ImagenUsuarioCurrent"] = user.Imagen;
+                RegionalFFCookie.Values["Sigla"] = user.Oficina.Sigla;
+                RegionalFFCookie.Values["UsernameUsuario"] = user.UserName;
+                RegionalFFCookie.Values["Direccion"] = user.Direccion;
+                RegionalFFCookie.Values["Rol"] = userRoles[0];
+                int Index = 0;
+                Index = user.Email.IndexOf("@");
+                RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
+                RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Add(RegionalFFCookie);
+                int expirationMinutes = Session.Timeout;
+                if (System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"] != null)
+                {
+                    System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddMinutes(expirationMinutes);
+                    return true;
+                }
+            }
+            return false;
+        }
+        #endregion
+
         //
         // POST: /Account/LogOff
         [HttpPost]
@@ -450,6 +470,8 @@ namespace RegionalFF.Controllers
         {
             HttpContext.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddDays(-10);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session.Abandon();
+            Session.Clear();
             return RedirectToAction("Index", "Facilitaciones");
         }
 

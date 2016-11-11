@@ -3,23 +3,18 @@
 @using RegionalFF.Controllers
 
 @{
-    if (User.Identity.GetUserName() != "")
-    {
+    FacilitacionesController hoy = new FacilitacionesController();
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
 
-        FacilitacionesController hoy = new FacilitacionesController();
-        ViewBag.Title = "Facilitación";
-        ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
+    HttpCookie RegionalFFCookie = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+    RegionalFFCookie.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
+    RegionalFFCookie.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
+    RegionalFFCookie.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
 
-        HttpCookie RegionalFFCookie = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-        RegionalFFCookie.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
-        RegionalFFCookie.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
-        RegionalFFCookie.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
+    RegionalFFCookie.Expires = DateTime.Now.AddDays(1d);
+    Response.Cookies.Add(RegionalFFCookie);
 
-        RegionalFFCookie.Expires = DateTime.Now.AddDays(1d);
-        Response.Cookies.Add(RegionalFFCookie);
-    }
-}
-@{
     HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
 }
 <div class="page-title">
@@ -188,7 +183,7 @@
         <div id="container-floating" data-toggle="modal" data-target="#crearFacilitacion">
             <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
                 <p class="plus">+</p>
-                <img class="edit" src="~/Content/bt_compose2_1x.png">
+                <img class="edit" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA5FBMVEUAAABua2xXVFWbmJliX2C0s7P///9pZ2d6eHjX1taXlJX5+fn8/Pywr6/29vZaV1iQjo+FgoMwLC1iX2DU09Tv7+/n5+e4trcEAQHf3t75+Pns7Oy6ublpZ2d5d3j5+fn////t7e3NzMxfXF3Y19fn5ua5t7j9/f3////9/f34+PhdWlvY1tf5+fnt7Oy1tLT///////////+4t7f9/f3////////v7u7Pzs7+/v74+Pj///////+DgYLZ2Nn09PT7+/v////////////////////////////////////////+/v7p3CnTAAAASnRSTlMAAAAAAAAAAAAAAAAAAAAIJxsBCW/bvjsBZu/MOgkWXOu5EAlyrzBg6tEWCXHuvC7sXwIwW1sEqg1jA2IDBW8Z2xzjGcrl5NphGGLptgIAAACVSURBVBjTtclFAsIwEEDRwQZ396ItVtyLhKKT+9+HDZs02QF/+T7Av3LFE8mUW3ZPOpPN5cHrdF+hWCJerqBf9EC1VteIeKMZFDzUane6ukHU64cFHwxH3Bzr2mQ6Q4cTcXO+WK5kJ+LrDaictO0uonJjb+EXHj0clQ6x01npgOyi9M+QHdC+3u6Pp+SAls3YS/af9QbjVSRDRv3NPgAAAABJRU5ErkJggg==">
             </div>
         </div>
     </div>
@@ -197,5 +192,5 @@
 @Html.Partial("_PartialFacilitacion")
 
 @section Scripts {
-    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/datatable")
 }

@@ -259,9 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.min.css" />
-    <Content Include="Content\blue%402x.png" />
-    <Content Include="Content\blue.css" />
-    <Content Include="Content\blue.png" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-fileinput\css\fileinput.css" />
     <Content Include="Content\bootstrap-fileinput\css\fileinput.min.css" />
@@ -287,14 +284,6 @@
     <Content Include="Content\img\user.png" />
     <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery.mCustomScrollbar.min.css" />
-    <Content Include="Content\PagedList.css" />
-    <Content Include="Content\pnotify.brighttheme.css" />
-    <Content Include="Content\pnotify.buttons.css" />
-    <Content Include="Content\pnotify.css" />
-    <Content Include="Content\pnotify.history.css" />
-    <Content Include="Content\pnotify.material.css" />
-    <Content Include="Content\pnotify.mobile.css" />
-    <Content Include="Content\pnotify.nonblock.css" />
     <Content Include="Content\Selectize\css\selectize.bootstrap2.css" />
     <Content Include="Content\Selectize\css\selectize.bootstrap3.css" />
     <Content Include="Content\Selectize\css\selectize.css" />
@@ -347,8 +336,6 @@
     <Content Include="Scripts\datatables\pdfmake.min.js" />
     <Content Include="Scripts\datatables\vfs_fonts.js" />
     <Content Include="Scripts\fastclick.js" />
-    <Content Include="Scripts\fileinput.js" />
-    <Content Include="Scripts\fileinput.min.js" />
     <Content Include="Scripts\icheck.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -391,8 +378,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\Moment.js" />
-    <Content Include="Scripts\npm.js" />
-    <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\pieconfig.js" />
     <Content Include="Scripts\plugins\canvas-to-blob.js" />
     <Content Include="Scripts\plugins\canvas-to-blob.min.js" />
@@ -400,17 +385,6 @@
     <Content Include="Scripts\plugins\purify.min.js" />
     <Content Include="Scripts\plugins\sortable.js" />
     <Content Include="Scripts\plugins\sortable.min.js" />
-    <Content Include="Scripts\pnotify.animate.js" />
-    <Content Include="Scripts\pnotify.buttons.js" />
-    <Content Include="Scripts\pnotify.callbacks.js" />
-    <Content Include="Scripts\pnotify.confirm.js" />
-    <Content Include="Scripts\pnotify.desktop.js" />
-    <Content Include="Scripts\pnotify.history.js" />
-    <Content Include="Scripts\pnotify.js" />
-    <Content Include="Scripts\pnotify.mobile.js" />
-    <Content Include="Scripts\pnotify.nonblock.js" />
-    <Content Include="Scripts\pnotify.reference.js" />
-    <Content Include="Scripts\pnotify.tooltip.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\datatables\ScriptDatatables.js" />
@@ -538,7 +512,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608302216071_Inicial.resx">

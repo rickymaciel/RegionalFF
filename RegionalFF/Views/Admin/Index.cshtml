@@ -105,8 +105,8 @@
                                 <tr>
                                     <td class="col-lg-1 col-xs-3 text-center">
                                         <span class="btn-group">
-                                            <a class="btn btn-warning btn-xs" href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-                                            <a class="btn btn-danger btn-xs" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName})" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
+                                            <a class="btn btn-warning btn-xs" href="@Url.Action("EditarUsuario", "Admin", new { Email = item.Email })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                            <a class="btn btn-danger btn-xs" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" href="@Url.Action("DeleteUser", "Admin", new { Email = item.Email })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em></a>
                                         </span>
                                     </td>
                                     <td>

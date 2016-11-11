@@ -19,32 +19,36 @@
                     <i class="fa fa-reply"></i>
                     Volver
                 </a>
-                <a href="@Url.Action("Index", "Manage")" class="btn btn-default hidden-lg">
-                    <i class="fa fa-reply"></i>
-                </a>
-                <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Nuevo usuario">
-                    <i class="fa fa-plus-circle"></i>
-                    Nuevo Usuario
-                </a>
-                <a href="@Url.Action("Create", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Nuevo usuario">
-                    <i class="fa fa-plus-circle"></i>
-                </a>
+                @if (User.IsInRole("Administrador"))
+                {
 
-                <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear rol">
-                    <i class="fa fa-plus-circle"></i>
-                    Nuevo Rol
-                </a>
-                <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear rol">
-                    <i class="fa fa-plus-circle"></i>
-                </a>
+                    <a href="@Url.Action("Index", "Manage")" class="btn btn-default hidden-lg">
+                        <i class="fa fa-reply"></i>
+                    </a>
+                    <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Nuevo usuario">
+                        <i class="fa fa-plus-circle"></i>
+                        Nuevo Usuario
+                    </a>
+                    <a href="@Url.Action("Create", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Nuevo usuario">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
 
-                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Roles">
-                    <i class="fa fa-shield"></i>
-                    Ver Roles
-                </a>
-                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Roles">
-                    <i class="fa fa-shield"></i>
-                </a>
+                    <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear rol">
+                        <i class="fa fa-plus-circle"></i>
+                        Nuevo Rol
+                    </a>
+                    <a href="@Url.Action("NuevoRol", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear rol">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
+
+                    <a href="@Url.Action("Roles", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Roles">
+                        <i class="fa fa-shield"></i>
+                        Ver Roles
+                    </a>
+                    <a href="@Url.Action("Roles", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Roles">
+                        <i class="fa fa-shield"></i>
+                    </a>
+                }
             </div>
         </div>
     </div>
@@ -144,26 +148,13 @@
                             @Html.ValidationMessageFor(model => model.OficinaId, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group hidden">
-                        @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-3 " })
-                        <div class="col-lg-6">
-                            @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "file", type = "hidden", autocomplete = "off", placeholder = "Imagen", @required = "true" } })
-                            @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group hidden" id="vistaprevia">
-                        <label class="col-md-3 control-label">Vista Previa</label>
-                        <div class="col-lg-6">
-                            <img id="img_destino" width="200" src="#" alt="Vista Previa">
-                        </div>
-                    </div>
                     <div class="ln_solid"></div>
-                    <disv class="form-group">
+                    <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="reset" class="btn btn-default">Limpiar</button>
+                            <a href="@Url.Action("Index", "Manage")" class="btn btn-default"><i class="fa fa-reply"></i> Cancelar</a>
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
                         </div>
-                    </disv>
+                    </div>
 
                 }
             </div>
