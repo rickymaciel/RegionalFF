@@ -25,23 +25,16 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <i class="fa fa-info-circle"></i> @ViewBag.SubTitle
+                    @RegionalFFCookies.Values["NombreUsuario"] @RegionalFFCookies.Values["ApellidoUsuario"]
                 </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 profile_left">
                     <div class="profile_img image view view-first">
-                        <div id="crop-avatar" class="img-responsive">
+                        <div id="" class="img-responsive">
                             <!-- Current avatar -->
-                            <img src="@ViewBag.ImagenUsuarioCurrent" alt="@RegionalFFCookies.Values["Usuario"]" width="100%" class="img-responsive img-thumbnail avatar-view tip" title="@RegionalFFCookies.Values["Usuario"]" />
-
-                            <div class="mask">
-                                <p>Cambiar Foto de Perfil</p>
-                                <div class="tools tools-bottom">
-                                    <a class="" href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Cambiar Foto"><i class="fa fa-edit"></i></a>
-                                </div>
-                            </div>
+                            <img src="@ViewBag.ImagenUsuarioCurrent" alt="@RegionalFFCookies.Values["Usuario"]" width="100%" class="img-thumbnail avatar-view tip" data-toggle="tooltip" title="Cambiar la foto de perfil" />
                         </div>
                     </div>
                     <div class="caption">
@@ -49,83 +42,49 @@
                             <a class="btn btn-default btn-sm btn-block" href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Cambiar Foto"><i class="fa fa-camera"></i> Cambiar foto de perfil</a>
                         </p>
                         <p>
-                            <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-primary btn-sm btn-block"><i class="fa fa-edit"></i> Modificar Información</a>
+                            <a href="@Url.Action("ModificarUsuario", "Admin")" class="btn btn-primary btn-sm btn-block" data-toggle="tooltip" title="Modificar informacion"><i class="fa fa-edit"></i> Modificar Información</a>
                         </p>
+                        <hr />
+                        <p class="text-uppercase text-primary">Verificación en dos pasos:</p>
+                        @if (Model.TwoFactor)
+                        {
+                            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <p>
+                                    <input type="button" value="Habilitar" class="btn btn-default btn-block btn-sm" disabled />
+                                </p>
+                                <p>
+                                    <input type="submit" value="Deshabilitar" data-toggle="tooltip" title="Deshabilitar Verificación" class="btn btn-default btn-block btn-sm" />
+                                </p>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <p>
+                                    <input type="button" value="Deshabilitar" class="btn btn-default btn-block btn-sm" disabled />
+                                </p>
+                                <p>
+                                    <input type="submit" value="Habilitar" data-toggle="tooltip" title="Habilitar Verificación" class="btn btn-default btn-block btn-sm" />
+                                </p>
+                            }
+                        }
                     </div>
                 </div>
-                <div class="col-md-9 col-sm-9 col-xs-12">
-                    <h3 class="page-header text-center">@RegionalFFCookies.Values["NombreUsuario"] @RegionalFFCookies.Values["ApellidoUsuario"]</h3>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <dl class="dl-horizontal">
-                        <dt>Email:</dt>
-                        <dd class="text-muted">
-                            <i class="fa fa-envelope user-profile-icon"></i>
-                            @RegionalFFCookies.Values["Email"]
-                        </dd>
-
+                        <dt class=""></dt>
+                        <dd class="page-header text-uppercase text-primary">Datos Personales</dd>
 
                         <dt>Usuario:</dt>
-                        <dd class="text-muted">
+                        <dd class="">
                             <i class="fa fa-user user-profile-icon"></i>
                             @RegionalFFCookies.Values["UserNameUsuario"]
                         </dd>
 
-
-                        <dt>Documento:</dt>
-                        <dd class="text-muted">
-                            @RegionalFFCookies.Values["Documento"]
-                        </dd>
-
-                        <dt>Oficina:</dt>
-                        <dd class="text-muted">
-                            <i class="fa fa-map-marker user-profile-icon"></i>
-                            @RegionalFFCookies.Values["Oficina"]
-                        </dd>
-
-                        <dt>Sigla: </dt>
-                        <dd class="text-muted">
-                            @RegionalFFCookies.Values["Sigla"]
-                        </dd>
-
-                        <dt>Dirección:</dt>
-                        <dd class="text-muted">
-                            <i class="fa fa-location-arrow user-profile-icon"></i>
-                            @RegionalFFCookies.Values["Direccion"]
-                        </dd>
-
-                        <dt> Nº de Funcionario:</dt>
-                        <dd class="text-muted">
-                            <i class="fa fa-ticket user-profile-icon"></i>
-                            @RegionalFFCookies.Values["Numero"]
-                        </dd>
-                        <dt>Foto de perfil:</dt>
-                        <dd class="text-muted">
-                            [
-                            <a href="#" data-target="#cambiarImagen" data-toggle="modal" data-placement="top" title="Actualizar Foto de Perfil" class="text-success">
-                                <i class="fa fa-camera"></i>
-                                Cambiar la Foto del perfil
-                            </a>
-                            ]
-                        </dd>
-                        <dt>Contraseña:</dt>
-                        <dd class="text-muted">
-                            [
-                            @if (Model.HasPassword)
-                            {
-
-                                <a href="@Url.Action("ChangePassword", "Manage")" class="text-success">
-                                    <i class="fa fa-lock"></i>
-                                    Cambia tu contraseña
-                                </a>
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("SetPassword", "Manage")" class="text-info">
-                                    <i class="fa fa-lock"></i>
-                                    Crear una contraseña
-                                </a>
-                            }
-                            ]
-                        </dd>
                         <dt>Número de teléfono:</dt>
                         <dd class="text-muted">
                             <i class="fa fa-phone"></i>&nbsp;
@@ -146,32 +105,69 @@
                             }
                             ]
                         </dd>
+                        <dt>Documento:</dt>
+                        <dd class="">
+                            @RegionalFFCookies.Values["Documento"]
+                        </dd>
 
-                        <dt>Autenticación:</dt>
+
+                        <dt>Dirección:</dt>
+                        <dd class="">
+                            @*<i class="fa fa-location-arrow user-profile-icon"></i>*@
+                            @RegionalFFCookies.Values["Direccion"]
+                        </dd>
+
+                        <dt class=""></dt>
+                        <dd class="page-header text-uppercase text-primary">Datos de la Cuenta</dd>
+
+                        <dt>Email:</dt>
+                        <dd class="">
+                            <i class="fa fa-envelope user-profile-icon"></i>
+                            @RegionalFFCookies.Values["Email"]
+                        </dd>
+
+                        <dt>Contraseña:</dt>
                         <dd class="text-muted">
-                            <p>Verificación en dos pasos:</p>
-                            @if (Model.TwoFactor)
+                            [
+                            @if (Model.HasPassword)
                             {
-                                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <text>
-                                        <input type="button" value="Habilitar" class="btn btn-default" disabled />
-                                        <input type="submit" value="Deshabilitar" class="btn btn-default" />
-                                    </text>
-                                }
+
+                                <a href="@Url.Action("ChangePassword", "Manage")" class="">
+                                    <i class="fa fa-lock"></i>
+                                    Cambia tu contraseña
+                                </a>
                             }
                             else
                             {
-                                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <text>
-                                        <input type="button" value="Deshabilitar" class="btn btn-default" disabled />
-                                        <input type="submit" value="Habilitar" class="btn btn-default" />
-                                    </text>
-                                }
+                                <a href="@Url.Action("SetPassword", "Manage")" class="">
+                                    <i class="fa fa-lock"></i>
+                                    Crear una contraseña
+                                </a>
                             }
+                            ]
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <dl class="dl-horizontal">
+                        <dt class=""></dt>
+                        <dd class="page-header text-uppercase text-primary">Datos de la Oficina</dd>
+
+                        <dt>Nombre:</dt>
+                        <dd class="">
+                            <i class="fa fa-map-marker user-profile-icon"></i>
+                            @RegionalFFCookies.Values["Oficina"]
+                        </dd>
+
+                        <dt>Sigla: </dt>
+                        <dd class="">
+                            @RegionalFFCookies.Values["Sigla"]
+                        </dd>
+
+                        <dt> Nº de Funcionario:</dt>
+                        <dd class="">
+                            @*<i class="fa fa-ticket user-profile-icon"></i>*@
+                            @RegionalFFCookies.Values["Numero"]
                         </dd>
                     </dl>
                 </div>
@@ -206,7 +202,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="Imagen">Imagen</label>
                             <div class="col-lg-8">
-                                <input autocomplete="off" class="file file-loading text-box single-line" id="Imagen" name="Imagen" placeholder="Imagen" required="required" type="file" value="" data-preview-file-type="text" />
+                                <input autocomplete="off" class="" id="Imagen" name="Imagen" placeholder="Imagen" required="required" type="file" value="" data-preview-file-type="text" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Imagen" data-valmsg-replace="true"></span>
                             </div>
                         </div>

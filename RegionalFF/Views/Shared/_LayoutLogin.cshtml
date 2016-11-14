@@ -1,12 +1,6 @@
-﻿@if (Request.IsAuthenticated)
-{
-    Response.Redirect("http://localhost:2491/Home/Index");
-}
-
-@{
+﻿@{
     ViewBag.Denominacion = "RegionalFF";
- }
-
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +25,8 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/plugins")
+
     @RenderSection("scripts", required: false)
     <!-- Datatables -->
     <script>
@@ -44,6 +40,7 @@
                 radioClass: 'icheckbox_minimal-blue',
                 increaseArea: '20%' // optional
             });
+
             $('#mensaje').delay(6000).fadeOut(2000);
 
         })

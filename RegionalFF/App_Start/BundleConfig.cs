@@ -46,17 +46,17 @@ namespace RegionalFF
 
 
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
-                //"~/Scripts/fastclick.js",
+                      "~/Scripts/fastclick.js",
                       "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
                       "~/Scripts/Moment.js",
                       "~/Scripts/moment-with-locales.js",
                       "~/Scripts/bootstrap-datetimepicker.min.js",
-                      "~/Content/bootstrap-fileinput/js/plugins/purify.min.js",
-                      "~/Content/bootstrap-fileinput/js/plugins/sortable.min.js",
-                      "~/Content/bootstrap-fileinput/js/plugins/purify.min.js",
-                      "~/Content/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js",
-                      "~/Content/bootstrap-fileinput/js/fileinput.min.js",
-                      "~/Content/bootstrap-fileinput/themes/fa/theme.js"
+                      "~/Scripts/plugins/purify.min.js",
+                      "~/Scripts/plugins/sortable.min.js",
+                      "~/Scripts/plugins/canvas-to-blob.min.js",
+                      "~/Scripts/fileinput.min.js",
+                      "~/Scripts/jquery.inputmask/dist/jquery.inputmask.bundle.js",
+                      "~/Content/bootstrap-fileinput/themes/gly/theme.js"
             ));
 
 
@@ -79,7 +79,7 @@ namespace RegionalFF
                       "~/Content/font-awesome.min.css",
                       "~/Content/animate.min.css",
                       "~/Content/jquery.mCustomScrollbar.min.css",
-                      "~/Content/blue.css",
+                      "~/Content/skins/minimal/blue.css",
                       "~/Scripts/Pnotify/pnotify.css",
                       "~/Scripts/Pnotify/pnotify.buttons.css",
                       "~/Content/bootstrap-datetimepicker.css",
@@ -105,7 +105,7 @@ namespace RegionalFF
 
             bundles.Add(new StyleBundle("~/Content/login").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/blue.css",
+                      "~/Content/skins/minimal/blue.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/animate.min.css",
                       "~/Scripts/Pnotify/pnotify.css",

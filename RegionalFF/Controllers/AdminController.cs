@@ -285,12 +285,13 @@ namespace RegionalFF.Controllers
             try
             {
                 //obtener usario logueado
-                var Email = User.Identity.GetUserName();
-                if (Email == null)
+
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                if (user == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                UsuarioAmpliado objExpandedUserDTO = GetUsuario(Email);
+                UsuarioAmpliado objExpandedUserDTO = GetUsuario(user.Email);
                 if (objExpandedUserDTO == null)
                 {
                     return HttpNotFound();
@@ -302,12 +303,11 @@ namespace RegionalFF.Controllers
                     Imagen.SaveAs(path);
                     objExpandedUserDTO.Imagen = fileName;
                     UsuarioAmpliado objExpandedUserDTO2 = ModifUsuario(objExpandedUserDTO);
-                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
-
                     if (objExpandedUserDTO2 == null)
                     {
                         return HttpNotFound();
                     }
+                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
                     TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
                     return RedirectToAction("Index", "Manage");
                 }
@@ -382,7 +382,7 @@ namespace RegionalFF.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             UsuarioAmpliado objExpandedUserDTO = GetUsuario(Email);
-            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
+            ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
             if (objExpandedUserDTO == null)
             {
                 return HttpNotFound();
@@ -999,27 +999,13 @@ namespace RegionalFF.Controllers
             }
 
             IdentityResult estado = UserManager.Update(result);
+
             if (estado.Succeeded)
             {
-                // Was a password sent across?
-                if (!string.IsNullOrEmpty(paramExpandedUserDTO.Password))
+                IdentityResult cambiar = UserManager.ChangePassword(result.Id, paramExpandedUserDTO.Password, paramExpandedUserDTO.Password);
+                if (cambiar.Errors.Count() > 0)
                 {
-                    // Remove current password
-                    var removePassword = UserManager.RemovePassword(result.Id);
-                    if (removePassword.Succeeded)
-                    {
-                        // Add new password
-                        var AddPassword =
-                            UserManager.AddPassword(
-                                result.Id,
-                                paramExpandedUserDTO.Password
-                                );
-
-                        if (AddPassword.Errors.Count() > 0)
-                        {
-                            throw new Exception(AddPassword.Errors.FirstOrDefault());
-                        }
-                    }
+                    throw new Exception(cambiar.Errors.FirstOrDefault());
                 }
                 return paramExpandedUserDTO;
             }
@@ -1061,13 +1047,13 @@ namespace RegionalFF.Controllers
             }
 
             IdentityResult estado = UserManager.Update(result);
+
             if (estado.Succeeded)
             {
                 ActualizarCookies(paramExpandedUserDTO.Email);
                 return paramExpandedUserDTO;
             }
-
-            return paramExpandedUserDTO;
+            throw new Exception(estado.Errors.FirstOrDefault());
         }
         #endregion
 

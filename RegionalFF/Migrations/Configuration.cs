@@ -334,11 +334,11 @@ namespace RegionalFF.Migrations
                         //1
                         Id = 1,
                         Nombre = "Administración del Sistema",
-                        Sigla = "ADMIN",
-                        Departamento = "'",
-                        Ciudad = "-",
-                        Direccion = "-",
-                        Telefono = "-"
+                        Sigla = "TI",
+                        Departamento = "Itapúa",
+                        Ciudad = "Encarnación",
+                        Direccion = "Artigas",
+                        Telefono = " "
                     }
                 );
             }
@@ -418,7 +418,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel@hotmail.es", OficinaId = 1, Numero = 0, Nombre = "Admin", Apellido = "Admin", Imagen = "user.jpg" };
+                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel", OficinaId = 1, Numero = 0, Nombre = "Super", Apellido = "Admin", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Administrador a usuario
@@ -431,7 +431,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 2, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel", Imagen = "user.jpg" };
+                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3", OficinaId = 2, Numero = 246, Nombre = "Ricardo", Apellido = "Maciel", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Facilitador a usuario
@@ -443,7 +443,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas", Imagen = "user.jpg" };
+                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas", Imagen = "user.jpg" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Fiscalizador a usuario

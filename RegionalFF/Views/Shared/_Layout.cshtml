@@ -142,21 +142,21 @@
             }
 
             $("#Imagen").fileinput({
+                uploadUrl: 'F:\ESCRITORIO\GITHUB\RegionalFF\RegionalFF\Content\img\Uploads\Usuarios', // you must set a valid URL here else you will get an error
+                allowedFileExtensions: ['jpg', 'png', 'gif'],
+                overwriteInitial: false,
+                maxFileSize: 1000,
+                maxFilesNum: 10,
+                theme: "gly",
                 showCaption: false,
+                showUpload: false,
+                maxFileCount: 1,
                 browseClass: "btn btn-primary",
                 fileType: "any",
-                theme: "fa",
-                allowedFileExtensions: ["jpg", "png", "gif"],
-                maxImageWidth: 200,
-                maxImageHeight: 200,
+                maxImageWidth: 600,
+                maxImageHeight: 600,
                 resizePreference: 'height',
-                maxFileCount: 1,
-                resizeImage: true
-            }).on('filepreupload', function () {
-                $('#kv-success-box').html('');
-            }).on('fileuploaded', function (event, data) {
-                $('#kv-success-box').append(data.response.link);
-                $('#kv-success-modal').modal('show');
+                resizeImage: true,
             });
 
             $('#datetimepicker6').datetimepicker({
@@ -214,6 +214,7 @@
                 radioClass: 'icheckbox_minimal-blue',
                 increaseArea: '20%' // optional
             });
+
             $('#mensaje').delay(1000).fadeOut(500);
         });
     </script>

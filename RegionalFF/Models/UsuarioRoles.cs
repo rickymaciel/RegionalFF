@@ -14,6 +14,7 @@ namespace RegionalFF.Models
 
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Ingresar la contraseña para confirmar cambios")]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
