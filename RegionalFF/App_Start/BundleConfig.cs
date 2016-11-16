@@ -96,9 +96,7 @@ namespace RegionalFF
 
 
             bundles.Add(new StyleBundle("~/Content/datatable").Include(
-                //"~/Content/datatables/jquery.dataTables.min.css",
                       "~/Content/datatables/dataTables.bootstrap4.min.css",
-                //"~/Content/datatables/dataTables.bootstrap.min.css",
                       "~/Content/datatables/buttons.bootstrap.min.css",
                       "~/Content/datatables/responsive.bootstrap.min.css"));
 

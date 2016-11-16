@@ -319,7 +319,13 @@
     <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\amcharts\amcharts.js" />
+    <Content Include="Scripts\amcharts\funnel.js" />
+    <Content Include="Scripts\amcharts\gantt.js" />
+    <Content Include="Scripts\amcharts\gauge.js" />
     <Content Include="Scripts\amcharts\pie.js" />
+    <Content Include="Scripts\amcharts\radar.js" />
+    <Content Include="Scripts\amcharts\serial.js" />
+    <Content Include="Scripts\amcharts\xy.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -506,6 +512,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\Uploads\Usuarios\Perfil\" />
+    <Folder Include="Content\img\Uploads\Usuarios\Thumbnail\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

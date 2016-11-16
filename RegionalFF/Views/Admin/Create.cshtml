@@ -124,14 +124,8 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-3 " })
                         <div class="col-lg-6">
-                            @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "file-loading", type = "file", autocomplete = "off", placeholder = "Imagen", @required = "true", @multiple = "true", @data_show_upload = "false", @data_show_caption = "true" } })
+                            @Html.TextBoxFor(model => model.Imagen, new { @type = "file", autocomplete = "off", placeholder = "Imagen", @required = "true" })
                             @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group hidden" id="vistaprevia">
-                        <label class="col-md-3 control-label">Vista Previa</label>
-                        <div class="col-lg-6">
-                            <img id="img_destino" width="200" src="#" alt="Vista Previa">
                         </div>
                     </div>
                     <div class="ln_solid"></div>
@@ -150,5 +144,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("select").attr('required', 'required');
+    </script>
 }
 

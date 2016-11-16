@@ -76,7 +76,7 @@ namespace RegionalFF.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -449,7 +449,7 @@ namespace RegionalFF.Controllers
                 int Index = 0;
                 Index = user.Email.IndexOf("@");
                 RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
-                RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
+                //RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(RegionalFFCookie);
                 int expirationMinutes = Session.Timeout;
                 if (System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"] != null)
@@ -463,15 +463,18 @@ namespace RegionalFF.Controllers
         #endregion
 
         //
-        // POST: /Account/LogOff
+        // POST: /Account/LogOff 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            HttpContext.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddDays(-10);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            HttpContext.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddDays(-10);
+            HttpContext.Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-10);
+            HttpContext.Response.Cookies[".AspNet.ApplicationCookie"].Expires = DateTime.Now.AddDays(-10);
             Session.Abandon();
             Session.Clear();
+            Session.RemoveAll();
             return RedirectToAction("Index", "Facilitaciones");
         }
 

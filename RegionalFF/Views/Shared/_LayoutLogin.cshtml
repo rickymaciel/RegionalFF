@@ -1,4 +1,9 @@
 ﻿@{
+    if (Request.IsAuthenticated)
+    {
+        Response.Redirect("http://localhost:2491/Home/Index");
+    }
+    
     ViewBag.Denominacion = "RegionalFF";
 }
 <!DOCTYPE html>

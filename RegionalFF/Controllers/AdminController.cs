@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using RegionalFF.Models;
 using PagedList;
 using System.IO;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 #endregion Includes
 
@@ -159,25 +161,9 @@ namespace RegionalFF.Controllers
                 var PhoneNumber = paramUsuarioAmpliado.PhoneNumber.Trim();
                 var Password = paramUsuarioAmpliado.Password.Trim();
                 var OficinaId = paramUsuarioAmpliado.OficinaId;
+                var Rol = Convert.ToString(Request.Form["Roles"]);
 
-                if (PhoneNumber == "")
-                {
-                    throw new Exception("El telefono es requerido");
-                }
-
-                if (OficinaId < 0)
-                {
-                    throw new Exception("La oficina es requerida");
-                }
-                if (Email == "")
-                {
-                    throw new Exception("El Email es requerido");
-                }
-
-                if (Password == "")
-                {
-                    throw new Exception("El Password es requerido");
-                }
+                
 
                 // Setear UserName con Email en minuscula
                 Email = Email.ToLower();
@@ -185,32 +171,34 @@ namespace RegionalFF.Controllers
                 // Crear Usuario
 
                 var objNewAdminUsuario = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId, Imagen = IImagen, Direccion = Direccion };
+
+
                 var AdminUserCreateResult = UserManager.Create(objNewAdminUsuario, Password);
 
                 if (AdminUserCreateResult.Succeeded == true)
                 {
                     string strNewRole = Convert.ToString(Request.Form["Roles"]);
 
-                    if (strNewRole != "0")
+                    if (strNewRole != "" || strNewRole != null)
                     {
                         // Setear Rol en Usuario
                         UserManager.AddToRole(objNewAdminUsuario.Id, strNewRole);
                     }
-
+                    ApplicationUser usua = UserManager.FindByEmail(Email);
                     if (Imagen != null)
                     {
-                        string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
-                        var fileName = Path.GetFileName(paramUsuarioAmpliado.Nombre + fecha + Imagen.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
-                        Imagen.SaveAs(path);
-                        paramUsuarioAmpliado.Imagen = fileName;
+
+                        CreateThumbnail(Imagen, objNewAdminUsuario);
+                        var nombrearchivo = CreateImagen(Imagen, objNewAdminUsuario);
+                        usua.Imagen = nombrearchivo;
                     }
                     else
                     {
-                        var fileName = Path.GetFileName("Content/img/Uploads/Usuarios/user.jpg");
-                        paramUsuarioAmpliado.Imagen = fileName;
-
+                        usua.Imagen = "";
                     }
+
+                    UserManager.Update(usua);
+
                     TempData["notice"] = "El usuario " + paramUsuarioAmpliado.Nombre + " " + paramUsuarioAmpliado.Apellido + " ha sido creado!";
                     return RedirectToAction("Index", "Admin");
                 }
@@ -219,17 +207,19 @@ namespace RegionalFF.Controllers
                     ViewBag.Roles = GetTodoRolesComoSelectList();
 
                     ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramUsuarioAmpliado.OficinaId);
-                    ModelState.AddModelError(string.Empty,
-                        "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
-                    TempData["notice"] = "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.";
+                    //ModelState.AddModelError(string.Empty,
+                    //    "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
+                    TempData["error"] = "Error : No se ha podido crear el usuario . Compruebe que todos los campos requeridos esten ingresados.";
                     return View(paramUsuarioAmpliado);
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Roles = GetTodoRolesComoSelectList();
-                ModelState.AddModelError(string.Empty, "Error: " + ex);
-                TempData["notice"] = "Error: " + ex;
+                //ModelState.AddModelError(string.Empty, "Error : No se ha podido crear el usuario . Compruebe que todos los campos requeridos estes ingresados.");
+                TempData["error"] = "Error : No se ha podido crear el usuario . Compruebe que todos los campos requeridos esten ingresados.";
+                TempData["e"] = ex;
+                ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
                 return View("Create");
             }
         }
@@ -278,6 +268,88 @@ namespace RegionalFF.Controllers
         }
 
 
+        #region public void CrearImagen(HttpPostedFileBase Imagen)
+        public string CrearImagen(HttpPostedFileBase Imagen)
+        {
+            var fileName = Path.GetFileName(User.Identity.GetUserId());
+            var path = Server.MapPath("~/Content/img/Uploads/Usuarios/Perfil/" + User.Identity.GetUserId());
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            string outputPath = Path.Combine(path, User.Identity.GetUserId() + ".png");
+            Imagen.SaveAs(outputPath);
+            return fileName;
+        }
+        #endregion
+
+
+        #region public void CreateImagen(HttpPostedFileBase Imagen)
+        public string CreateImagen(HttpPostedFileBase Imagen, ApplicationUser user)
+        {
+            var fileName = Path.GetFileName(user.Id);
+            var path = Server.MapPath("~/Content/img/Uploads/Usuarios/Perfil/" + user.Id);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            string outputPath = Path.Combine(path, user.Id + ".png");
+            Imagen.SaveAs(outputPath);
+            return fileName;
+        }
+        #endregion
+        #region public void CreateThumbnail(HttpPostedFileBase Imagen, ApplicationUser user)
+        public void CreateThumbnail(HttpPostedFileBase Imagen, ApplicationUser user)
+        {
+            using (var image = Image.FromStream(Imagen.InputStream, true, true)) /* Creates Image from specified data stream */
+            {
+                using (var thumb = image.GetThumbnailImage(100, /* width*/ 100, /* height*/ () => false, IntPtr.Zero))
+                {
+                    var jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/png").First(); /* Returns array of image encoder objects built into GDI+ */
+                    using (var encParams = new EncoderParameters(1))
+                    {
+                        var appDataThumbnailPath = Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + user.Id);
+                        if (!Directory.Exists(appDataThumbnailPath))
+                        {
+                            Directory.CreateDirectory(appDataThumbnailPath);
+                        }
+                        string outputPath = Path.Combine(appDataThumbnailPath, user.Id + ".png");
+                        long quality = 8;
+                        encParams.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+                        thumb.Save(outputPath, jpgInfo, encParams);
+                    }
+                }
+            }
+        }
+        #endregion
+
+
+        #region public void CrearThumbnail(HttpPostedFileBase Imagen)
+        public void CrearThumbnail(HttpPostedFileBase Imagen)
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            using (var image = Image.FromStream(Imagen.InputStream, true, true)) /* Creates Image from specified data stream */
+            {
+                using (var thumb = image.GetThumbnailImage( 100, /* width*/ 100, /* height*/ () => false, IntPtr.Zero))
+                {
+                    var jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/png").First(); /* Returns array of image encoder objects built into GDI+ */
+                    using (var encParams = new EncoderParameters(1))
+                    {
+                        var appDataThumbnailPath = Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + User.Identity.GetUserId());
+                        if (!Directory.Exists(appDataThumbnailPath))
+                        {
+                            Directory.CreateDirectory(appDataThumbnailPath);
+                        }
+                        string outputPath = Path.Combine(appDataThumbnailPath, User.Identity.GetUserId()+".png");
+                        long quality = 8;
+                        encParams.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+                        thumb.Save(outputPath, jpgInfo, encParams);
+                    }
+                }
+            }
+        }
+        #endregion
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AjaxCambiarImagen(HttpPostedFileBase Imagen)
@@ -287,6 +359,7 @@ namespace RegionalFF.Controllers
                 //obtener usario logueado
 
                 ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+
                 if (user == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -298,10 +371,10 @@ namespace RegionalFF.Controllers
                 }
                 if (Imagen != null)
                 {
-                    var fileName = Path.GetFileName(objExpandedUserDTO.Nombre + Imagen.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
-                    Imagen.SaveAs(path);
-                    objExpandedUserDTO.Imagen = fileName;
+                    CrearThumbnail(Imagen);
+                    var nombrearchivo =  CrearImagen(Imagen);
+
+                    objExpandedUserDTO.Imagen = nombrearchivo;
                     UsuarioAmpliado objExpandedUserDTO2 = ModifUsuario(objExpandedUserDTO);
                     if (objExpandedUserDTO2 == null)
                     {

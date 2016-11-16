@@ -4,6 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Administración";
     ViewBag.SubTitle = "Usuarios";
+
+    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
+    var archivo = Path.GetFileName(RegionalFFCookies.Values["ImagenUsuarioCurrent"]);
+    if (archivo == "")
+    {
+        archivo = "default";
+    }
+    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
+    byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+    string imageBase64Data = Convert.ToBase64String(imageByteData);
+    string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+    ViewBag.ImagenUsuarioCurrent = imageDataURL;
 }
 
 
@@ -110,7 +122,16 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/" + item.Imagen)" />
+                                        @{
+                                            if (item.Imagen != "")
+                                            {
+                                                <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/" + item.Imagen +"/" +item.Imagen + ".png")" />
+                                            }
+                                            else
+                                            {
+                                                <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/default/default.png")" />
+                                            }
+                                        }
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)

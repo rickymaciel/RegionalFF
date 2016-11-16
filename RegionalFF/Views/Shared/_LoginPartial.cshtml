@@ -1,9 +1,12 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
     HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-
     var archivo = Path.GetFileName(RegionalFFCookies.Values["ImagenUsuarioCurrent"]);
-    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), archivo);
+    if (archivo == "" || archivo == null)
+    {
+        archivo = "default";
+    }
+    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
     byte[] imageByteData = System.IO.File.ReadAllBytes(path);
     string imageBase64Data = Convert.ToBase64String(imageByteData);
     string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);

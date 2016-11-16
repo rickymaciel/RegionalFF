@@ -9,10 +9,11 @@ namespace RegionalFF.Models
     {
         [Key]
         [Required(ErrorMessage = "Este campo es requerido")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Nombre de Usuario")]
         public string UserName { get; set; }
-
-        public string Email { get; set; }
 
         [Required(ErrorMessage = "Ingresar la contraseña para confirmar cambios")]
         [Display(Name = "Contraseña")]
@@ -36,7 +37,6 @@ namespace RegionalFF.Models
         [Required(ErrorMessage = "Este campo es requerido")]
         public string Apellido { get; set; }
 
-        [Required(ErrorMessage = "Este campo es requerido")]
         [ForeignKey("OficinaId")]
         [Display(Name = "Oficina")]
         public virtual Oficina Oficina { get; set; }
@@ -48,11 +48,14 @@ namespace RegionalFF.Models
         public string Direccion { get; set; }
 
         [DataType(DataType.ImageUrl)]
+        [Required(ErrorMessage = "Este campo es requerido")]
         public string Imagen { get; set; }
 
         [Display(Name = "Teléfono")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         public string PhoneNumber { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         public IEnumerable<UsuarioRole> Roles { get; set; }
     }
 
