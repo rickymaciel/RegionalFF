@@ -38,9 +38,9 @@ AmCharts.translations.export || (AmCharts.translations.export = {}), AmCharts.tr
                     async: !0,
                     autoLoad: !0,
                     reload: !1,
-                    resources: ["fabric.js/fabric.min.js", "FileSaver.js/FileSaver.min.js", "jszip/jszip.min.js", "xlsx/xlsx.min.js", {
-                        "pdfmake/pdfmake.min.js": ["pdfmake/vfs_fonts.js"]
-                    }],
+                    //resources: ["fabric.js/fabric.min.js", "FileSaver.js/FileSaver.min.js", "jszip/jszip.min.js", "xlsx/xlsx.min.js", {
+                        //"pdfmake/pdfmake.min.js": ["pdfmake/vfs_fonts.js"]
+                    //}],
                     namespaces: {
                         "pdfmake.min.js": "pdfMake",
                         "jszip.min.js": "JSZip",

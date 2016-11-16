@@ -71,6 +71,12 @@ namespace RegionalFF
                       "~/Scripts/amcharts/serial.js",
                       "~/Scripts/amcharts/pie.js",
                       "~/Scripts/amcharts/themes/light.js",
+                      "~/Scripts/amcharts/plugins/export/libs/fabric.js/fabric.min.js",
+                      "~/Scripts/amcharts/plugins/export/libs/FileSaver.js/FileSaver.min.js",
+                      "~/Scripts/amcharts/plugins/export/libs/jszip/jszip.min.js",
+                      "~/Scripts/amcharts/plugins/export/libs/pdfmake/pdfmake.min.js",
+                      "~/Scripts/amcharts/plugins/export/libs/xlsx/xlsx.min.js",
+                      "~/Scripts/amcharts/plugins/export/libs/xlsx/vfs_fonts.js",
                       "~/Scripts/amcharts/plugins/export/export.js"
             ));
 
