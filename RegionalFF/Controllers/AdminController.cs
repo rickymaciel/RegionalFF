@@ -911,8 +911,10 @@ namespace RegionalFF.Controllers
                 RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
                 RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(RegionalFFCookie);
-                if (RegionalFFCookie != null)
+                int expirationMinutes = Session.Timeout;
+                if (System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"] != null)
                 {
+                    System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddMinutes(expirationMinutes);
                     return true;
                 }
             }

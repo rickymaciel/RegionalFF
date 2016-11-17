@@ -14,19 +14,14 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <a href="@Url.Action("Index", "Accesos")" class="btn btn-default visible-lg" data-toggle="tooltip" data-placement="top" title="Volver">
+                <a href="@Url.Action("Index", "Accesos")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Volver">
                     <i class="fa fa-reply"></i>
-                    <strong>Volver</strong>
-                </a>
-                <a href="@Url.Action("Index", "Accesos")" class="btn btn-default hidden-lg" data-toggle="tooltip" data-placement="top" title="Volver">
-                    <i class="fa fa-plus"></i>
                 </a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="clearfix"></div>
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -51,28 +46,28 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                        <div class="col-lg-6">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @placeholder = "Nombre" } })
                             @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger text-left" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                        <div class="col-lg-6">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @placeholder = "Descripción" } })
                             @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger text-left" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Accion, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                        <div class="col-lg-6">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.EditorFor(model => model.Accion, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @placeholder = "Acción" } })
                             @Html.ValidationMessageFor(model => model.Accion, "", new { @class = "text-danger text-left" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Controlador, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                        <div class="col-lg-6">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.EditorFor(model => model.Controlador, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @placeholder = "Controlador" } })
                             @Html.ValidationMessageFor(model => model.Controlador, "", new { @class = "text-danger text-left" })
                         </div>

@@ -449,7 +449,7 @@ namespace RegionalFF.Controllers
                 int Index = 0;
                 Index = user.Email.IndexOf("@");
                 RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
-                //RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
+                RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(RegionalFFCookie);
                 int expirationMinutes = Session.Timeout;
                 if (System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"] != null)

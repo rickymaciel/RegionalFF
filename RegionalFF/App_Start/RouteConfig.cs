@@ -11,9 +11,8 @@ namespace RegionalFF
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            if (HttpContext.Current.User == null)
+            if (HttpContext.Current.User == null || HttpContext.Current.Request.Cookies.AllKeys.Contains("GlobalRegionalFF") == false || HttpContext.Current.Request.Cookies["GlobalRegionalFF"] == null)
             {
                 routes.MapRoute(
                   name: "Default",

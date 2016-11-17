@@ -6,17 +6,7 @@
     ViewBag.Title = "Administración";
     ViewBag.SubTitle = "Información del Usuario";
 
-    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-    var archivo = Path.GetFileName(RegionalFFCookies.Values["ImagenUsuarioCurrent"]);
-    if (archivo == "" || archivo == null)
-    {
-        archivo = "default";
-    }
-    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Perfil/" + archivo), archivo + ".png");
-    byte[] imageByteData = System.IO.File.ReadAllBytes(path);
-    string imageBase64Data = Convert.ToBase64String(imageByteData);
-    string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-    ViewBag.ImagenUsuarioCurrent = imageDataURL;
+    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"];
 }
 
 <div class="page-title">
@@ -38,7 +28,7 @@
                     <div class="profile_img image view view-first">
                         <div id="" class="img-responsive">
                             <!-- Current avatar -->
-                            <img src="@ViewBag.ImagenUsuarioCurrent" alt="@RegionalFFCookies.Values["Usuario"]" width="100%" class="img-thumbnail avatar-view tip" data-toggle="tooltip" title="Cambiar la foto de perfil" />
+                            <img src="@TempData["imageDataURL"]" alt="@RegionalFFCookies.Values["Usuario"]" width="100%" class="img-thumbnail avatar-view tip" data-toggle="tooltip" title="Cambiar la foto de perfil" />
                         </div>
                     </div>
                     <div class="caption">

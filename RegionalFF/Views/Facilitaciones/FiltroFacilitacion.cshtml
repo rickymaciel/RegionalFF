@@ -1,0 +1,69 @@
+﻿@model RegionalFF.Models.Facilitacion
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Facilitaciones";
+    ViewBag.SubTitle = "Filtrar resultados de Facilitaciones por Fecha";
+}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" title="Volver"><i class="fa fa-reply"></i> Volver</a>
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" title="Volver"><i class="fa fa-reply"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- page content -->
+<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @using (Html.BeginForm("FiltroFacilitaciones", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Desde</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                <input class="form-control text-box single-line" data-val="false" data-val-date="The field Desde must be a date." placeholder="Desde" data-val-required="El campo Desde es obligatorio." id="Desde" name="Desde" type="datetime" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Fecha</label>
+                            <div class="col-lg-10 col-md-12 col-xs-12">
+                                <input class="form-control text-box single-line" data-val="false" data-val-date="The field Hasta must be a date." placeholder="Hasta" data-val-required="El campo Hasta es obligatorio." id="Hasta" name="Hasta" type="datetime"  required />
+                            </div>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</a>
+                                <button type="submit" class="btn btn-default"><i class="fa fa-filter"></i> Filtrar</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -509,6 +509,8 @@
     <Content Include="Views\Shared\_PartialFacilitacion.cshtml" />
     <Content Include="Views\Facilitaciones\DestinosPrincipales10.cshtml" />
     <Content Include="Views\Facilitaciones\PaisesPrincipales10.cshtml" />
+    <Content Include="Views\Facilitaciones\FiltroFacilitaciones.cshtml" />
+    <Content Include="Views\Facilitaciones\FiltroFacilitacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,72 +1,97 @@
 ﻿@model RegionalFF.Models.MenuAdmin
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Menú Administrador del Sistema";
+    ViewBag.SubTitle = "¿Estás seguro que quieres eliminar esto?";
 }
-
-<h2>Delete</h2>
-
-<h3>¿Estás seguro que quieres eliminar esto?</h3>
-<div>
-    <h4>MenuAdmin</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PadreId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PadreId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Accion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Accion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Controlador)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Controlador)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" /> |
-            @Html.ActionLink("Back to List", "Index")
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Accesos")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Volver">
+                    <i class="fa fa-reply"></i>
+                </a>
+                <a href="@Url.Action("Edit", "Accesos", new { id = Model.Id })" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
         </div>
-    }
+    </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PadreId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PadreId)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Nombre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Descripcion)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Accion)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Accion)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Controlador)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Controlador)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Activo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Activo)
+                    </dd>
+                </dl>
+
+                <div class="ln_solid"></div>
+                @using (Html.BeginForm("Delete", "Accesos", FormMethod.Post, new { @class = "form-inline pull-right" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" value="Borrar" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Borrar" onclick="return confirm('¿Seguro que desea eliminar este usuario?');">
+                        <i class="fa fa-trash"></i>
+                        Eliminar este Menu
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
