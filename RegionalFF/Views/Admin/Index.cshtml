@@ -64,10 +64,10 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="table-responsive">
-                    <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
+                <div class="">
+                    <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
                         <thead>
-                            <tr>
+                            <tr class="bg-blue">
                                 <th class="col-lg-1 col-xs-3 text-left">
                                     <i class="fa fa-cog"></i>
                                 </th>
@@ -111,14 +111,14 @@
                                     </td>
                                     <td>
                                         @{
-                                            if (item.Imagen != "")
-                                            {
-                                                <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/" + item.Imagen +"/" +item.Imagen + ".png")" />
-                                            }
-                                            else
-                                            {
-                                                <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/default/default.png")" />
-                                            }
+                                if (item.Imagen != "")
+                                {
+                                    <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/" + item.Imagen +"/" +item.Imagen + ".png")" />
+                                }
+                                else
+                                {
+                                    <img class="img-thumbnail" title="@item.Nombre" alt="@item.Nombre" width="40" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/default/default.png")" />
+                                }
                                         }
                                     </td>
                                     <td>
@@ -147,11 +147,12 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
 
 </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/datatable")
 }

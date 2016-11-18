@@ -1,16 +1,28 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
-    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-    var archivo = Path.GetFileName(RegionalFFCookies.Values["ImagenUsuarioCurrent"]);
-    if (archivo == "" || archivo == null)
+    if (Session.Count > 0)
     {
-        archivo = "default";
+        var imagen = Session["Imagen"].ToString();
+        if (imagen != null && imagen != "")
+        {
+            var archivo = Path.GetFileName(imagen);
+            var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
+            byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+            string imageBase64Data = Convert.ToBase64String(imageByteData);
+            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            ViewBag.ImagenUsuarioCurrent = imageDataURL;
+            TempData["imageDataURL"] = imageDataURL;
+        }
+        else
+        {
+            var path = Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/default/default.png");
+            byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+            string imageBase64Data = Convert.ToBase64String(imageByteData);
+            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            ViewBag.ImagenUsuarioCurrent = imageDataURL;
+            TempData["imageDataURL"] = imageDataURL;
+        }
     }
-    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
-    byte[] imageByteData = System.IO.File.ReadAllBytes(path);
-    string imageBase64Data = Convert.ToBase64String(imageByteData);
-    string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-    ViewBag.ImagenUsuarioCurrent = imageDataURL;
     ViewBag.I = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAARDSURBVHja1NprqFRVFAfw3z2Or5SCtJdoYGoZWGLRzSwzsQc9ELNQLCiCCsKyIiuoD4GFJEkQQRFRSGlID9HE8INIWZYmPTSkpNIbmkKm4bvb9dGHs28Mw5y5M3P26er/2+w9Z+3zP2uvtddjt5TGzhEJgzEaV2IYBmEg+oT5v7EHO/Er1mMjtsdYvJTz+XMxGVMxFmc0+Pz+QGgJlmFXsy/S0qRGLsZDmI6zI2l0N97H69jc6MNJg/8/Ey/hazwSkQSchZlB9sthWxZC5CasxWz0VxxOw+P4ErfEJNKCF7ASI/1/GIEVeLGe9+zqDz2xAM/qPjyNd9GrWSJ9sRj36H7chQ/Qr1EiSdDEVCcPJgfN9Kg22SMZPLHa+HPBg8TCAWzATzgRvF+zbr+E1fVo5LZAJBbW4AqMD55vdPBKHU3Kewa3d6WRAVjexAmdhW2YhB1lYx1YFxzJhCbljsdCHMrSyPMYElEbC7A3Y+5NHGxS7iDMzdpaF+H+yAa6s8bcXhzOIftejKpGZHZQd0xcV2Pu8rCV8wS8T1YSOT/46tiYjhkZMdu8LFfaAKbhgnJjf7CRuKbBWG5K+PJHQmB4K97AZZHSkN34vKU0dk6Cr9Dq1MR3aE2CasY4dXEpRiQhs+tZwALHsS+nZ6oHPTCuFIjEwp9YhU9CPv5HCD5H4e5g/EWgtYShEQTtw1MhWt6fccIvD+TmFkBkaBKqH3nxGd4OQd3VQQvVMA/fFkBkYBJcYl6MwW8hhvoibK2+GXazpgAipyfoHUHQkBD/dGJCDU0fLYBIzyTk5LFxBO01KjGFnLztBcjdJrvYNryA9TqS4DJjY31G4jQkBIuxcSCpSHpiYWWNiLdfAevtSdAWWehBaSGvGiYVdCC2JWEbxMS6jISqhOsLIrIhCQsfiyh0dcb4qIIM/TjWJvgFmyIKzbKPifK3MaphM7Yk4YBaEknoVvyYMXdDQdtqaaf7hffCIZYXG6WdqUr0xoUFkGjHovKcfSs+jCD494zx/jkLDbW0saWyijI/gtH/kzF+WNo/rLSnPDghbTr95xI7sSmoKU/1/ZIasde0UIjojR9wLR7IsdZifNP5o7KHeB6+13xL7SjuwMdd/K9PCPUnNnuSh9Rhe3nQWI5dmJWzPLMQD4ePUo4BuFFaKm3LQQIeVdHWzurqzscTOffw3uCKDwZjH45zIhj4K3iscjCLSK/gEW4+yUo/q6Rtj/Zq+UiW95kRHjxZ8GlwGO1ZiVWtysgU6Y2E7sYKaevtr1oZYi0cCl/h1W4k8VrwhAe6SnXrOeRm4c6CkrAs7JIW9GbWk443cvPhI4zDWwVVQjpxTNrpukp6N6Xu4kMj2C7tal2DdzTfOsvaxouk/cH7pHWyutGS877WsLLQY4zGi+EdIWJeGr7+z82+SEvEi2cjpT2WVmk9ebDqF892hHLRhpBmd/bec+HfAQA/otv7IHMgmAAAAABJRU5ErkJggg==";
 }
 @if (Request.IsAuthenticated)
@@ -52,12 +64,12 @@
             </li>
 
             <li>
-                <a href="javascript:;" class="user-profile visible-lg tip" title="@RegionalFFCookies.Values["Oficina"]">
-                    <img src="@ViewBag.I" alt="@RegionalFFCookies.Values["Oficina"]" />
-                    @RegionalFFCookies.Values["Oficina"]
+                <a href="javascript:;" class="user-profile visible-lg tip" title="@Session["Oficina"]">
+                    <img src="@ViewBag.I" alt="@Session["Oficina"]" />
+                    @Session["Oficina"]
                 </a>
-                <a href="javascript:;" class="user-profile hidden-lg" title="@RegionalFFCookies.Values["Oficina"]">
-                    <img src="@ViewBag.I" alt="@RegionalFFCookies.Values["Oficina"]" />
+                <a href="javascript:;" class="user-profile hidden-lg" title="@Session["Oficina"]">
+                    <img src="@ViewBag.I" alt="@Session["Oficina"]" />
                 </a>
             </li>
         </ul>

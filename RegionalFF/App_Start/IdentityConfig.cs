@@ -23,19 +23,12 @@ namespace RegionalFF
         public async Task SendAsync(IdentityMessage message)
         {
             // Credentials:
-            string smtpServer = "smtp.live.com";
+            string smtpServer = "smtp.gmail.com";
             int smtpPort = 587;
             bool enableSsl = true;
-            string smtpUsername = "rickymaciel@hotmail.es";
-            string smtpPassword = "!@#$%^&*./Hot17614";
-            string sentFrom = "rickymaciel@hotmail.es";
-
-            //string smtpServer = "";
-            //int smtpPort = 587;
-            //bool enableSsl = true;
-            //string smtpUsername = "";
-            //string smtpPassword = "";
-            //string sentFrom = "";
+            string smtpUsername = "regionalff.info@gmail.com";
+            string smtpPassword = "1Regional/";
+            string sentFrom = "regionalff.info@gmail.com";
 
             // Configure the client:
             var client = new SmtpClient(smtpServer, smtpPort);
@@ -122,8 +115,7 @@ namespace RegionalFF
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }

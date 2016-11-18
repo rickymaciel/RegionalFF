@@ -7,12 +7,9 @@
     ViewBag.Title = "Facilitación";
     ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
 
-    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"];
-    RegionalFFCookies.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
-    RegionalFFCookies.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
-    RegionalFFCookies.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
-    Response.Cookies.Add(RegionalFFCookies);
-
+    Session["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
+    Session["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
+    Session["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
 }
 <div class="page-title">
     <div class="title_left">
@@ -33,17 +30,17 @@
         <div class="tile-stats">
             <div class="icon"><i class="ion-person text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["Sigla"]
+                @Session["Sigla"]
             </div>
-            <h3>@RegionalFFCookies.Values["Usuario"] </h3>
-            <p>@RegionalFFCookies.Values["Oficina"]</p>
+            <h3>@Session["Usuario"] </h3>
+            <p>@Session["Oficina"]</p>
         </div>
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["CantRegistroHoy"]
+                @Session["CantRegistroHoy"]
             </div>
             <h3>Hoy</h3>
             <p>Total turistas Registrados</p>
@@ -53,7 +50,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["CantTotalMes"]
+                @Session["CantTotalMes"]
             </div>
             <h3>Este Mes</h3>
             <p>Total turistas Registrados</p>
@@ -63,7 +60,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["CantTotalAnio"]
+                @Session["CantTotalAnio"]
             </div>
             <h3>Este Año</h3>
             <p>Total Turistas Registrados</p>

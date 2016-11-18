@@ -1,8 +1,8 @@
 ﻿@{
-    @*if (Request.IsAuthenticated)
+    if (Request.IsAuthenticated)
     {
         Response.Redirect("http://localhost:2491/Home/Index");
-    }*@
+    }
     
     ViewBag.Denominacion = "RegionalFF";
 }
@@ -16,6 +16,19 @@
     <meta http-equiv="Expires" content="0" />
     <title>@ViewBag.Title | @ViewBag.Denominacion</title>
     <link id="Link2" rel="icon" href="~/RegionalFF.ico" type="image/ico" />
+    <script>
+    $(function () {
+        if (history.forward(1)) {
+            location.replace(history.forward(1))
+        }
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'icheckbox_minimal-blue',
+            increaseArea: '20%' // optional
+        });
+        $('#mensaje').delay(6000).fadeOut(2000);
+    })
+    </script>
 
     @Styles.Render("~/Content/login")
     @Scripts.Render("~/bundles/modernizr")
@@ -34,22 +47,7 @@
 
     @RenderSection("scripts", required: false)
     <!-- Datatables -->
-    <script>
-        $(function () {
-            if (history.forward(1)) {
-                location.replace(history.forward(1))
-            }
-
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_minimal-blue',
-                radioClass: 'icheckbox_minimal-blue',
-                increaseArea: '20%' // optional
-            });
-
-            $('#mensaje').delay(6000).fadeOut(2000);
-
-        })
-    </script>
+  
 
 
     @if (TempData["notice"] != null)

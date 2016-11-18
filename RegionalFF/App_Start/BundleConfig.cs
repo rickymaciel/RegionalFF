@@ -46,14 +46,13 @@ namespace RegionalFF
 
 
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
-                      "~/Scripts/fastclick.js",
                       "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
                       "~/Scripts/Moment.js",
                       "~/Scripts/moment-with-locales.js",
                       "~/Scripts/bootstrap-datetimepicker.min.js",
-                      "~/Scripts/plugins/purify.min.js",
-                      "~/Scripts/plugins/sortable.min.js",
-                      "~/Scripts/plugins/canvas-to-blob.min.js",
+                      //"~/Scripts/plugins/purify.min.js",
+                      //"~/Scripts/plugins/sortable.min.js",
+                      //"~/Scripts/plugins/canvas-to-blob.min.js",
                       "~/Scripts/fileinput.min.js",
                       "~/Scripts/jquery.inputmask/dist/jquery.inputmask.bundle.js",
                       "~/Content/bootstrap-fileinput/themes/gly/theme.js"

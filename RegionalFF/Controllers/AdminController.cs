@@ -893,30 +893,22 @@ namespace RegionalFF.Controllers
             var userRoles = userManager.GetRoles(user.Id);
             if (userRoles[0] != null || userRoles[0] != "")
             {
-                HttpCookie RegionalFFCookie = HttpContext.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF");
-                RegionalFFCookie.Values["Oficina"] = user.Oficina.Nombre;
-                RegionalFFCookie.Values["Email"] = user.Email;
-                RegionalFFCookie.Values["Documento"] = user.Documento.ToString();
-                RegionalFFCookie.Values["Numero"] = user.Numero.ToString();
-                RegionalFFCookie.Values["NumeroUsuario"] = user.PhoneNumber;
-                RegionalFFCookie.Values["NombreUsuario"] = user.Nombre;
-                RegionalFFCookie.Values["ApellidoUsuario"] = user.Apellido;
-                RegionalFFCookie.Values["ImagenUsuarioCurrent"] = user.Imagen;
-                RegionalFFCookie.Values["Sigla"] = user.Oficina.Sigla;
-                RegionalFFCookie.Values["UsernameUsuario"] = user.UserName;
-                RegionalFFCookie.Values["Direccion"] = user.Direccion;
-                RegionalFFCookie.Values["Rol"] = userRoles[0];
                 int Index = 0;
                 Index = user.Email.IndexOf("@");
-                RegionalFFCookie.Values["Usuario"] = user.Email.Substring(0, Index);
-                RegionalFFCookie.Expires = DateTime.Now.AddDays(1);
-                Response.Cookies.Add(RegionalFFCookie);
-                int expirationMinutes = Session.Timeout;
-                if (System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"] != null)
-                {
-                    System.Web.HttpContext.Current.Response.Cookies["GlobalRegionalFF"].Expires = DateTime.Now.AddMinutes(expirationMinutes);
-                    return true;
-                }
+                Session["Oficina"] = user.Oficina.Nombre;
+                Session["Sigla"] = user.Oficina.Sigla;
+                Session["Email"] = user.Email;
+                Session["Documento"] = user.Documento;
+                Session["Numero"] = user.Numero;
+                Session["Telefono"] = user.PhoneNumber;
+                Session["Nombre"] = user.Nombre;
+                Session["Apellido"] = user.Apellido;
+                Session["Imagen"] = user.Imagen;
+                Session["UserName"] = user.UserName;
+                Session["Usuario"] = user.Email.Substring(0, Index);
+                Session["Direccion"] = user.Direccion;
+                Session["Rol"] = userRoles[0];
+                return true;
             }
             return false;
         }
