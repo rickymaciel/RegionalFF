@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
-    if (Session.Count > 0)
+    HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+    if (RegionalFF != null)
     {
-        var imagen = Session["Imagen"].ToString();
+
+        var imagen = RegionalFF.Values["Imagen"];
         if (imagen != null && imagen != "")
         {
             var archivo = Path.GetFileName(imagen);
@@ -64,12 +66,12 @@
             </li>
 
             <li>
-                <a href="javascript:;" class="user-profile visible-lg tip" title="@Session["Oficina"]">
-                    <img src="@ViewBag.I" alt="@Session["Oficina"]" />
-                    @Session["Oficina"]
+                <a href="javascript:;" class="user-profile visible-lg tip" title="@RegionalFF.Values["Oficina"]">
+                    <img src="@ViewBag.I" alt="@RegionalFF.Values["Oficina"]" />
+                    @RegionalFF.Values["Oficina"]
                 </a>
-                <a href="javascript:;" class="user-profile hidden-lg" title="@Session["Oficina"]">
-                    <img src="@ViewBag.I" alt="@Session["Oficina"]" />
+                <a href="javascript:;" class="user-profile hidden-lg" title="@RegionalFF.Values["Oficina"]">
+                    <img src="@ViewBag.I" alt="@RegionalFF.Values["Oficina"]" />
                 </a>
             </li>
         </ul>

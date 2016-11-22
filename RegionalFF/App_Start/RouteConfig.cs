@@ -12,13 +12,14 @@ namespace RegionalFF
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            if (HttpContext.Current.User == null || HttpContext.Current.Request.Cookies.AllKeys.Contains("GlobalRegionalFF") == false || HttpContext.Current.Request.Cookies["GlobalRegionalFF"] == null)
+            var b = HttpContext.Current.User;
+            if (b == null)
             {
                 routes.MapRoute(
-                  name: "Default",
-                  url: "{controller}/{action}/{id}",
-                  defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
-                    );
+                    name: "Default",
+                    url: "{controller}/{action}",
+                    defaults: new { controller = "Account", action = "Login" }
+                      );
             }
             else
             {

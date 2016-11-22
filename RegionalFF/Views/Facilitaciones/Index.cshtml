@@ -3,6 +3,8 @@
 @using RegionalFF.Controllers
 
 @{
+    
+    HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
     FacilitacionesController hoy = new FacilitacionesController();
     ViewBag.Title = "Facilitación";
     ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
@@ -30,10 +32,10 @@
         <div class="tile-stats">
             <div class="icon"><i class="ion-person text-info"></i></div>
             <div class="count">
-                @Session["Sigla"]
+                @RegionalFF.Values["Sigla"]
             </div>
-            <h3>@Session["Usuario"] </h3>
-            <p>@Session["Oficina"]</p>
+            <h3>@RegionalFF.Values["Usuario"] </h3>
+            <p>@RegionalFF.Values["Oficina"]</p>
         </div>
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">

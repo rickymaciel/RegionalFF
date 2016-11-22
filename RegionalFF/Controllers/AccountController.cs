@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using RegionalFF.Models;
 using System.IO;
+using System.Web.Security;
 
 namespace RegionalFF.Controllers
 {
@@ -434,20 +435,20 @@ namespace RegionalFF.Controllers
             if (userRoles[0] != null || userRoles[0] != "")
             {
                 int Index = 0;
+                OficinasController oficinacurrent = new OficinasController();
+                HttpCookie RegionalFF = HttpContext.Request.Cookies["RegionalFF"] ?? new HttpCookie("RegionalFF");
+                RegionalFF.Values["Oficina"] = oficinacurrent.getEmpresaUsers(user.Email);
+                RegionalFF.Values["Nombre"] = oficinacurrent.getEmpresaNombreUsuario(user.Email);
+                RegionalFF.Values["Apellido"] = oficinacurrent.getEmpresaApellidoUsuario(user.Email);
+                RegionalFF.Values["Imagen"] = oficinacurrent.getImagenUsuario(user.Email);
+                RegionalFF.Values["Sigla"] = oficinacurrent.getEmpresaSiglaUsers(user.Email);
+                RegionalFF.Values["Username"] = oficinacurrent.getEmpresaUsernameUsuario(user.Email);
+                RegionalFF.Values["Direccion"] = oficinacurrent.getEmpresaDireccionUsers(user.Email);
+                RegionalFF.Values["Rol"] = userRoles[0];
                 Index = user.Email.IndexOf("@");
-                Session["Oficina"] = user.Oficina.Nombre;
-                Session["Sigla"] = user.Oficina.Sigla;
-                Session["Email"] = user.Email;
-                Session["Documento"] = user.Documento;
-                Session["Numero"] = user.Numero;
-                Session["Telefono"] = user.PhoneNumber;
-                Session["Nombre"] = user.Nombre;
-                Session["Apellido"] = user.Apellido;
-                Session["Imagen"] = user.Imagen;
-                Session["UserName"] = user.UserName;
-                Session["Usuario"] = user.Email.Substring(0, Index);
-                Session["Direccion"] = user.Direccion;
-                Session["Rol"] = userRoles[0];
+                RegionalFF.Values["Usuario"] = user.Email.Substring(0, Index);
+                RegionalFF.Expires = DateTime.Now.AddDays(1d);
+                Response.Cookies.Add(RegionalFF);
                 return true;
             }
             return false;
@@ -460,19 +461,19 @@ namespace RegionalFF.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            HttpCookie aCookie;
+            string NombreCookie;
+            int limit = Request.Cookies.Count;
+            for (int i = 0; i < limit; i++)
+            {
+                NombreCookie = Request.Cookies[i].Name;
+                aCookie = new HttpCookie(NombreCookie);
+                aCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(aCookie);
+            }
+            HttpContext.Request.Cookies["RegionalFF"].Expires = DateTime.Now.AddDays(-1);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            HttpContext.Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-10);
-            HttpContext.Response.Cookies[".AspNet.ApplicationCookie"].Expires = DateTime.Now.AddDays(-10);
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Buffer = false;
-            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
-            Response.Expires = -1000;
-            Response.CacheControl = "no-cache";
-            Response.Cache.SetExpires(DateTime.Now.AddSeconds(-1));
-            Response.Cache.SetAllowResponseInBrowserHistory(false);
-            Response.Cache.SetNoStore();
             Session.Abandon();
-            Session.Clear();
             Session.RemoveAll();
             return RedirectToAction("Index", "Facilitaciones");
         }
