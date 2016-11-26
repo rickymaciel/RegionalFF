@@ -444,6 +444,8 @@ namespace RegionalFF.Controllers
                 RegionalFF.Values["Sigla"] = oficinacurrent.getEmpresaSiglaUsers(user.Email);
                 RegionalFF.Values["Username"] = oficinacurrent.getEmpresaUsernameUsuario(user.Email);
                 RegionalFF.Values["Direccion"] = oficinacurrent.getEmpresaDireccionUsers(user.Email);
+                RegionalFF.Values["Documento"] = oficinacurrent.getEmpresaDocumentoUsers(user.Email).ToString();
+                RegionalFF.Values["Numero"] = oficinacurrent.getEmpresaNumeroUsers(user.Email).ToString();
                 RegionalFF.Values["Rol"] = userRoles[0];
                 Index = user.Email.IndexOf("@");
                 RegionalFF.Values["Usuario"] = user.Email.Substring(0, Index);

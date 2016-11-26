@@ -163,22 +163,19 @@ namespace RegionalFF.Controllers
                 var OficinaId = paramUsuarioAmpliado.OficinaId;
                 var Rol = Convert.ToString(Request.Form["Roles"]);
 
-                
-
                 // Setear UserName con Email en minuscula
                 Email = Email.ToLower();
-
+                if (IImagen == "")
+                {
+                    IImagen = "default";
+                }
                 // Crear Usuario
-
                 var objNewAdminUsuario = new ApplicationUser { UserName = UserName, Email = Email, PhoneNumber = PhoneNumber, Nombre = Nombre, Apellido = Apellido, Numero = Numero, Documento = Documento, OficinaId = OficinaId, Imagen = IImagen, Direccion = Direccion };
 
-
                 var AdminUserCreateResult = UserManager.Create(objNewAdminUsuario, Password);
-
                 if (AdminUserCreateResult.Succeeded == true)
                 {
                     string strNewRole = Convert.ToString(Request.Form["Roles"]);
-
                     if (strNewRole != "" || strNewRole != null)
                     {
                         // Setear Rol en Usuario
@@ -187,28 +184,18 @@ namespace RegionalFF.Controllers
                     ApplicationUser usua = UserManager.FindByEmail(Email);
                     if (Imagen != null)
                     {
-
                         CreateThumbnail(Imagen, objNewAdminUsuario);
                         var nombrearchivo = CreateImagen(Imagen, objNewAdminUsuario);
                         usua.Imagen = nombrearchivo;
+                        UserManager.Update(usua);
                     }
-                    else
-                    {
-                        usua.Imagen = "";
-                    }
-
-                    UserManager.Update(usua);
-
                     TempData["notice"] = "El usuario " + paramUsuarioAmpliado.Nombre + " " + paramUsuarioAmpliado.Apellido + " ha sido creado!";
                     return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
                     ViewBag.Roles = GetTodoRolesComoSelectList();
-
                     ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramUsuarioAmpliado.OficinaId);
-                    //ModelState.AddModelError(string.Empty,
-                    //    "Error : No se ha podido crear el usuario . Compruebe los requisitos de contraseña.");
                     TempData["error"] = "Error : No se ha podido crear el usuario . Compruebe que todos los campos requeridos esten ingresados.";
                     return View(paramUsuarioAmpliado);
                 }
@@ -216,7 +203,6 @@ namespace RegionalFF.Controllers
             catch (Exception ex)
             {
                 ViewBag.Roles = GetTodoRolesComoSelectList();
-                //ModelState.AddModelError(string.Empty, "Error : No se ha podido crear el usuario . Compruebe que todos los campos requeridos estes ingresados.");
                 TempData["error"] = "Error : No se ha podido crear el usuario . Compruebe que todos los campos requeridos esten ingresados.";
                 TempData["e"] = ex;
                 ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre");
@@ -407,21 +393,8 @@ namespace RegionalFF.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
-                if (Imagen != null)
-                {
-                    string fecha = DateTime.Now.ToString("ddMMyyyyhhmmss");
-                    var fileName = Path.GetFileName(paramExpandedUserDTO.Nombre + fecha + Imagen.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/"), fileName);
-                    Imagen.SaveAs(path);
-                    paramExpandedUserDTO.Imagen = fileName;
-                }
-                else
-                {
-                    var fileName = Path.GetFileName("Content/img/Uploads/Usuarios/user.jpg");
-                    paramExpandedUserDTO.Imagen = fileName;
-
-                }
+                ApplicationUser user = UserManager.FindByEmail(paramExpandedUserDTO.Email);
+                CreateThumbnail(Imagen, user);
 
                 UsuarioAmpliado objExpandedUserDTO = ModifUsuario(paramExpandedUserDTO);
                 ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", paramExpandedUserDTO.OficinaId);
@@ -430,9 +403,7 @@ namespace RegionalFF.Controllers
                 {
                     return HttpNotFound();
                 }
-
                 TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
-
                 return RedirectToAction("Index", "Manage");
             }
             catch (Exception ex)
@@ -894,20 +865,22 @@ namespace RegionalFF.Controllers
             if (userRoles[0] != null || userRoles[0] != "")
             {
                 int Index = 0;
+                OficinasController oficinacurrent = new OficinasController();
+                HttpCookie RegionalFF = HttpContext.Request.Cookies["RegionalFF"] ?? new HttpCookie("RegionalFF");
+                RegionalFF.Values["Oficina"] = oficinacurrent.getEmpresaUsers(user.Email);
+                RegionalFF.Values["Nombre"] = oficinacurrent.getEmpresaNombreUsuario(user.Email);
+                RegionalFF.Values["Apellido"] = oficinacurrent.getEmpresaApellidoUsuario(user.Email);
+                RegionalFF.Values["Imagen"] = oficinacurrent.getImagenUsuario(user.Email);
+                RegionalFF.Values["Sigla"] = oficinacurrent.getEmpresaSiglaUsers(user.Email);
+                RegionalFF.Values["Username"] = oficinacurrent.getEmpresaUsernameUsuario(user.Email);
+                RegionalFF.Values["Direccion"] = oficinacurrent.getEmpresaDireccionUsers(user.Email);
+                RegionalFF.Values["Documento"] = oficinacurrent.getEmpresaDocumentoUsers(user.Email).ToString();
+                RegionalFF.Values["Numero"] = oficinacurrent.getEmpresaNumeroUsers(user.Email).ToString();
+                RegionalFF.Values["Rol"] = userRoles[0];
                 Index = user.Email.IndexOf("@");
-                Session["Oficina"] = user.Oficina.Nombre;
-                Session["Sigla"] = user.Oficina.Sigla;
-                Session["Email"] = user.Email;
-                Session["Documento"] = user.Documento;
-                Session["Numero"] = user.Numero;
-                Session["Telefono"] = user.PhoneNumber;
-                Session["Nombre"] = user.Nombre;
-                Session["Apellido"] = user.Apellido;
-                Session["Imagen"] = user.Imagen;
-                Session["UserName"] = user.UserName;
-                Session["Usuario"] = user.Email.Substring(0, Index);
-                Session["Direccion"] = user.Direccion;
-                Session["Rol"] = userRoles[0];
+                RegionalFF.Values["Usuario"] = user.Email.Substring(0, Index);
+                RegionalFF.Expires = DateTime.Now.AddDays(1d);
+                Response.Cookies.Add(RegionalFF);
                 return true;
             }
             return false;
@@ -1130,8 +1103,7 @@ namespace RegionalFF.Controllers
         #region private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)
         private void DeleteUser(UsuarioAmpliado paramExpandedUserDTO)
         {
-            ApplicationUser user =
-                UserManager.FindByName(paramExpandedUserDTO.Email);
+            ApplicationUser user = UserManager.FindByName(paramExpandedUserDTO.Email);
 
             // If we could not find the user, throw an exception
             if (user == null)
@@ -1139,9 +1111,23 @@ namespace RegionalFF.Controllers
                 throw new Exception("No se pudo encontrar el usuario");
             }
 
-            UserManager.RemoveFromRoles(user.Id, UserManager.GetRoles(user.Id).ToArray());
-            UserManager.Update(user);
-            UserManager.Delete(user);
+            var appDataThumbnailPath = Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + user.Id);
+            var appDataPerfilPath = Server.MapPath("~/Content/img/Uploads/Usuarios/Perfil/" + user.Id);
+            Directory.Delete(appDataThumbnailPath, true);
+            Directory.Delete(appDataPerfilPath, true);
+
+            bool directorio1Exists = Directory.Exists(appDataThumbnailPath);
+            bool directorio2Exists = Directory.Exists(appDataPerfilPath);
+            if (directorio1Exists == false && directorio2Exists == false)
+            {
+                UserManager.RemoveFromRoles(user.Id, UserManager.GetRoles(user.Id).ToArray());
+                UserManager.Update(user);
+                UserManager.Delete(user);
+            }
+            else
+            {
+                TempData["notice"] = "No se pudo eliminar el usuario";
+            }
         }
         #endregion
 

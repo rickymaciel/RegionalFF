@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Administración";
     ViewBag.SubTitle = "Perfil del Usuario";
+    HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
 }
 
 <div class="page-title">
@@ -17,7 +18,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    @Session["Nombre"] @Session["Apellido"]
+                    @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"]
                 </h2>
                 <div class="clearfix"></div>
             </div>
@@ -26,7 +27,7 @@
                     <div class="profile_img image view view-first">
                         <div id="" class="img-responsive">
                             <!-- Current avatar -->
-                            <img src="@TempData["imageDataURL"]" alt="@Session["Usuario"]" width="100%" class="img-thumbnail avatar-view tip" data-toggle="tooltip" title="Cambiar la foto de perfil" />
+                            <img src="@TempData["imageDataURL"]" alt="@RegionalFF.Values["Usuario"]" width="100%" class="img-thumbnail avatar-view tip" data-toggle="tooltip" title="Cambiar la foto de perfil" />
                         </div>
                     </div>
                     <div class="caption">
@@ -74,7 +75,7 @@
                         <dt>Usuario:</dt>
                         <dd class="">
                             <i class="fa fa-user user-profile-icon"></i>
-                            @Session["UserName"]
+                            @RegionalFF.Values["UserName"]
                         </dd>
 
                         <dt>Número de teléfono:</dt>
@@ -99,14 +100,14 @@
                         </dd>
                         <dt>Documento:</dt>
                         <dd class="">
-                            @Session["Documento"]
+                            @RegionalFF.Values["Documento"]
                         </dd>
 
 
                         <dt>Dirección:</dt>
                         <dd class="">
                             @*<i class="fa fa-location-arrow user-profile-icon"></i>*@
-                            @Session["Direccion"]
+                            @RegionalFF.Values["Direccion"]
                         </dd>
 
                         <dt class=""></dt>
@@ -115,7 +116,7 @@
                         <dt>Email:</dt>
                         <dd class="">
                             <i class="fa fa-envelope user-profile-icon"></i>
-                            @Session["Email"]
+                            @User.Identity.GetUserName()
                         </dd>
 
                         <dt>Contraseña:</dt>
@@ -148,18 +149,18 @@
                         <dt>Nombre:</dt>
                         <dd class="">
                             <i class="fa fa-map-marker user-profile-icon"></i>
-                            @Session["Oficina"]
+                            @RegionalFF.Values["Oficina"]
                         </dd>
 
                         <dt>Sigla: </dt>
                         <dd class="">
-                            @Session["Sigla"]
+                            @RegionalFF.Values["Sigla"]
                         </dd>
 
                         <dt> Nº de Funcionario:</dt>
                         <dd class="">
                             @*<i class="fa fa-ticket user-profile-icon"></i>*@
-                            @Session["Numero"]
+                            @RegionalFF.Values["Numero"]
                         </dd>
                     </dl>
                 </div>

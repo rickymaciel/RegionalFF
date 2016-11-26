@@ -13,25 +13,14 @@
     {
 
         var imagen = RegionalFF.Values["Imagen"];
-        if (imagen != null && imagen != "")
-        {
-            var archivo = Path.GetFileName(imagen);
-            var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
-            byte[] imageByteData = System.IO.File.ReadAllBytes(path);
-            string imageBase64Data = Convert.ToBase64String(imageByteData);
-            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-            ViewBag.ImagenUsuarioCurrent = imageDataURL;
-            TempData["imageDataURL"] = imageDataURL;
-        }
-        else
-        {
-            var path = Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/default/default.png");
-            byte[] imageByteData = System.IO.File.ReadAllBytes(path);
-            string imageBase64Data = Convert.ToBase64String(imageByteData);
-            string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-            ViewBag.ImagenUsuarioCurrent = imageDataURL;
-            TempData["imageDataURL"] = imageDataURL;
-        }
+        
+        var archivo = Path.GetFileName(imagen);
+        var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
+        byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+        string imageBase64Data = Convert.ToBase64String(imageByteData);
+        string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+        ViewBag.ImagenUsuarioCurrent = imageDataURL;
+        TempData["imageDataURL"] = imageDataURL;
     }
 }
 @using Microsoft.AspNet.Identity
