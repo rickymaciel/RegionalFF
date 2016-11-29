@@ -76,17 +76,17 @@
                                         </ul>
                                     </div>
                                     <div class="right col-xs-5 text-center">
-                                        <img class="img-circle img-responsive" title="@item.Nombre" alt="@item.Nombre" src="@Url.Content("~/Content/img/Uploads/Usuarios/" + item.Imagen)" />
+                                        <img class="img-circle img-responsive" title="@item.Nombre" alt="@item.Nombre" src="@Url.Content("~/Content/img/Uploads/Usuarios/Thumbnail/" + item.Imagen + "/"+ item.Imagen +".png")" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 bottom text-center">
                                     <div class="col-xs-12 col-sm-6 emphasis">
                                     </div>
                                     <div class="col-xs-12 col-sm-6 emphasis">
-                                        <a href="@Url.Action("EditarUsuario", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-xs">
+                                        <a href="@Url.Action("EditarUsuario", "Admin", new { Email = item.Email })" data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-xs">
                                             <i class="fa fa-edit"> </i> Editar Usuario
                                         </a>
-                                        <a href="@Url.Action("DeleteUser", "Admin", new { UserName = item.UserName })" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" class="btn btn-danger btn-xs">
+                                        <a href="@Url.Action("DeleteUser", "Admin", new { Email = item.Email })" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return confirm('¿Seguro que desea eliminar este usuario?');" class="btn btn-danger btn-xs">
                                             <i class="fa fa-trash"> </i>
                                         </a>
                                     </div>

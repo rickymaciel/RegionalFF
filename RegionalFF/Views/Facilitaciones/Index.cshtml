@@ -1,17 +1,9 @@
 ﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
 @using Microsoft.AspNet.Identity
-@using RegionalFF.Controllers
-
 @{
-    
     HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
-    FacilitacionesController hoy = new FacilitacionesController();
     ViewBag.Title = "Facilitación";
     ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Hoy";
-
-    Session["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
-    Session["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
-    Session["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
 }
 <div class="page-title">
     <div class="title_left">
@@ -42,7 +34,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil text-info"></i></div>
             <div class="count">
-                @Session["CantRegistroHoy"]
+                @RegionalFF.Values["CantRegistroHoy"]
             </div>
             <h3>Hoy</h3>
             <p>Total turistas Registrados</p>
@@ -52,7 +44,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
             <div class="count">
-                @Session["CantTotalMes"]
+                @RegionalFF.Values["CantTotalMes"]
             </div>
             <h3>Este Mes</h3>
             <p>Total turistas Registrados</p>
@@ -62,7 +54,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
             <div class="count">
-                @Session["CantTotalAnio"]
+                @RegionalFF.Values["CantTotalAnio"]
             </div>
             <h3>Este Año</h3>
             <p>Total Turistas Registrados</p>
@@ -136,7 +128,7 @@
                         {
                             <tr>
                                 <td>
-                                    @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
+                                    @String.Format("{0:dd/MM/yyyy}", item.Fecha)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Usuario.Nombre) @Html.DisplayFor(modelItem => item.Usuario.Apellido)

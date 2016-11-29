@@ -343,6 +343,8 @@
     <Content Include="Scripts\datatables\vfs_fonts.js" />
     <Content Include="Scripts\fastclick.js" />
     <Content Include="Scripts\icheck.min.js" />
+    <Content Include="Scripts\InitDateTime.js" />
+    <Content Include="Scripts\InitPlugins.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

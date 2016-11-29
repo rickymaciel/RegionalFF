@@ -137,9 +137,11 @@ namespace RegionalFF.Controllers
         [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult aja(Facilitacion facilitacion)
+        public ActionResult AjaxRegistroFacilitacion2(Facilitacion facilitacion)
         {
-
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            facilitacion.Fecha = Fecha;
             if (ModelState.IsValid)
             {
                 using (System.Data.Entity.DbContextTransaction dbTran = db.Database.BeginTransaction())
@@ -157,11 +159,12 @@ namespace RegionalFF.Controllers
                         return RedirectToAction("Index");
                     }
                 }
+                ActualizarCookiesFacilitacion();
                 return RedirectToAction("Index", "Facilitaciones");
             }
             else
             {
-                TempData["notice"] = "Error de Validaciones";
+                TempData["notice"] = "No se pudo realizar la transacción! Complete los campos requeridos y vuelva a intentar!";
                 return RedirectToAction("Index", "Facilitaciones");
             }
         }
@@ -172,21 +175,20 @@ namespace RegionalFF.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjaxRegistroFacilitacion(Facilitacion facilitacion)
         {
+            facilitacion.Fecha = DateTime.Now;
             if (ModelState.IsValid)
             {
-                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                facilitacion.Fecha = Fecha;
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
+                ActualizarCookiesFacilitacion();
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
+                return RedirectToAction("Index", "Facilitaciones");
             }
             else
             {
                 TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
                 return RedirectToAction("Index", "Facilitaciones");
             }
-            return RedirectToAction("Index", "Facilitaciones");
         }
 
 
@@ -212,6 +214,20 @@ namespace RegionalFF.Controllers
             return RedirectToAction("EsteMes", "Facilitaciones");
         }
 
+        [Authorize(Roles = "Facilitador,Administrador")]
+        #region public bool ActualizarCookiesFacilitacion()
+        public bool ActualizarCookiesFacilitacion()
+        {
+            HttpCookie RegionalFF = HttpContext.Request.Cookies["RegionalFF"];
+            FacilitacionesController hoy = new FacilitacionesController();
+            RegionalFF.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
+            RegionalFF.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
+            RegionalFF.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
+            RegionalFF.Expires.Add(TimeSpan.FromDays(1.0));
+            Response.Cookies.Add(RegionalFF);
+            return true;    
+        }
+        #endregion
 
         [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
@@ -308,17 +324,10 @@ namespace RegionalFF.Controllers
             {
                 return HttpNotFound();
             }
-
-
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);
-
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             ViewBag.User = User.Identity.GetUserId();
-            ViewBag.Fecha = Fecha;
-
             return View(facilitacion);
         }
 
@@ -337,13 +346,7 @@ namespace RegionalFF.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
             ViewBag.User = User.Identity.GetUserId();
-            ViewBag.Fecha = Fecha;
-
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre", facilitacion.PaisId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Nombre", facilitacion.UserId);

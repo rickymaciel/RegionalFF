@@ -1,32 +1,14 @@
 ﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
 @using Microsoft.AspNet.Identity
-@using RegionalFF.Controllers
-
 @{
-    if (User.Identity.GetUserName() != "")
-    {
-        FacilitacionesController hoy = new FacilitacionesController();
-        ViewBag.Title = "Facilitación";
-        ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Este Año";
-
-        HttpCookie RegionalFFCookie = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-        RegionalFFCookie.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
-        RegionalFFCookie.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
-        RegionalFFCookie.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
-
-        RegionalFFCookie.Expires = DateTime.Now.AddDays(1d);
-        Response.Cookies.Add(RegionalFFCookie);
-    }
+    HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Lista de Registros de Facilitaciones - Este Año";
 }
-@{
-    HttpCookie RegionalFFCookies = HttpContext.Current.Request.Cookies["GlobalRegionalFF"] ?? new HttpCookie("GlobalRegionalFF ");
-}
-
 <div class="page-title">
     <div class="title_left">
         <h3>@ViewBag.Title</h3>
     </div>
-
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
@@ -37,23 +19,22 @@
     </div>
 </div>
 
-
 <div class="row top_tiles  tile_count">
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
             <div class="icon"><i class="ion-person text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["Sigla"]
+                @RegionalFF.Values["Sigla"]
             </div>
-            <h3>@RegionalFFCookies.Values["Usuario"] </h3>
-            <p>@RegionalFFCookies.Values["Oficina"]</p>
+            <h3>@RegionalFF.Values["Usuario"] </h3>
+            <p>@RegionalFF.Values["Oficina"]</p>
         </div>
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["CantRegistroHoy"]
+                @RegionalFF.Values["CantRegistroHoy"]
             </div>
             <h3>Hoy</h3>
             <p>Total turistas Registrados</p>
@@ -63,7 +44,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["CantTotalMes"]
+                @RegionalFF.Values["CantTotalMes"]
             </div>
             <h3>Este Mes</h3>
             <p>Total turistas Registrados</p>
@@ -73,7 +54,7 @@
         <div class="tile-stats">
             <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
             <div class="count">
-                @RegionalFFCookies.Values["CantTotalAnio"]
+                @RegionalFF.Values["CantTotalAnio"]
             </div>
             <h3>Este Año</h3>
             <p>Total Turistas Registrados</p>
@@ -95,13 +76,13 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="@Url.Action("VerTodo", "Facilitaciones")"><i class="fa fa-list"></i> Ver Todo</a>
+                                <a href="@Url.Action("Index", "Facilitaciones")"><i class="fa fa-reply"></i> Volver</a>
                             </li>
                             <li>
                                 <a href="@Url.Action("EsteMes", "Facilitaciones")"><i class="fa fa-list"></i> Este Mes</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("EsteAño", "Facilitaciones")"><i class="fa fa-list"></i> Este Año</a>
+                                <a href="@Url.Action("VerTodo", "Facilitaciones")"><i class="fa fa-list"></i> Ver Todo</a>
                             </li>
                         </ul>
                     </li>
@@ -112,84 +93,83 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="table-responsiv">
-                    <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Fecha)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Usuario)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Pais)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Ciudad)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Cantidad)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Estadia)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Observaciones)
-                                </th>
-                                <th class="col-lg-2">
-                                    <i class="fa fa-cog"></i>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
+                    <thead>
+                        <tr class="bg-blue">
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fecha)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Usuario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Pais)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ciudad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estadia)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Observaciones)
+                            </th>
+                            <th class="col-lg-1 col-sm-1 col-xs-1 col-sm-1">
+                                <i class="fa fa-cog"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.Fecha)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Usuario.Nombre) @Html.DisplayFor(modelItem => item.Usuario.Apellido)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Pais.Nombre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Ciudad.Nombre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cantidad)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Estadia)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Observaciones)
-                                    </td>
-                                    <td class="col-lg-2 col-xs-2 text-center">
-                                        <span class="btn-group">
-                                            <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
-                                            <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
-                                            <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @String.Format("{0:dd/MM/yyyy}", item.Fecha)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Usuario.Nombre) @Html.DisplayFor(modelItem => item.Usuario.Apellido)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Pais.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ciudad.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estadia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Observaciones)
+                                </td>
+                                <td class="col-lg-1 col-sm-1 col-xs-1 col-sm-1 text-center">
+                                    <span class="btn-group">
+                                        <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><em class="fa fa-pencil"></em> </a>
+                                        <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><em class="fa fa-eye"></em> </a>
+                                        <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Facilitaciones", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><em class="fa fa-trash"></em> </a>
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div id="container-floating" data-toggle="modal" data-target="#crearFacilitacion">
             <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Registrar Nuevo" title="Registrar Nuevo">
                 <p class="plus">+</p>
-                <img class="edit" src="~/Content/bt_compose2_1x.png">
+                <img class="edit" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA5FBMVEUAAABua2xXVFWbmJliX2C0s7P///9pZ2d6eHjX1taXlJX5+fn8/Pywr6/29vZaV1iQjo+FgoMwLC1iX2DU09Tv7+/n5+e4trcEAQHf3t75+Pns7Oy6ublpZ2d5d3j5+fn////t7e3NzMxfXF3Y19fn5ua5t7j9/f3////9/f34+PhdWlvY1tf5+fnt7Oy1tLT///////////+4t7f9/f3////////v7u7Pzs7+/v74+Pj///////+DgYLZ2Nn09PT7+/v////////////////////////////////////////+/v7p3CnTAAAASnRSTlMAAAAAAAAAAAAAAAAAAAAIJxsBCW/bvjsBZu/MOgkWXOu5EAlyrzBg6tEWCXHuvC7sXwIwW1sEqg1jA2IDBW8Z2xzjGcrl5NphGGLptgIAAACVSURBVBjTtclFAsIwEEDRwQZ396ItVtyLhKKT+9+HDZs02QF/+T7Av3LFE8mUW3ZPOpPN5cHrdF+hWCJerqBf9EC1VteIeKMZFDzUane6ukHU64cFHwxH3Bzr2mQ6Q4cTcXO+WK5kJ+LrDaictO0uonJjb+EXHj0clQ6x01npgOyi9M+QHdC+3u6Pp+SAls3YS/af9QbjVSRDRv3NPgAAAABJRU5ErkJggg==">
             </div>
         </div>
     </div>
@@ -198,5 +178,5 @@
 @Html.Partial("_PartialFacilitacion")
 
 @section Scripts {
-    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/datatable")
 }

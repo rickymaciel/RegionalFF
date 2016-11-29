@@ -447,9 +447,17 @@ namespace RegionalFF.Controllers
                 RegionalFF.Values["Documento"] = oficinacurrent.getEmpresaDocumentoUsers(user.Email).ToString();
                 RegionalFF.Values["Numero"] = oficinacurrent.getEmpresaNumeroUsers(user.Email).ToString();
                 RegionalFF.Values["Rol"] = userRoles[0];
+                if (userRoles[0] == "Administrador" || userRoles[0] == "Facilitador")
+                {
+                    FacilitacionesController hoy = new FacilitacionesController();
+                    RegionalFF.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
+                    RegionalFF.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
+                    RegionalFF.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
+                }
                 Index = user.Email.IndexOf("@");
                 RegionalFF.Values["Usuario"] = user.Email.Substring(0, Index);
-                RegionalFF.Expires = DateTime.Now.AddDays(1d);
+                //RegionalFF.Expires = DateTime.Now.AddDays(1d);
+                RegionalFF.Expires.Add(TimeSpan.FromDays(1.0));
                 Response.Cookies.Add(RegionalFF);
                 return true;
             }
