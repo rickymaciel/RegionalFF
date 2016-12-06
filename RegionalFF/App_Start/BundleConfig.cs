@@ -18,14 +18,8 @@ namespace RegionalFF
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
-                      "~/Scripts/Selectize/js/standalone/selectize.min.js",
-                      "~/Scripts/icheck.min.js",
-                      "~/Scripts/Pnotify/pnotify.js",
-                      "~/Scripts/Pnotify/pnotify.buttons.js",
-                      "~/Scripts/nprogress.js",
-                      "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
-                      "~/Scripts/custom.min.js",
-                      "~/Scripts/respond.min.js"
+                      "~/Scripts/custom.min.js"
+                      //"~/Scripts/respond.min.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
@@ -47,6 +41,12 @@ namespace RegionalFF
                       "~/Scripts/fileinput.min.js",
                       "~/Scripts/jquery.inputmask/dist/jquery.inputmask.bundle.js",
                       "~/Content/bootstrap-fileinput/themes/gly/theme.js",
+                      "~/Scripts/Selectize/js/standalone/selectize.min.js",
+                      "~/Scripts/icheck.min.js",
+                      "~/Scripts/Pnotify/pnotify.js",
+                      "~/Scripts/Pnotify/pnotify.buttons.js",
+                      "~/Scripts/nprogress.js",
+                      "~/Scripts/jquery.mCustomScrollbar.concat.min.js",
                       "~/Scripts/InitPlugins.js"
             ));
 

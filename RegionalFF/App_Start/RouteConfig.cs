@@ -11,24 +11,12 @@ namespace RegionalFF
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            var b = HttpContext.Current.User;
-            if (b == null)
-            {
-                routes.MapRoute(
-                    name: "Default",
-                    url: "{controller}/{action}",
-                    defaults: new { controller = "Account", action = "Login" }
-                      );
-            }
-            else
-            {
-                routes.MapRoute(
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}"); 
+            routes.MapRoute(
                     name: "Default",
                     url: "{controller}/{action}/{id}",
                     defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
-            }
         }
     }
 }

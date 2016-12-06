@@ -22,20 +22,19 @@ namespace RegionalFF.Models
         }
         public ApplicationUser()
         {
-            Origenes = new List<Pais>();
-            Destinos = new List<Ciudad>();
-            Facilitaciones = new List<Facilitacion>();
-            Fiscalizaciones = new List<Fiscalizacion>();
+            //Origenes = new List<Pais>();
+            //Destinos = new List<Ciudad>();
+            //Facilitaciones = new List<Facilitacion>();
+            //Fiscalizaciones = new List<Fiscalizacion>();
         }
 
-        public virtual ICollection<Pais> Origenes { get; set; }
-        public virtual ICollection<Ciudad> Destinos { get; set; }
-        public virtual ICollection<Facilitacion> Facilitaciones { get; set; }
-        public virtual ICollection<Fiscalizacion> Fiscalizaciones { get; set; }
+        //public virtual ICollection<Pais> Origenes { get; set; }
+        //public virtual ICollection<Ciudad> Destinos { get; set; }
+        //public virtual ICollection<Facilitacion> Facilitaciones { get; set; }
+        //public virtual ICollection<Fiscalizacion> Fiscalizaciones { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Nº Funcionario")]
-
         public int Numero { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
@@ -46,11 +45,14 @@ namespace RegionalFF.Models
         [Display(Name = "Documento")]
         public int Documento { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         public string Nombre { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         public string Apellido { get; set; }
 
         public string Direccion { get; set; }
+
         [DataType(DataType.ImageUrl)]
         public string Imagen { get; set; }
 

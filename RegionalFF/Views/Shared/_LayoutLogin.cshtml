@@ -26,14 +26,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <meta http-equiv="Pragma" content="no-cache" />
+
     <title>@ViewBag.Title | @ViewBag.Denominacion</title>
     <link id="Link2" rel="icon" href="~/RegionalFF.ico" type="image/ico" />
 
     @Styles.Render("~/Content/login")
-    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/modernizr")*@
 
 </head>
 
@@ -48,7 +46,6 @@
     @Scripts.Render("~/bundles/plugins")
 
     @RenderSection("scripts", required: false)
-    <!-- Datatables -->
     <script type="text/javascript">
         (function (global) {
 
@@ -94,15 +91,26 @@
 
     <script>
         $(function () {
-            //if (history.forward(1)) {
-            //    location.replace(history.forward(1))
-            //}
+            $('.submit').on('click', function () {
+                var Email = $("#Email").val();
+                var Pass = $("#Password").val();
+                if ((Email != "") && (Password != "")) {
+                    var $this = $(this);
+                    $this.button('loading');
+                    setTimeout(function () {
+                        $this.button('reset');
+                    }, 10000);
+                }
+                else {
+                    alert("Todos los campos son obligatorios");
+                }
+            });
             $('input').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'icheckbox_minimal-blue',
                 increaseArea: '20%' // optional
             });
-            $('#mensaje').delay(6000).fadeOut(2000);
+            $('#mensaje').delay(500).fadeOut(500);
         })
     </script>
 
