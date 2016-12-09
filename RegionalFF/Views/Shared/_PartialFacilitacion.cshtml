@@ -24,8 +24,8 @@
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group hidden">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="UserId">Usuario</label>
-                            <div class="col-lg-10 col-md-12 col-xs-12">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="UserId">Usuario</label>
+                            <div class="col-lg-10 col-md-10 col-xs-10">
                                 @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
                                 <input name="UserId" readonly required class="hidden" />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
@@ -33,52 +33,52 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Fecha</label>
-                            <div class="col-lg-10 col-md-12 col-xs-12">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="Fecha">Fecha</label>
+                            <div class="col-lg-10 col-md-10 col-xs-10">
                                 <input class="form-control text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." placeholder="Fecha" data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="datetime" readonly required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Origen</label>
-                            <div class="col-lg-1 col-md-1 col-xs-2">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="Fecha">Origen</label>
+                            <div class="col-lg-1 col-md-1 col-xs-1">
                                 <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearPais"><i class="fa fa-plus"></i></a>
                             </div>
-                            <div class="col-lg-9 col-md-11 col-xs-10">
+                            <div class="col-lg-9 col-md-9 col-xs-9">
                                 @Html.DropDownList("PaisId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Pais de origen", @required = "true" })
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Fecha">Destino</label>
-                            <div class="col-lg-1 col-md-1 col-xs-2">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="Fecha">Destino</label>
+                            <div class="col-lg-1 col-md-1 col-xs-1">
                                 <a href="#" type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Crear Nuevo" data-target="#crearCiudad"><i class="fa fa-plus"></i></a>
                             </div>
-                            <div class="col-lg-9 col-md-11 col-xs-10">
+                            <div class="col-lg-9 col-md-9 col-xs-9">
                                 @Html.DropDownList("CiudadId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione un Destino", @required = "true" })
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Fecha" data-valmsg-replace="true"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Cantidad">Cantidad</label>
-                            <div class="col-lg-10 col-md-12 col-xs-12">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="Cantidad">Cantidad</label>
+                            <div class="col-lg-10 col-md-10 col-xs-10">
                                 <input class="form-control text-box single-line" data-val="true" data-val-number="The field Cantidad must be a number." data-val-required="Este campo es requerido" id="Cantidad" name="Cantidad" type="number" value="" placeholder="Cantidad de dias en destino" required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Cantidad" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Estadia">Estadia</label>
-                            <div class="col-lg-10 col-md-12 col-xs-12">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="Estadia">Estadia</label>
+                            <div class="col-lg-10 col-md-10 col-xs-10">
                                 <input class="form-control text-box single-line" data-val="true" data-val-number="The field Estadia must be a number." data-val-required="Este campo es requerido" id="Estadia" name="Estadia" type="number" value="" placeholder="Cantidad de dias en Destino" required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Estadia" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-2 col-md-12 col-xs-12" for="Observaciones">Obs:.</label>
-                            <div class="col-lg-10 col-md-12 col-xs-12">
+                            <label class="control-label col-lg-2 col-md-2 col-xs-2" for="Observaciones">Obs:.</label>
+                            <div class="col-lg-10 col-md-10 col-xs-10">
                                 <textarea class="form-control" cols="20" id="Observaciones" name="Observaciones" placeholder="Observaciones" rows="3"></textarea>
                                 <span class="field-validation-valid text-danger" data-valmsg-for="Observaciones" data-valmsg-replace="true"></span>
                             </div>

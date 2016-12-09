@@ -50,6 +50,9 @@
                         <li role="presentation" class="">
                             <a href="#mostrar_pie" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-pie-chart"></i></a>
                         </li>
+                        <li role="presentation" class="">
+                            <a href="#mostrar_lista" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-list"></i></a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade active in" id="mostrar_columna" aria-labelledby="mostrar_columna">
@@ -57,6 +60,25 @@
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="mostrar_pie" aria-labelledby="mostrar_pie">
                             <div id="pie" style="height:350px;"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="mostrar_lista" aria-labelledby="mostrar_lista">
+                            <div id="lista" style="height:350px;">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item active">
+                                        <span class="badge">Cantidad</span>
+                                        Pais de origen
+                                    </a>
+                                    @foreach (var item in ViewBag.SeriesData)
+                                    {
+
+                                        <a href="#" class="list-group-item">
+                                            <span style="background:@item.color;" class="badge">@item.value</span>
+                                            @item.name
+                                        </a>
+
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
