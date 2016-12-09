@@ -6,100 +6,100 @@
 }
 
 
-<div class="">
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>@ViewBag.Title <small>@ViewBag.SubTitle</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a href="@Url.Action("Create", "Menus")" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
-                                <i class="fa fa-plus"></i>
-                                <strong>Crear Nuevo</strong>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                        Administrar el Menú: <code></code>
-                    </p>
-                    <div class="table-responsive">
-                        <table id="datatable" class="table table-striped table-condensed table-hover" cellspacing="0" width="100%">
-                            <thead>
-                                <tr class="primary">
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.PadreId)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Nombre)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Descripcion)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Perfil)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Accion)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Controlador)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Activo)
-                                    </th>
-                                    <th class="col-lg-2"><i class="fa fa-cog"></i> </th>
-                                </tr>
-                            </thead>
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Create", "Menus")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Crear Nuevo">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.SubTitle</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
+                    <thead>
+                        <tr class="bg-blue">
+                            <th>
+                                @Html.DisplayNameFor(model => model.PadreId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Perfil)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Accion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Controlador)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Activo)
+                            </th>
+                            <th class="col-lg-1 col-sm-1 col-xs-1 col-sm-1">
+                                <i class="fa fa-cog"></i>
+                            </th>
+                        </tr>
+                    </thead>
 
 
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PadreId)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Nombre)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Descripcion)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Perfil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Accion)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Controlador)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Activo)
-                                        </td>
-                                        <td class="col-lg-2 btn-group">
-                                            <div class="pull-right">
-                                                <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", "Menus", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
-
-                                                <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Menus", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-eye"></i> </a>
-
-                                                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Menus", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><i class="fa fa-trash-o"></i> </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PadreId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Perfil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Accion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Controlador)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Activo)
+                                </td>
+                                <td class="col-lg-1 col-sm-1 col-xs-1 col-sm-1">
+                                    <div class="btn-group">
+                                        <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Menus", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
+                                        <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Menus", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-list-alt"></i> </a>
+                                        <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Menus", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Borrar"><i class="fa fa-trash-o"></i> </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/datatable")
 }

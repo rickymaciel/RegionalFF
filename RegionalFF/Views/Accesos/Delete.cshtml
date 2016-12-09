@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Menú Administrador del Sistema";
-    ViewBag.SubTitle = "¿Estás seguro que quieres eliminar esto?";
+    ViewBag.SubTitle = "Eliminar";
 }
 <div class="page-title">
     <div class="title_left">
@@ -25,6 +25,14 @@
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
+
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <strong><i class="fa fa-times"></i></strong> ¿Estás seguro que quieres eliminar este ítem?.
+        </div>
+
         <div class="x_panel">
             <div class="x_title">
                 <h2>@ViewBag.SubTitle</h2>
@@ -85,7 +93,7 @@
                 @using (Html.BeginForm("Delete", "Accesos", FormMethod.Post, new { @class = "form-inline pull-right" }))
                 {
                     @Html.AntiForgeryToken()
-                    <button type="submit" value="Borrar" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Borrar" onclick="return confirm('¿Seguro que desea eliminar este usuario?');">
+                    <button type="submit" value="Borrar" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Borrar" onclick="return confirm('¿Seguro que desea eliminar este ítem?');">
                         <i class="fa fa-trash"></i>
                         Eliminar este Menu
                     </button>
