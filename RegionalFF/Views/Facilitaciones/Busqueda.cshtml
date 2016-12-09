@@ -1,0 +1,88 @@
+﻿@model RegionalFF.Models.Facilitacion
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Facilitaciones";
+    ViewBag.SubTitle = "Filtrar Facilitaciones";
+}
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Volver">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page content -->
+<div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.SubTitle</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @using (Html.BeginForm("Resultados", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="item form-group">
+                            <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Desde</label>
+                            <div class="col-lg-6 col-md-12 col-xs-12">
+                                <input class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Desde must be a date." placeholder="Desde" data-val-required="El campo Desde es obligatorio." id="Desde" name="Desde" type="datetime" required />
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Hasta</label>
+                            <div class="col-lg-6 col-md-12 col-xs-12">
+                                <input data-validate-length-range="6" data-validate-words="2" class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Hasta must be a date." placeholder="Hasta" data-val-required="El campo Hasta es obligatorio." id="Hasta" name="Hasta" type="datetime" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-3 col-md-3 col-xs-12" for="Incluir">Incluir</label>
+                            <div class="col-md-1">
+                                <div class="checkbox">
+                                    <input class="check-box" id="Incluir" name="Incluir" type="checkbox" value="true" checked />
+                                </div>
+                            </div>
+                            <label class="control-label col-md-5 col-lg-5 col-md-5 col-xs-12" for="Incluir">Incluir los registros de todos los usuarios?</label>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default"><i class="fa fa-times"></i> Cancelar</a>
+                                <button type="submit" class="btn btn-primary submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-filter"></i> Filtrar búsqueda</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datetimepicker")
+<script>
+    $(function () {
+        $("button.submit").click(function () {
+            var Desde = $("#Desde").val();
+            var Hasta = $("#Hasta").val();
+            if ((Desde != "") && (Hasta != "")) {
+                var $this = $(this);
+                $this.button('loading').removeClass("btn-primary").addClass("btn-link");
+                setTimeout(function () {
+                    $this.button('reset').removeClass("btn-link").addClass("btn-primary");
+                }, 8000);
+            }
+        });
+    })
+</script>
+}

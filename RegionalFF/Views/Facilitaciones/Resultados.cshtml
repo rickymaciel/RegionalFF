@@ -1,0 +1,215 @@
+﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
+@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
+
+@{
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Paises de Origen - Resultado de la búsqueda - Desde: " + @String.Format("{0:dd/MM/yyyy}", ViewBag.Desde) + " - Hasta: " + @String.Format("{0:dd/MM/yyyy}", ViewBag.Hasta);
+}
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("PaisesPrincipales10", "Facilitaciones")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Volver">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    <i class="fa fa-pie-chart"></i> @ViewBag.SubTitle
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class=""><i class="fa fa-filter"></i> @ViewBag.Filtro</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div role="tabpanel" data-example-id="togglable-tabs">
+                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#mostrar_columna" class="tip" role="tab" id="granadiente-tab" data-toggle="tab" aria-expanded="false" title="Columna"><i class="fa fa-bar-chart"></i></a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#mostrar_pie" class="tip" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true" title="Pie"><i class="fa fa-pie-chart"></i></a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#mostrar_lista" class="tip" id="list-tab" role="tab" data-toggle="tab" aria-expanded="true" title="Lista"><i class="fa fa-list"></i></a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#filtrar" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-search"></i></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="mostrar_columna" aria-labelledby="mostrar_columna">
+                            <div id="columna" style="height:350px;"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="mostrar_pie" aria-labelledby="mostrar_pie">
+                            <div id="pie" style="height:350px;"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="mostrar_lista" aria-labelledby="mostrar_lista">
+                            <div id="lista" style="height:350px;">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item active">
+                                        <span class="badge">Cantidad</span>
+                                        País de origen
+                                    </a>
+                                    @foreach (var item in ViewBag.SeriesData)
+                                    {
+
+                                        <a href="#" class="list-group-item">
+                                            <span style="background:@item.color;" class="badge">@item.value</span>
+                                            @item.name
+                                        </a>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="filtrar" aria-labelledby="filtrar">
+                            @using (Html.BeginForm("Resultados", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="item form-group">
+                                    <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Desde</label>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <input class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Desde must be a date." placeholder="Desde" data-val-required="El campo Desde es obligatorio." id="Desde" name="Desde" type="datetime" required />
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Hasta</label>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <input data-validate-length-range="6" data-validate-words="2" class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Hasta must be a date." placeholder="Hasta" data-val-required="El campo Hasta es obligatorio." id="Hasta" name="Hasta" type="datetime" required="required" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3 col-xs-12" for="Incluir">Incluir</label>
+                                    <div class="col-md-1">
+                                        <div class="checkbox">
+                                            <input class="check-box" id="Incluir" name="Incluir" type="checkbox" value="true" checked />
+                                        </div>
+                                    </div>
+                                    <label class="control-label col-md-5 col-lg-5 col-md-5 col-xs-12" for="Incluir">Incluir los registros de todos los usuarios?</label>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary btn-block submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-filter"></i> Filtrar búsqueda</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/amcharts")
+    @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/bundles/datetimepicker")
+    <script>
+        $(function () {
+            $("button.submit").click(function () {
+                var Desde = $("#Desde").val();
+                var Hasta = $("#Hasta").val();
+                if ((Desde != "") && (Hasta != "")) {
+                    var $this = $(this);
+                    $this.button('loading').removeClass("btn-primary").addClass("btn-link");
+                    setTimeout(function () {
+                        $this.button('reset').removeClass("btn-link").addClass("btn-primary");
+                    }, 8000);
+                }
+            });
+
+            var LegendData = @Html.Raw(Json.Encode(ViewBag.LegendData));
+            var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
+
+            AmCharts.makeChart("pie", {
+                "type": "pie",
+                "theme": "light",
+                "language": "es",
+                "dataProvider": SeriesData,
+                "titleField": "name",
+                "valueField": "value",
+                "startEffect": "elastic",
+                "startDuration": 3,
+                "labelRadius": 35,
+                "innerRadius": "20%",
+                "depth3D": 15,
+                "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": true
+                },
+                "legend": {
+                    "position": "left"
+                },
+                "autoMargins": true,
+                "outlineThickness": 2,
+                "outlineColor": "#FFFFFF",
+                "outlineAlpha": 0.8,
+                "balloonText": "[[name]]<br><span class='text-primary' style='font-size:16px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "colorField": "color",
+                "labelText": "[[name]]:  [[value]] ([[percents]]%)",
+                "responsive": {
+                    "enabled": false
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+
+            var chart = AmCharts.makeChart("columna", {
+                "theme": "light",
+                "type": "serial",
+                "startDuration": 2,
+                "dataProvider": SeriesData,
+                "valueAxes": [{
+                    "position": "left",
+                    "title": "Cantidad de turistas"
+                }],
+                "graphs": [{
+                    "balloonText": "[[name]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "labelText": "[[value]]",
+                    "valueField": "value"
+                }],
+                "depth3D": 20,
+                "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": true
+                },
+                "categoryField": "name",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "labelRotation": 90
+                },
+                "export": {
+                    "enabled": true
+                }
+
+            });
+        })
+    </script>
+}
