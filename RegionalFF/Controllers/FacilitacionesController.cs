@@ -16,28 +16,19 @@ namespace RegionalFF.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Facilitaciones
-        [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult Index()
         {
-            var Email = User.Identity.GetUserName();
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Numero");
-            ViewBag.User = User.Identity.GetUserId();
-            ViewBag.Fecha = Fecha;
-            var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
-
-            return View(facilitacions.ToList().Where(u => u.Usuario.Email == Email).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).Where(u => u.UserId == User.Identity.GetUserId()).OrderByDescending(f => f.Fecha));
+            ViewBag.Fecha = DateTime.Now;
+            //var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
+            return View(db.Facilitacions.ToList().Where(u => u.UserId == User.Identity.GetUserId()).Where(u => u.Fecha.Month == DateTime.Now.Month).Where(u => u.Fecha.Year == DateTime.Now.Year).Where(u => u.Fecha.Day == DateTime.Now.Day).OrderByDescending(f => f.Fecha));
         }
 
         // GET: Facilitaciones
-        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InformeFecha(DateTime Desde, DateTime Hasta, bool Incluir = false)
+        public ActionResult InformeFecha(DateTime Desde, DateTime Hasta, bool Incluir)
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd");
             DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
@@ -65,6 +56,187 @@ namespace RegionalFF.Controllers
         {
             return View();
         }
+
+        public List<String> getPaises(DateTime Desde, DateTime Hasta, bool Incluir = false)
+        {
+            if (Incluir == true)
+            {
+                var paises = (from s in db.Facilitacions where s.Fecha >= Desde where s.Fecha <= Hasta select s.Ciudad.Nombre).Distinct().ToList();
+                return paises.ToList();
+            }
+            else
+            {
+                var paises = (from s in db.Facilitacions where s.Fecha >= Desde where s.Fecha <= Hasta select s.Ciudad.Nombre).Distinct().ToList();
+                return paises.ToList();
+            }
+            
+        }
+
+        // GET: Facilitaciones
+        [Authorize(Roles = "Facilitador,Administrador")]
+        public ActionResult Busqueda()
+        {
+            return View();
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Resultados(DateTime Desde, DateTime Hasta, bool Incluir = false)
+        {
+            var UserId = User.Identity.GetUserId();
+            var i = 0;
+            List<VisitSource> paisesLista = new List<VisitSource>();
+            List<String> color = new List<String>();
+            color.Add("#FF0F00");
+            color.Add("#FF6600");
+            color.Add("#FF9E01");
+            color.Add("#FCD202");
+            color.Add("#F8FF01");
+
+            color.Add("#B0DE09");
+            color.Add("#04D215");
+            color.Add("#0D8ECF");
+            color.Add("#0D52D1");
+            color.Add("#2A0CD0");
+
+            //agregar mas colores
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            //
+            if (Incluir == true)
+            {
+                ViewBag.Filtro = "Todos los usuarios";
+                var paisesQuery = db.Facilitacions.Where(x => x.Fecha >= Desde).Where(x => x.Fecha <= Hasta).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).ToList();
+                foreach (var item in paisesQuery)
+                {
+                    paisesLista.Add(new VisitSource()
+                    {
+                        name = item.Nombre,
+                        value = item.Cantidad.ToString(),
+                        color = color[i],
+                    });
+                    i++;
+                }
+            }
+            else
+            {
+                ViewBag.Filtro = User.Identity.GetUserName();
+                var paisesQuery = db.Facilitacions.Where(x => x.Usuario.Id == UserId).Where(x => x.Fecha >= Desde).Where(x => x.Fecha <= Hasta).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).ToList();
+                foreach (var item in paisesQuery)
+                {
+                    paisesLista.Add(new VisitSource()
+                    {
+                        name = item.Nombre,
+                        value = item.Cantidad.ToString(),
+                        color = color[i],
+                    });
+                    i++;
+                }
+            }
+
+            var pie = new PieMapViewModel()
+            {
+                LegendData = getPaises(Desde,Hasta,Incluir),
+                SeriesData = paisesLista
+            };
+
+            ViewBag.LegendData = pie.LegendData;
+            ViewBag.SeriesData = pie.SeriesData;
+
+            ViewBag.Desde = Desde;
+            ViewBag.Hasta = Hasta;
+            return View();
+        }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResultadosDestinos(DateTime Desde, DateTime Hasta, bool Incluir = false)
+        {
+            var UserId = User.Identity.GetUserId();
+            var i = 0;
+            List<VisitSource> paisesLista = new List<VisitSource>();
+            List<String> color = new List<String>();
+            color.Add("#FF0F00");
+            color.Add("#FF6600");
+            color.Add("#FF9E01");
+            color.Add("#FCD202");
+            color.Add("#F8FF01");
+
+            color.Add("#B0DE09");
+            color.Add("#04D215");
+            color.Add("#0D8ECF");
+            color.Add("#0D52D1");
+            color.Add("#2A0CD0");
+
+            //agregar mas colores
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            color.Add("#2A0CD0");
+            //
+            if (Incluir == true)
+            {
+                ViewBag.Filtro = "Todos los usuarios";
+                var paisesQuery = db.Facilitacions.Where(x => x.Fecha >= Desde).Where(x => x.Fecha <= Hasta).GroupBy(x => x.Ciudad.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Ciudad.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).ToList();
+                foreach (var item in paisesQuery)
+                {
+                    paisesLista.Add(new VisitSource()
+                    {
+                        name = item.Nombre,
+                        value = item.Cantidad.ToString(),
+                        color = color[i],
+                    });
+                    i++;
+                }
+            }
+            else
+            {
+                ViewBag.Filtro = User.Identity.GetUserName();
+                var paisesQuery = db.Facilitacions.Where(x => x.Usuario.Id == UserId).Where(x => x.Fecha >= Desde).Where(x => x.Fecha <= Hasta).GroupBy(x => x.Ciudad.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Ciudad.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).ToList();
+                foreach (var item in paisesQuery)
+                {
+                    paisesLista.Add(new VisitSource()
+                    {
+                        name = item.Nombre,
+                        value = item.Cantidad.ToString(),
+                        color = color[i],
+                    });
+                    i++;
+                }
+            }
+
+            var pie = new PieMapViewModel()
+            {
+                LegendData = getPaises(Desde, Hasta, Incluir),
+                SeriesData = paisesLista
+            };
+
+            ViewBag.LegendData = pie.LegendData;
+            ViewBag.SeriesData = pie.SeriesData;
+
+            ViewBag.Desde = Desde;
+            ViewBag.Hasta = Hasta;
+            return View();
+        }
+
 
         // GET: Facilitaciones
         [Authorize(Roles = "Facilitador,Administrador")]
@@ -120,28 +292,12 @@ namespace RegionalFF.Controllers
             return View(facilitacions.ToList().Where(u => u.Usuario.Email == Email).Where(u => u.Fecha.Year == Fecha.Year).OrderByDescending(f => f.Fecha));
         }
 
-        public JsonResult ComprobarDuplicacion(string Nombre)
-        {
-            var data = db.Ciudads.Where(p => p.Nombre.Equals(Nombre, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
-            if (data != null)
-            {
-                return Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AjaxRegistroFacilitacion2(Facilitacion facilitacion)
+        public ActionResult AjaxRegistroFacilitacion1(Facilitacion facilitacion)
         {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-            facilitacion.Fecha = Fecha;
+            facilitacion.Fecha = DateTime.Now;
             if (ModelState.IsValid)
             {
                 using (System.Data.Entity.DbContextTransaction dbTran = db.Database.BeginTransaction())
@@ -150,6 +306,8 @@ namespace RegionalFF.Controllers
                     {
                         db.Facilitacions.Add(facilitacion);
                         db.SaveChanges();
+                        dbTran.Commit();
+                        ActualizarCookiesFacilitacion();
                         TempData["notice"] = "La Facilitación fue registrada correctamente";
                     }
                     catch (Exception ex)
@@ -159,7 +317,6 @@ namespace RegionalFF.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                ActualizarCookiesFacilitacion();
                 return RedirectToAction("Index", "Facilitaciones");
             }
             else
@@ -170,7 +327,6 @@ namespace RegionalFF.Controllers
         }
 
 
-        [Authorize(Roles = "Facilitador,Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AjaxRegistroFacilitacion(Facilitacion facilitacion)
@@ -214,16 +370,14 @@ namespace RegionalFF.Controllers
             return RedirectToAction("EsteMes", "Facilitaciones");
         }
 
-        [Authorize(Roles = "Facilitador,Administrador")]
         #region public bool ActualizarCookiesFacilitacion()
         public bool ActualizarCookiesFacilitacion()
         {
             HttpCookie RegionalFF = HttpContext.Request.Cookies["RegionalFF"];
-            FacilitacionesController hoy = new FacilitacionesController();
-            RegionalFF.Values["CantRegistroHoy"] = hoy.getCantidadRegistroHoy().ToString();
-            RegionalFF.Values["CantTotalMes"] = hoy.getCantidadRegistroMes().ToString();
-            RegionalFF.Values["CantTotalAnio"] = hoy.getCantidadRegistroAnio().ToString();
-            RegionalFF.Expires.Add(TimeSpan.FromDays(1.0));
+            RegionalFF.Values["CantRegistroHoy"] = getCantidadRegistroHoy().ToString();
+            RegionalFF.Values["CantTotalMes"] = getCantidadRegistroMes().ToString();
+            RegionalFF.Values["CantTotalAnio"] = getCantidadRegistroAnio().ToString();
+            //RegionalFF.Expires.Add(TimeSpan.FromDays(1.0));
             Response.Cookies.Add(RegionalFF);
             return true;    
         }
@@ -344,6 +498,8 @@ namespace RegionalFF.Controllers
             {
                 db.Entry(facilitacion).State = EntityState.Modified;
                 db.SaveChanges();
+                ActualizarCookiesFacilitacion();
+                TempData["notice"] = "La Facilitación fue modificada correctamente";
                 return RedirectToAction("Index");
             }
             ViewBag.User = User.Identity.GetUserId();
@@ -482,8 +638,7 @@ namespace RegionalFF.Controllers
         [Authorize(Roles = "Facilitador,Administrador")]
         public List<String> getPrincipalesPaisesMes()
         {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime Fecha = DateTime.Now;
             var scopeNames = (from s in db.Facilitacions where s.Fecha.Month == Fecha.Month where s.Fecha.Year == Fecha.Year select s.Pais.Nombre).Distinct().ToList();
             return scopeNames.ToList();
         }
@@ -499,65 +654,9 @@ namespace RegionalFF.Controllers
         }
 
         [Authorize(Roles = "Facilitador,Administrador")]
-        public ActionResult PaisesPrincipales()
-        {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-            //Consultas a la base de datos
-            var paisesQueryMes = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
-            var paisesQueryAño = db.Facilitacions.Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
-            
-
-            List<VisitSource> paisesListaMes = new List<VisitSource>();
-            List<VisitSource> paisesListaAño = new List<VisitSource>();
-
-            foreach (var item in paisesQueryMes)
-            {
-                paisesListaMes.Add(new VisitSource()
-                {
-                    name = item.Nombre,
-                    value = item.Cantidad.ToString()
-                });
-            }
-
-            foreach (var item in paisesQueryAño)
-            {
-                paisesListaAño.Add(new VisitSource()
-                {
-                    name = item.Nombre,
-                    value = item.Cantidad.ToString()
-                });
-            }
-
-
-            var pieMes = new PieMapViewModel()
-            {
-                LegendData = getPrincipalesPaisesMes(),
-                SeriesData = paisesListaMes
-            };
-
-            var pieAño = new PieMapViewModel()
-            {
-                LegendData = getPrincipalesPaisesAño(),
-                SeriesData = paisesListaAño
-            };
-
-            ViewBag.LegendDataMes = pieMes.LegendData;
-            ViewBag.SeriesDataMes = pieMes.SeriesData;
-
-            ViewBag.LegendDataAño = pieAño.LegendData;
-            ViewBag.SeriesDataAño = pieAño.SeriesData;
-            ViewBag.Mes = Fecha.ToString("MMMM");
-            ViewBag.Año = Fecha.Year;
-            return View();
-        }
-
-        [Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult PaisesPrincipales10()
         {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-            //Consultas a la base de datos
+            DateTime Fecha = DateTime.Now;
             var paisesQuery = db.Facilitacions.Where(x => x.Fecha.Month == Fecha.Month).Where(x => x.Fecha.Year == Fecha.Year).GroupBy(x => x.Pais.Nombre).Select(g => new { Nombre = g.FirstOrDefault().Pais.Nombre, Cantidad = g.Sum(s => s.Cantidad) }).OrderByDescending(x => x.Cantidad).Take(10).ToList();
             
             var i = 0;
@@ -665,8 +764,7 @@ namespace RegionalFF.Controllers
         [Authorize(Roles = "Facilitador,Administrador")]
         public List<String> getPrincipalesDestinosMes()
         {
-            string fecha = DateTime.Now.ToString("yyyy-MM-dd");
-            DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime Fecha = DateTime.Now;
             var scopeNames = (from s in db.Facilitacions where s.Fecha.Month == Fecha.Month where s.Fecha.Year == Fecha.Year select s.Ciudad.Nombre).Distinct().ToList();
             return scopeNames.ToList();
         }

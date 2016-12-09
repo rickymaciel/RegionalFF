@@ -26,8 +26,7 @@
                         <div class="form-group hidden">
                             <label class="control-label col-lg-2 col-md-2 col-xs-2" for="UserId">Usuario</label>
                             <div class="col-lg-10 col-md-10 col-xs-10">
-                                @Html.DropDownList("UserId", null, "Seleccionar", new { @class = "form-control", @placeholder = "Seleccione el Usuario", @required = "true" })
-                                <input name="UserId" readonly required class="hidden" />
+                                <input name="UserId" id="UserId" readonly required />
                                 <span class="field-validation-valid text-danger" data-valmsg-for="UserId" data-valmsg-replace="true"></span>
                             </div>
                         </div>

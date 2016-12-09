@@ -33,7 +33,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Nombre)
                             </th>
-                            <th class="col-lg-1 col-sm-1 col-xs-1 col-sm-1">
+                            <th class="col-lg-1 col-sm-1 col-xs-5 col-sm-1">
                                 <i class="fa fa-cog"></i>
                             </th>
                         </tr>
@@ -47,7 +47,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
-                                <td class="col-lg-1 col-sm-1 col-xs-1 col-sm-1">
+                                <td class="col-lg-1 col-sm-1 col-xs-5 col-sm-1">
                                     <div class="btn-group">
                                         <a class="btn btn-xs btn-warning" href="@Url.Action("Edit", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i> </a>
                                         <a class="btn btn-xs btn-primary" href="@Url.Action("Details", "Ciudades", new { id = item.Id })" data-toggle="tooltip" data-placement="top" title="Ver Detalles"><i class="fa fa-list-alt"></i> </a>

@@ -22,21 +22,7 @@
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="#">Settings 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="close-link"><i class="fa fa-close"></i></a>
+                        <a class="text-uppercase"><i class="fa fa-filter"></i> @ViewBag.Mes @ViewBag.Año</a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -52,6 +38,9 @@
                         </li>
                         <li role="presentation" class="">
                             <a href="#mostrar_lista" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-list"></i></a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#filtrar" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-search"></i></a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -80,6 +69,39 @@
                                 </div>
                             </div>
                         </div>
+                        <div role="tabpanel" class="tab-pane fade" id="filtrar" aria-labelledby="filtrar">
+                            @using (Html.BeginForm("Resultados", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="item form-group">
+                                    <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Desde</label>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <input class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Desde must be a date." placeholder="Desde" data-val-required="El campo Desde es obligatorio." id="Desde" name="Desde" type="datetime" required />
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Hasta</label>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <input data-validate-length-range="6" data-validate-words="2" class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Hasta must be a date." placeholder="Hasta" data-val-required="El campo Hasta es obligatorio." id="Hasta" name="Hasta" type="datetime" required="required" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3 col-xs-12" for="Incluir">Incluir</label>
+                                    <div class="col-md-1">
+                                        <div class="checkbox">
+                                            <input class="check-box" id="Incluir" name="Incluir" type="checkbox" value="true" checked />
+                                        </div>
+                                    </div>
+                                    <label class="control-label col-md-5 col-lg-5 col-md-5 col-xs-12" for="Incluir">Incluir los registros de todos los usuarios?</label>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary btn-block submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-filter"></i> Filtrar búsqueda</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,84 +110,99 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/amcharts")
+    @Scripts.Render("~/bundles/datetimepicker")
     <script>
-        var Texto = @Html.Raw(Json.Encode(ViewBag.Title));
-        var SubTitulo = @Html.Raw(Json.Encode(ViewBag.SubTitle));
-        var Titulo = @Html.Raw(Json.Encode(ViewBag.SubTitle))+@Html.Raw(Json.Encode(ViewBag.Mes))+"/@Html.Raw(Json.Encode(ViewBag.Año))";
-        var LegendData = @Html.Raw(Json.Encode(ViewBag.LegendData));
-        var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
+        $(function () {
+            $("button.submit").click(function () {
+                var Desde = $("#Desde").val();
+                var Hasta = $("#Hasta").val();
+                if ((Desde != "") && (Hasta != "")) {
+                    var $this = $(this);
+                    $this.button('loading').removeClass("btn-primary").addClass("btn-link");
+                    setTimeout(function () {
+                        $this.button('reset').removeClass("btn-link").addClass("btn-primary");
+                    }, 8000);
+                }
+            });
 
-        AmCharts.makeChart("pie", {
-            "type": "pie",
-            "theme": "light",
-            "language": "es",
-            "dataProvider": SeriesData,
-            "titleField": "name",
-            "valueField": "value",
-            "startEffect": "elastic",
-            "startDuration": 3,
-            "labelRadius": 35,
-            "innerRadius": "20%",
-            "depth3D": 15,
-            "angle": 30,
-            "chartCursor": {
-                "categoryBalloonEnabled": true,
-                "cursorAlpha": 0,
-                "zoomable": true
-            },
-            "legend": {
-                "position": "left"
-            },
-            "autoMargins": true,
-            "outlineThickness": 2,
-            "outlineColor": "#FFFFFF",
-            "outlineAlpha": 0.8,
-            "balloonText": "[[name]]<br><span class='text-primary' style='font-size:16px'><b>[[value]]</b> ([[percents]]%)</span>",
-            "colorField": "color",
-            "labelText": "[[name]]:  [[value]] ([[percents]]%)",
-            "responsive": {
-                "enabled": false
-            },
-            "export": {
-                "enabled": true
-            }
-        });
+            var Texto = @Html.Raw(Json.Encode(ViewBag.Title));
+            var SubTitulo = @Html.Raw(Json.Encode(ViewBag.SubTitle));
+            var Titulo = @Html.Raw(Json.Encode(ViewBag.SubTitle))+@Html.Raw(Json.Encode(ViewBag.Mes))+"/@Html.Raw(Json.Encode(ViewBag.Año))";
+            var LegendData = @Html.Raw(Json.Encode(ViewBag.LegendData));
+            var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
+
+            AmCharts.makeChart("pie", {
+                "type": "pie",
+                "theme": "light",
+                "language": "es",
+                "dataProvider": SeriesData,
+                "titleField": "name",
+                "valueField": "value",
+                "startEffect": "elastic",
+                "startDuration": 3,
+                "labelRadius": 35,
+                "innerRadius": "20%",
+                "depth3D": 15,
+                "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": true
+                },
+                "legend": {
+                    "position": "left"
+                },
+                "autoMargins": true,
+                "outlineThickness": 2,
+                "outlineColor": "#FFFFFF",
+                "outlineAlpha": 0.8,
+                "balloonText": "[[name]]<br><span class='text-primary' style='font-size:16px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "colorField": "color",
+                "labelText": "[[name]]:  [[value]] ([[percents]]%)",
+                "responsive": {
+                    "enabled": false
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
 
 
-        var chart = AmCharts.makeChart("columna", {
-            "theme": "light",
-            "type": "serial",
-            "startDuration": 2,
-            "dataProvider": SeriesData,
-            "valueAxes": [{
-                "position": "left",
-                "title": SubTitulo
-            }],
-            "graphs": [{
-                "balloonText": "[[name]]: <b>[[value]]</b>",
-                "fillColorsField": "color",
-                "fillAlphas": 1,
-                "lineAlpha": 0.1,
-                "type": "column",
-                "labelText": "[[value]]",
-                "valueField": "value"
-            }],
-            "depth3D": 20,
-            "angle": 30,
-            "chartCursor": {
-                "categoryBalloonEnabled": true,
-                "cursorAlpha": 0,
-                "zoomable": true
-            },
-            "categoryField": "name",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "labelRotation": 90
-            },
-            "export": {
-                "enabled": true
-            }
+            var chart = AmCharts.makeChart("columna", {
+                "theme": "light",
+                "type": "serial",
+                "startDuration": 2,
+                "dataProvider": SeriesData,
+                "valueAxes": [{
+                    "position": "left",
+                    "title": "Cantidad de turistas"
+                }],
+                "graphs": [{
+                    "balloonText": "[[name]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "labelText": "[[value]]",
+                    "valueField": "value"
+                }],
+                "depth3D": 20,
+                "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": true
+                },
+                "categoryField": "name",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "labelRotation": 90
+                },
+                "export": {
+                    "enabled": true
+                }
 
-        });
+            });
+        })
     </script>
 }

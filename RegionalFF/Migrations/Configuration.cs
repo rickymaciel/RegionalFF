@@ -211,7 +211,7 @@ namespace RegionalFF.Migrations
               {
                   //18
                   PadreId = 17,
-                  Nombre = "10 Paises de origen",
+                  Nombre = "Paises de origen",
                   Descripcion = "Informes de Principales Paises de origen de Facilitaciones",
                   Perfil = "Facilitador",
                   Accion = "PaisesPrincipales10",
@@ -222,7 +222,7 @@ namespace RegionalFF.Migrations
               {
                   //19
                   PadreId = 17,
-                  Nombre = "10 Principales destinos",
+                  Nombre = "Principales destinos",
                   Descripcion = "Informes de Principales destinos de Facilitaciones",
                   Perfil = "Facilitador",
                   Accion = "DestinosPrincipales10",
@@ -277,16 +277,6 @@ namespace RegionalFF.Migrations
               {
                   //5
                   PadreId = 1,
-                  Nombre = "Crear Menú",
-                  Descripcion = "Crear Menú Administrador del Sistema",
-                  Accion = "Create",
-                  Controlador = "Accesos",
-                  Activo = true
-              },
-              new Models.MenuAdmin
-              {
-                  //6
-                  PadreId = 1,
                   Nombre = "Oficinas",
                   Descripcion = "Gestionar Oficinas",
                   Accion = "Index",
@@ -295,7 +285,7 @@ namespace RegionalFF.Migrations
               },
               new Models.MenuAdmin
               {
-                  //7
+                  //6
                   PadreId = 1,
                   Nombre = "Roles",
                   Descripcion = "Gestionar Roles",
@@ -305,22 +295,12 @@ namespace RegionalFF.Migrations
               },
               new Models.MenuAdmin
               {
-                  //8
+                  //7
                   PadreId = 1,
                   Nombre = "Usuarios",
                   Descripcion = "Gestionar Usuarios del Sistema",
                   Accion = "Index",
                   Controlador = "Admin",
-                  Activo = true
-              },
-              new Models.MenuAdmin
-              {
-                  //9
-                  PadreId = 2,
-                  Nombre = "Crear Menú",
-                  Descripcion = "Crear Menú Usuario del Sistema",
-                  Accion = "Create",
-                  Controlador = "Menus",
                   Activo = true
               });
 
@@ -337,8 +317,8 @@ namespace RegionalFF.Migrations
                         Sigla = "TI",
                         Departamento = "Itapúa",
                         Ciudad = "Encarnación",
-                        Direccion = "Artigas",
-                        Telefono = " "
+                        Direccion = "Constitución Nac. c/ Artigas",
+                        Telefono = "+595973506058"
                     }
                 );
             }
@@ -418,7 +398,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel@hotmail.es", OficinaId = 1, Numero = 100, Documento = 2233922, PhoneNumber = "+595973506058", Nombre = "Super", Apellido = "Admin", Imagen = "default" };
+                var user = new ApplicationUser { Email = "rickymaciel@hotmail.es", UserName = "rickymaciel@hotmail.es", OficinaId = 1, Numero = 100, Documento = 2233922, PhoneNumber = "+595973506058", Nombre = "Ricky", Apellido = "Maciel", Imagen = "default" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Administrador a usuario
@@ -431,7 +411,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 2, Numero = 246, Documento = 0, Nombre = "Ricardo", Apellido = "Maciel", Imagen = "default" };
+                var user = new ApplicationUser { Email = "rmacielb3@gmail.com", UserName = "rmacielb3@gmail.com", OficinaId = 2, Numero = 246, Documento = 0, PhoneNumber = "+595973506058", Nombre = "Ricardo", Apellido = "Maciel", Imagen = "default" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Facilitador a usuario
@@ -443,7 +423,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, Nombre = "Rolando", Apellido = "Rodas", Imagen = "default" };
+                var user = new ApplicationUser { Email = "rolandorodas007@gmail.com", UserName = "rolandorodas007@gmail.com", OficinaId = 2, Numero = 245, PhoneNumber = "+595985125221", Nombre = "Rolando", Apellido = "Rodas", Imagen = "default" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Fiscalizador a usuario
@@ -455,7 +435,7 @@ namespace RegionalFF.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { Email = "monicasegovia@gmail.com", UserName = "monicasegovia@gmail.com", OficinaId = 3, Numero = 145, Nombre = "Monica", Apellido = "Segovia", Imagen = "default" };
+                var user = new ApplicationUser { Email = "monicasegovia@gmail.com", UserName = "monicasegovia@gmail.com", OficinaId = 3, Numero = 145, PhoneNumber = "", Nombre = "Monica", Apellido = "Segovia", Imagen = "default" };
 
                 manager.Create(user, "1Regional/");
                 //Delegador Fiscalizador a usuario

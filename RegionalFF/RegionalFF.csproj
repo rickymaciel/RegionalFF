@@ -517,6 +517,9 @@
     <Content Include="Views\Facilitaciones\PaisesPrincipales10.cshtml" />
     <Content Include="Views\Facilitaciones\FiltroFacilitaciones.cshtml" />
     <Content Include="Views\Facilitaciones\FiltroFacilitacion.cshtml" />
+    <Content Include="Views\Facilitaciones\Busqueda.cshtml" />
+    <Content Include="Views\Facilitaciones\Resultados.cshtml" />
+    <Content Include="Views\Facilitaciones\ResultadosDestinos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
