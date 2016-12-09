@@ -6,9 +6,6 @@
 }
 
 
-<!-- page content -->
-
-
 <div class="page-title">
     <div class="title_left">
         <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
@@ -17,21 +14,13 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <a href="@Url.Action("Index", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Volver">
-                    <i class="fa fa-reply"></i>
-                    Volver
-                </a>
-                <a href="@Url.Action("Index", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Voler">
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-default" data-toggle="tooltip" title="Volver">
                     <i class="fa fa-reply"></i>
                 </a>
-
             </div>
         </div>
     </div>
 </div>
-
-<div class="clearfix"></div>
-
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -136,11 +125,8 @@
                     </div>
                     <div class="ln_solid"></div>
                     <div class="form-group">
-                        <div class="">
-                            <div class="pull-right">
-                                <button type="reset" class="btn btn-default">Limpiar</button>
-                                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
                         </div>
                     </div>
 

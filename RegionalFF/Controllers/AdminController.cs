@@ -570,6 +570,8 @@ namespace RegionalFF.Controllers
             UsuarioyRoles objUserAndRolesDTO =
                 GetUserAndRoles(Email);
 
+            ViewBag.NuevoRol = new SelectList(RolesUserIsNotIn(Email));
+
             return View(objUserAndRolesDTO);
         }
         #endregion

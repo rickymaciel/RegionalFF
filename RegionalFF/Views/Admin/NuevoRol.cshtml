@@ -3,49 +3,29 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Administración";
-    ViewBag.SubTitle = "Crear nuevo rol";
+    ViewBag.SubTitle = "Crear rol";
 }
-
-
 
 <div class="page-title">
     <div class="title_left">
-        <h3><i class="fa fa-shield"></i> @ViewBag.Title</h3>
+        <h3>@ViewBag.Title</h3>
     </div>
-
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Roles">
-                    <i class="fa fa-reply"></i>
-                    Volver a Roles
-                </a>
-                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Roles">
+                <a href="@Url.Action("Index", "Admin")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Volver">
                     <i class="fa fa-reply"></i>
                 </a>
-                <a href="@Url.Action("Create", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Crear usuario">
-                    <i class="fa fa-plus-circle"></i>
-                    Nuevo Usuario
+                <a href="@Url.Action("Roles", "Admin")" class="btn btn-default" data-toggle="tooltip" title="Roles">
+                    <i class="fa fa-shield"></i>
                 </a>
                 <a href="@Url.Action("Create", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Crear usuario">
-                    <i class="fa fa-plus-circle"></i>
-                </a>
-
-                <a href="@Url.Action("Index", "Admin")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Usuarios">
-                    <i class="fa fa-users"></i>
-                    Ir a Usuarios
-                </a>
-                <a href="@Url.Action("Index", "Admin")" class="btn btn-default hidden-lg" data-toggle="tooltip" title="Usuarios">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-plus"></i>
                 </a>
             </div>
         </div>
     </div>
 </div>
-
-<div class="clearfix"></div>
-
-
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -59,30 +39,25 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                     <div class="form-group">
-                        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-6">
+                        @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control col-md-12", @placeholder = "Nombre", @required = "required" } })
                             @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="reset" class="btn btn-default">Limpiar</button>
+                            <a href="@Url.Action("Index", "Admin")" class="btn btn-default">Cancelar</a>
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar</button>
                         </div>
                     </div>
-
                 }
             </div>
         </div>
     </div>
 </div>
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
