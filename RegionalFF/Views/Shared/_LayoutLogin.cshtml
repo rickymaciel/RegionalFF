@@ -91,6 +91,11 @@
 
     <script>
         $(function () {
+            $('.required-icon').tooltip({
+                placement: 'left',
+                title: 'Requerido'
+            });
+
             $('.submit').on('click', function () {
                 var Email = $("#Email").val();
                 var Pass = $("#Password").val();

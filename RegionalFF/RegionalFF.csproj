@@ -241,6 +241,10 @@
     <Compile Include="Migrations\201612061851557_UpdateIdentity.Designer.cs">
       <DependentUpon>201612061851557_UpdateIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612121553425_UpdateFacilitacion.cs" />
+    <Compile Include="Migrations\201612121553425_UpdateFacilitacion.Designer.cs">
+      <DependentUpon>201612121553425_UpdateFacilitacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Ciudad.cs" />
@@ -557,6 +561,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612061851557_UpdateIdentity.resx">
       <DependentUpon>201612061851557_UpdateIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612121553425_UpdateFacilitacion.resx">
+      <DependentUpon>201612121553425_UpdateFacilitacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -9,10 +9,10 @@ namespace RegionalFF.Models
 {
     public class Oficina
     {
-        public Oficina()
-        {
-            Usuarios = new List<ApplicationUser>();
-        }
+        //public Oficina()
+        //{
+        //    Usuarios = new List<ApplicationUser>();
+        //}
 
         [HiddenInput(DisplayValue = true)]
         public int Id { get; set; }
@@ -31,6 +31,6 @@ namespace RegionalFF.Models
 
         public String Telefono { get; set; }
 
-        public virtual ICollection<ApplicationUser> Usuarios { get; set; }
+        //public virtual ICollection<ApplicationUser> Usuarios { get; set; }
     }
 }

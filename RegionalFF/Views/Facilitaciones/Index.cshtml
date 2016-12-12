@@ -103,10 +103,12 @@
                                 @Html.DisplayNameFor(model => model.Usuario)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Pais)
+                                <i class="fa fa-long-arrow-left"></i>
+                                País de origen
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Ciudad)
+                                Destino
+                                <i class="fa fa-long-arrow-right"></i>
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Cantidad)
@@ -133,14 +135,16 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Usuario.Nombre) @Html.DisplayFor(modelItem => item.Usuario.Apellido)
                                 </td>
-                                <td>
+                                <td class="text-danger">
                                     @Html.DisplayFor(modelItem => item.Pais.Nombre)
                                 </td>
-                                <td>
+                                <td class="text-success">
                                     @Html.DisplayFor(modelItem => item.Ciudad.Nombre)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                    <span class="text-success">
+                                        @Html.DisplayFor(modelItem => item.Cantidad)
+                                    </span>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Estadia)

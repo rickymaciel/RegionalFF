@@ -38,7 +38,12 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>@ViewBag.SubTitle</h2>
+                <h2><i class="fa fa-edit"></i> @ViewBag.SubTitle</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="text-uppercase"><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -57,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-xs-3 col-md-2 col-lg-2" })
                         <div class="col-xs-9 col-md-10 col-lg-10">
                             @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @id = "F" } })

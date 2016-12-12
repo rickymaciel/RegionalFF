@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Facilitación";
-    ViewBag.SubTitle = "Detalles de Facilitación";
+    ViewBag.SubTitle = "Detalle de Facilitación";
 }
 
 <div class="page-title">
@@ -13,8 +13,7 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" title="Volver"><i class="fa fa-reply"></i> Volver</a>
-                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default hidden-lg" title="Volver"><i class="fa fa-reply"></i></a>
+                <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default" title="Volver"><i class="fa fa-reply"></i></a>
             </div>
         </div>
     </div>
@@ -58,39 +57,30 @@
                     <div class="row">
                         <div class="col-xs-12 invoice-header">
                             <h1>
-                                <i class="fa fa-pencil"></i> @ViewBag.Title
-                                <small class="pull-right">@Html.DisplayNameFor(model => model.Fecha): @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</small>
+                                <i class="fa fa-table"></i> @ViewBag.Title
+                                <small class="pull-right"><i class="fa fa-calendar"></i> @String.Format("{0:dd/MM/yyyy}", Model.Fecha)</small>
                             </h1>
                         </div>
                         <!-- /.col -->
                     </div>
                     <div class="row invoice-info">
-                        <div class="col-sm-4 invoice-col">
-                            <b class="text-info text-uppercase"><i class="fa fa-user"></i> @Html.DisplayNameFor(model => model.UserId)</b>
-                            <br />
+                        <div class="col-sm-9 invoice-col">
                             <address>
-                                <strong>@Html.DisplayFor(model => model.Usuario.Nombre) @Html.DisplayFor(model => model.Usuario.Apellido)</strong>
-                                <br>@Html.DisplayNameFor(model => model.Usuario.Direccion): @Html.DisplayFor(model => model.Usuario.Direccion)
-                                <br>@Html.DisplayNameFor(model => model.Usuario.Documento): @Html.DisplayFor(model => model.Usuario.Documento)
+                                <strong><i class="fa fa-user"></i> @Html.DisplayFor(model => model.Usuario.Nombre) @Html.DisplayFor(model => model.Usuario.Apellido)</strong>
+                                @*<br>@Html.DisplayNameFor(model => model.Usuario.Direccion): @Html.DisplayFor(model => model.Usuario.Direccion)
+                                <br>@Html.DisplayNameFor(model => model.Usuario.Documento): @Html.DisplayFor(model => model.Usuario.Documento)*@
                                 <br>@Html.DisplayNameFor(model => model.Usuario.PhoneNumber):  @Html.DisplayFor(model => model.Usuario.PhoneNumber)
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Email): @Html.DisplayFor(model => model.Usuario.Email)
                             </address>
                         </div>
                         <!-- /.col -->
-                        <div class="col-sm-4 invoice-col">
-                            <b class="text-info text-uppercase"><i class="fa fa-building"></i> @Html.DisplayNameFor(model => model.Usuario.OficinaId)</b>
+                        <div class="col-sm-3 invoice-col">
                             <address>
-                                <strong>@Html.DisplayFor(model => model.Usuario.Oficina.Nombre)</strong>
-                                <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Sigla): @Html.DisplayFor(model => model.Usuario.Oficina.Sigla)
+                                <strong><i class="fa fa-building"></i> @Html.DisplayFor(model => model.Usuario.Oficina.Nombre)</strong>
+                                @*<br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Sigla): @Html.DisplayFor(model => model.Usuario.Oficina.Sigla)*@
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Ciudad): @Html.DisplayFor(model => model.Usuario.Oficina.Ciudad)
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Departamento): @Html.DisplayFor(model => model.Usuario.Oficina.Departamento)
                                 <br>@Html.DisplayNameFor(model => model.Usuario.Oficina.Direccion):  @Html.DisplayFor(model => model.Usuario.Oficina.Direccion)
-                            </address>
-                        </div>
-                        <div class="col-sm-4 invoice-col">
-                            <b class="text-info text-uppercase"><i class="fa fa-calendar"></i> @Html.DisplayNameFor(model => model.Fecha)</b>
-                            <address>
-                                @Html.DisplayNameFor(model => model.Fecha): @String.Format("{0:dd/MM/yyyy}", Model.Fecha)
                             </address>
                         </div>
                     </div>
@@ -100,19 +90,43 @@
                         <div class="col-xs-12 table">
                             <table id="datatable" class="table table-striped table-hover table-condensed dt-responsive " cellspacing="0" width="100%">
                                 <thead>
-                                    <tr class="bg-primary">
-                                        <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
-                                        <th>@Html.DisplayNameFor(model => model.PaisId)</th>
-                                        <th>@Html.DisplayNameFor(model => model.CiudadId)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Estadia)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Observaciones)</th>
+                                    <tr class="bg-blue">
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Usuario)
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-long-arrow-left"></i>
+                                            País de origen
+                                        </th>
+                                        <th>
+                                            Destino
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Cantidad)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Estadia)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Observaciones)
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th><b class="badge">@Html.DisplayFor(model => model.Cantidad)</b></th>
-                                        <th>@Html.DisplayFor(model => model.Pais.Nombre)</th>
-                                        <th>@Html.DisplayFor(model => model.Ciudad.Nombre)</th>
+                                        <th>@Html.DisplayFor(model => model.Usuario.Nombre) @Html.DisplayFor(model => model.Usuario.Apellido) </th>
+                                        <td class="text-danger">
+                                            @Html.DisplayFor(model => model.Pais.Nombre)
+                                        </td>
+                                        <td class="text-success">
+                                            @Html.DisplayFor(model => model.Ciudad.Nombre)
+                                        </td>
+                                        <td>
+                                            <span class="badge">
+                                                @Html.DisplayFor(model => model.Cantidad)
+                                            </span>
+                                        </td>
                                         <th>@Html.DisplayFor(model => model.Estadia)</th>
                                         <th>@Html.DisplayFor(model => model.Observaciones)</th>
                                     </tr>
@@ -126,6 +140,7 @@
             </div>
         </div>
     </div>
-</div>@section Scripts {
+</div>
+@section Scripts {
     @Scripts.Render("~/bundles/datatable")
 }

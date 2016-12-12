@@ -36,15 +36,18 @@ namespace RegionalFF.Models
         [ForeignKey("CiudadId")]
         public virtual Ciudad Ciudad { get; set; }
 
+        [Range(1, 100)]
         [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Cantidad")]
         public int Cantidad { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
-        [Display(Name = "Estadia")]
+        [Range(1, 100, ErrorMessage = "Rango de Estadía entre 1 y 100")]
+        [Display(Name = "Estadía")]
         public int Estadia { get; set; }
 
         [Display(Name = "Observaciones: ")]
+        [StringLength(140, MinimumLength = 3)]
         public string Observaciones { get; set; }
     }
 }

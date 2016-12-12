@@ -110,8 +110,6 @@ namespace RegionalFF.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    //ModelState.AddModelError("", "Intento de acceso no válido.");
-
                     TempData["noticeTitle"] = "No se pudo iniciar sesión.";
                     TempData["notice"] = "El correo electrónico o la contraseña es incorrecta. Por favor, inténtelo de nuevo. Si tiene dificultad puede recuperar su contraseña.";
                     return View(model);

@@ -9,10 +9,10 @@ namespace RegionalFF.Models
 {
     public class Conductor
     {
-        public Conductor()
-        {
-            Transportes = new List<Transporte>();
-        }
+        //public Conductor()
+        //{
+        //    Transportes = new List<Transporte>();
+        //}
         [HiddenInput(DisplayValue = true)]
         public int Id { get; set; }
 
@@ -27,6 +27,6 @@ namespace RegionalFF.Models
 
         public bool Activo { get; set; }
 
-        public virtual ICollection<Transporte> Transportes { get; set; }
+        //public virtual ICollection<Transporte> Transportes { get; set; }
     }
 }

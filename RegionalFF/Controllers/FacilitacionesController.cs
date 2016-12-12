@@ -20,9 +20,11 @@ namespace RegionalFF.Controllers
         {
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
             ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
-            ViewBag.Fecha = DateTime.Now;
+            DateTime Fecha = DateTime.Now;
+            var UserId = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
             //var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
-            return View(db.Facilitacions.ToList().Where(u => u.UserId == User.Identity.GetUserId()).Where(u => u.Fecha.Month == DateTime.Now.Month).Where(u => u.Fecha.Year == DateTime.Now.Year).Where(u => u.Fecha.Day == DateTime.Now.Day).OrderByDescending(f => f.Fecha));
+            return View(db.Facilitacions.ToList().Where(u => u.UserId == UserId).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).OrderByDescending(f => f.Fecha));
         }
 
         // GET: Facilitaciones
@@ -293,38 +295,38 @@ namespace RegionalFF.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AjaxRegistroFacilitacion1(Facilitacion facilitacion)
-        {
-            facilitacion.Fecha = DateTime.Now;
-            if (ModelState.IsValid)
-            {
-                using (System.Data.Entity.DbContextTransaction dbTran = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        db.Facilitacions.Add(facilitacion);
-                        db.SaveChanges();
-                        dbTran.Commit();
-                        ActualizarCookiesFacilitacion();
-                        TempData["notice"] = "La Facilitación fue registrada correctamente";
-                    }
-                    catch (Exception ex)
-                    {
-                        dbTran.Rollback();
-                        TempData["notice"] = "No se pudo realizar la transacción!" + ex.Message;
-                        return RedirectToAction("Index");
-                    }
-                }
-                return RedirectToAction("Index", "Facilitaciones");
-            }
-            else
-            {
-                TempData["notice"] = "No se pudo realizar la transacción! Complete los campos requeridos y vuelva a intentar!";
-                return RedirectToAction("Index", "Facilitaciones");
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AjaxRegistroFacilitacion1(Facilitacion facilitacion)
+        //{
+        //    facilitacion.Fecha = DateTime.Now;
+        //    if (ModelState.IsValid)
+        //    {
+        //        using (System.Data.Entity.DbContextTransaction dbTran = db.Database.BeginTransaction())
+        //        {
+        //            try
+        //            {
+        //                db.Facilitacions.Add(facilitacion);
+        //                db.SaveChanges();
+        //                dbTran.Commit();
+        //                ActualizarCookiesFacilitacion();
+        //                TempData["notice"] = "La Facilitación fue registrada correctamente";
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                dbTran.Rollback();
+        //                TempData["notice"] = "No se pudo realizar la transacción!" + ex.Message;
+        //                return RedirectToAction("Index");
+        //            }
+        //        }
+        //        return RedirectToAction("Index", "Facilitaciones");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = "No se pudo realizar la transacción! Complete los campos requeridos y vuelva a intentar!";
+        //        return RedirectToAction("Index", "Facilitaciones");
+        //    }
+        //}
 
 
         [HttpPost]
@@ -353,22 +355,62 @@ namespace RegionalFF.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjaxRegistroFacilitacionMes(Facilitacion facilitacion)
         {
+            facilitacion.Fecha = DateTime.Now;
             if (ModelState.IsValid)
             {
-                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                facilitacion.Fecha = Fecha;
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
+                return RedirectToAction("EsteMes", "Facilitaciones");
             }
             else
             {
                 TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
                 return RedirectToAction("EsteMes", "Facilitaciones");
             }
-            return RedirectToAction("EsteMes", "Facilitaciones");
         }
+
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroFacilitacionAño(Facilitacion facilitacion)
+        {
+            facilitacion.Fecha = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                db.Facilitacions.Add(facilitacion);
+                db.SaveChanges();
+                TempData["notice"] = "La Facilitación fue registrada correctamente";
+                return RedirectToAction("EsteAño", "Facilitaciones");
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                return RedirectToAction("EsteAño", "Facilitaciones");
+            }
+        }
+
+        [Authorize(Roles = "Facilitador,Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxRegistroFacilitacionTodo(Facilitacion facilitacion)
+        {
+            facilitacion.Fecha = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                db.Facilitacions.Add(facilitacion);
+                db.SaveChanges();
+                TempData["notice"] = "La Facilitación fue registrada correctamente";
+                return RedirectToAction("VerTodo", "Facilitaciones");
+            }
+            else
+            {
+                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                return RedirectToAction("VerTodo", "Facilitaciones");
+            }
+        }
+
 
         #region public bool ActualizarCookiesFacilitacion()
         public bool ActualizarCookiesFacilitacion()
@@ -379,31 +421,10 @@ namespace RegionalFF.Controllers
             RegionalFF.Values["CantTotalAnio"] = getCantidadRegistroAnio().ToString();
             //RegionalFF.Expires.Add(TimeSpan.FromDays(1.0));
             Response.Cookies.Add(RegionalFF);
-            return true;    
+            return true;
         }
         #endregion
 
-        [Authorize(Roles = "Facilitador,Administrador")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AjaxRegistroFacilitacionAño(Facilitacion facilitacion)
-        {
-            if (ModelState.IsValid)
-            {
-                string fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                DateTime Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                facilitacion.Fecha = Fecha;
-                db.Facilitacions.Add(facilitacion);
-                db.SaveChanges();
-                TempData["notice"] = "La Facilitación fue registrada correctamente";
-            }
-            else
-            {
-                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
-                return RedirectToAction("EsteAño", "Facilitaciones");
-            }
-            return RedirectToAction("EsteAño", "Facilitaciones");
-        }
 
         // GET: Facilitaciones/Details/5
         [Authorize(Roles = "Facilitador,Administrador")]
@@ -496,11 +517,20 @@ namespace RegionalFF.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(facilitacion).State = EntityState.Modified;
-                db.SaveChanges();
-                ActualizarCookiesFacilitacion();
-                TempData["notice"] = "La Facilitación fue modificada correctamente";
-                return RedirectToAction("Index");
+                DateTime Fecha = DateTime.Now;
+                if (Fecha.Year == facilitacion.Fecha.Year && Fecha.Month == facilitacion.Fecha.Month && Fecha.Day == facilitacion.Fecha.Day)
+                {
+                    db.Entry(facilitacion).State = EntityState.Modified;
+                    db.SaveChanges();
+                    ActualizarCookiesFacilitacion();
+                    TempData["notice"] = "La Facilitación fue modificada correctamente";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["notice"] = "La Facilitación ya no puede ser modificada";
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.User = User.Identity.GetUserId();
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", facilitacion.CiudadId);
