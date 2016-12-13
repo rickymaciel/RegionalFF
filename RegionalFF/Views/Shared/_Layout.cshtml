@@ -74,7 +74,7 @@
                                 <h3 class="text-red">@RegionalFF.Values["Rol"]</h3>
                                 <ul class="nav side-menu">
                                     @{
-                                        Html.RenderAction("MenuAdmin", "Accesos");
+                            Html.RenderAction("MenuAdmin", "Accesos");
                                     }
                                 </ul>
                             </div>
@@ -123,6 +123,37 @@
             <!-- /top navigation -->
             <!-- page content -->
             <div class="right_col" role="main">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @{
+                            if (TempData["path"] != null)
+                            {
+                                var path = @TempData["path"];
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-green">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title"><i class="fa fa-download"></i> Descargar</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                    <h4 class="">
+                                                        <i class="fa fa-file-excel-o"></i> El archivo Excel fue generado con éxito.
+                                                    </h4>
+                                                </div>
+                                            <div class="modal-footer">
+                                                <button type="button" data-toggle="tooltip" data-placement="top" data-original-title="Cerrar" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                                                <a class="btn btn-success" data-toggle="tooltip" data-placement="top" data-original-title="Descargar" href="@path" download="@TempData["archivo"]"><i class="fa fa-download"></i> Descargar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
                 @RenderBody()
             </div>
             <footer>
@@ -142,7 +173,10 @@
     <script>
         $('#Fecha').val('@DateTime.Now');
         $('#UserId').val('@User.Identity.GetUserId()');
+
+        $("#myModal").modal();
     </script>
+
 
     @if (TempData["notice"] != null)
     {

@@ -87,7 +87,8 @@ namespace RegionalFF
                       "~/Content/nprogress.css",
                       "~/Content/custom.css",
                       "~/Scripts/Selectize/css/selectize.bootstrap3.css",
-                      "~/Scripts/amcharts/plugins/export/export.css"
+                      "~/Scripts/amcharts/plugins/export/export.css",
+                      "~/Content/docs.min.css"
                       ));
 
 
