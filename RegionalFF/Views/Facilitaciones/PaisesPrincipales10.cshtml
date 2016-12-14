@@ -11,6 +11,15 @@
     <div class="title_left">
         <h3>@ViewBag.Title</h3>
     </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                <a href="@Url.Action("Index", "Facilitaciones") " class="btn btn-default" data-toggle="tooltip" data-placement="top" data-original-title="Volver" title="Volver"><i class="fa fa-reply"></i></a>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
+                <a href="@Url.Action("GenerarReporte10", "Facilitaciones") " class=" btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Exportar a Excel" title="Exportar a Excel"><i class="fa fa-file-excel-o"></i></a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -29,18 +38,21 @@
             </div>
             <div class="x_content">
                 <div role="tabpanel" data-example-id="togglable-tabs">
-                    <ul class="nav nav-tabs bar_tabs" role="tablist">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                         <li role="presentation" class="active">
-                            <a href="#mostrar_columna" role="tab" id="granadiente-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-bar-chart"></i></a>
+                            <a class="tip" title="Columna" href="#mostrar_columna" role="tab" id="granadiente-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-bar-chart"></i></a>
                         </li>
                         <li role="presentation" class="">
-                            <a href="#mostrar_pie" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-pie-chart"></i></a>
+                            <a href="#mostrar_pie" class="tip" title="Pie" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-pie-chart"></i></a>
                         </li>
                         <li role="presentation" class="">
-                            <a href="#mostrar_lista" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-list"></i></a>
+                            <a href="#mostrar_lista" class="tip" title="Lista" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-list"></i></a>
                         </li>
                         <li role="presentation" class="">
-                            <a href="#filtrar" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-search"></i></a>
+                            <a href="#filtrar" class="tip" title="Filtrar" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-search"></i></a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#filtrarExcel" class="tip" title="Excel" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-file-excel-o"></i></a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -73,6 +85,10 @@
                             @using (Html.BeginForm("Resultados", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
                             {
                                 @Html.AntiForgeryToken()
+                                <div class="form-group page-header">
+                                    <h2 class="control-label col-lg-3 col-md-3 col-xs-12" for="Fecha">Filtrar resultados</h2>
+                                </div>
+                                <br />
                                 <div class="item form-group">
                                     <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Desde</label>
                                     <div class="col-lg-6 col-md-12 col-xs-12">
@@ -97,7 +113,44 @@
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary btn-block submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-filter"></i> Filtrar búsqueda</button>
+                                        <button type="submit" class="btn btn-primary btn-block submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-filter"></i> Filtrar resultados</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="filtrarExcel" aria-labelledby="filtrarExcel">
+                            @using (Html.BeginForm("FiltrarReporte", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-group page-header">
+                                    <h2 class="control-label col-lg-3 col-md-3 col-xs-12" for="Fecha">Exportar a Excel</h2>
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Desde</label>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <input class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Desde must be a date." placeholder="Desde" data-val-required="El campo Desde es obligatorio." id="Desde" name="Desde" type="datetime" required />
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-lg-3 col-md-12 col-xs-12" for="Fecha">Hasta</label>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <input data-validate-length-range="6" data-validate-words="2" class="form-control text-box single-line text-center" data-val="true" data-val-date="The field Hasta must be a date." placeholder="Hasta" data-val-required="El campo Hasta es obligatorio." id="Hasta" name="Hasta" type="datetime" required="required" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3 col-xs-12" for="Incluir">Incluir</label>
+                                    <div class="col-md-1">
+                                        <div class="checkbox">
+                                            <input class="check-box" id="Incluir" name="Incluir" type="checkbox" value="true" checked />
+                                        </div>
+                                    </div>
+                                    <label class="control-label col-md-5 col-lg-5 col-md-5 col-xs-12" for="Incluir">Incluir los registros de todos los usuarios?</label>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary btn-block submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-file-excel-o"></i> Generar Excel</button>
                                     </div>
                                 </div>
                             }
@@ -206,3 +259,4 @@
         })
     </script>
 }
+@Html.Partial("_PartialFacilitacion")

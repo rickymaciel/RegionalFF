@@ -534,6 +534,8 @@
     <Content Include="Views\Facilitaciones\Busqueda.cshtml" />
     <Content Include="Views\Facilitaciones\Resultados.cshtml" />
     <Content Include="Views\Facilitaciones\ResultadosDestinos.cshtml" />
+    <Content Include="Views\Facilitaciones\Generado.cshtml" />
+    <Content Include="Views\Shared\_LayoutEstado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

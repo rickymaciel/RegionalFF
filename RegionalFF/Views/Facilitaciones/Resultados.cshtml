@@ -14,9 +14,10 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <a href="@Url.Action("PaisesPrincipales10", "Facilitaciones")" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Volver">
+                <a type="button" href="@Url.Action("PaisesPrincipales10", "Facilitaciones")" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Volver">
                     <i class="fa fa-reply"></i>
                 </a>
+                <a id="generar" class="btn btn-sm btn-default" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando" data-toggle="tooltip" data-placement="top" title="Exportar" href="@Url.Action("ResultadoReporte", "Facilitaciones", new { Desde=ViewBag.Desde, Hasta=ViewBag.Hasta})" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Generando"><i class="fa fa-file-excel-o"></i></a>
             </div>
         </div>
     </div>
@@ -79,7 +80,7 @@
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="filtrar" aria-labelledby="filtrar">
-                            @using (Html.BeginForm("Resultados", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                            @using (Html.BeginForm("Resultados", "Facilitaciones", FormMethod.Post, new { @class = "form-horizontal form-label-left", @id = "form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 <div class="item form-group">
@@ -123,18 +124,13 @@
     @Scripts.Render("~/bundles/datetimepicker")
     <script>
         $(function () {
-            $("button.submit").click(function () {
-                var Desde = $("#Desde").val();
-                var Hasta = $("#Hasta").val();
-                if ((Desde != "") && (Hasta != "")) {
-                    var $this = $(this);
-                    $this.button('loading').removeClass("btn-primary").addClass("btn-link");
-                    setTimeout(function () {
-                        $this.button('reset').removeClass("btn-link").addClass("btn-primary");
-                    }, 8000);
-                }
+            $("a#generar").click(function () {
+                var $this = $(this);
+                $this.button('loading').removeClass("btn-primary").addClass("btn-link");
+                setTimeout(function () {
+                    $this.button('reset').removeClass("btn-link").addClass("btn-primary");
+                }, 8000);
             });
-
             var LegendData = @Html.Raw(Json.Encode(ViewBag.LegendData));
             var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
 

@@ -870,6 +870,8 @@ namespace RegionalFF.Controllers
                 OficinasController oficinacurrent = new OficinasController();
                 HttpCookie RegionalFF = HttpContext.Request.Cookies["RegionalFF"] ?? new HttpCookie("RegionalFF");
                 RegionalFF.Values["Oficina"] = oficinacurrent.getEmpresaUsers(user.Email);
+                RegionalFF.Values["Ciudad"] = oficinacurrent.getEmpresaCiudadUsers(user.Email);
+                RegionalFF.Values["Departamento"] = oficinacurrent.getEmpresaDepartamentoUsers(user.Email);
                 RegionalFF.Values["Nombre"] = oficinacurrent.getEmpresaNombreUsuario(user.Email);
                 RegionalFF.Values["Apellido"] = oficinacurrent.getEmpresaApellidoUsuario(user.Email);
                 RegionalFF.Values["Imagen"] = oficinacurrent.getImagenUsuario(user.Email);

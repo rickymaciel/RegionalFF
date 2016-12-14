@@ -28,15 +28,111 @@ namespace RegionalFF.Controllers
             return View(db.Facilitacions.ToList().Where(u => u.UserId == UserId).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).OrderByDescending(f => f.Fecha));
         }
 
-
-        public ActionResult Generar()
+        public ActionResult Generado()
         {
+            TempData["path"] = TempData["path"];
+            TempData["archivo"] = TempData["archivo"];
+            TempData["Desde"] = TempData["Desde"];
+            TempData["Hasta"] = TempData["Hasta"];
+            return View();
+        }
+
+        //Reporte Hoy (usuario)
+        public ActionResult GenerarReporteHoy()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var usuario = RegionalFF.Values["usuario"];
+            var UserId = User.Identity.GetUserId();
             DateTime Fecha = DateTime.Now;
             var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
             var workbook = new XLWorkbook(Plantilla);
             var worksheet = workbook.Worksheets.Worksheet(1);
-            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + " " + Fecha.Year;
-            var facilitaciones = db.Facilitacions.Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre+" "+g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Day + "/" + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year + " (" + usuario + ")";
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Day == Fecha.Day).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = facilitaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + usuario + "_" + Fecha.Day + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year + "_" + usuario;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Facilitaciones");
+        }
+
+        //Reporte Mes (usuario)
+        public ActionResult GenerarReporteEsteMes()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var usuario = RegionalFF.Values["usuario"];
+            var UserId = User.Identity.GetUserId();
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year + " (" + usuario + ")";
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = facilitaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year + "_" + usuario ;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Facilitaciones");
+        }
+
+        //Reporte Año (usuario)
+        public ActionResult GenerarReporteAño()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var usuario = RegionalFF.Values["usuario"];
+            var UserId = User.Identity.GetUserId();
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Year + " (" + usuario + ")";
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.Fecha.Year == Fecha.Year).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = facilitaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + Fecha.Year + "_" + usuario;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Facilitaciones");
+        }
+
+        //Reporte Hoy (todos)
+        public ActionResult GenerarReporteHoyTodos()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Day + "/" + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Day == Fecha.Day).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
             var rngDates = worksheet.Range("A12:A582");
             rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
             worksheet.Cell("A12").Value = facilitaciones;
@@ -51,15 +147,19 @@ namespace RegionalFF.Controllers
             return RedirectToAction("Index", "Facilitaciones");
         }
 
-        public ActionResult GenerarReporte()
+
+        //Reporte Mes (todos)
+        public ActionResult GenerarReporteMesTodos()
         {
-            var UserId = User.Identity.GetUserId();
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
             DateTime Fecha = DateTime.Now;
             var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
             var workbook = new XLWorkbook(Plantilla);
             var worksheet = workbook.Worksheets.Worksheet(1);
-            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + " " + Fecha.Year;
-            var facilitaciones = db.Facilitacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
             var rngDates = worksheet.Range("A12:A582");
             rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
             worksheet.Cell("A12").Value = facilitaciones;
@@ -74,15 +174,45 @@ namespace RegionalFF.Controllers
             return RedirectToAction("Index", "Facilitaciones");
         }
 
-        public ActionResult FiltrarReporte()
+        //Reporte Año (todos)
+        public ActionResult GenerarReporteAñoTodos()
         {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.Fecha.Year == Fecha.Year).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = facilitaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + Fecha.Year;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Facilitaciones");
+        }
+
+
+        public ActionResult GenerarReporte10()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
             var UserId = User.Identity.GetUserId();
             DateTime Fecha = DateTime.Now;
             var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
             var workbook = new XLWorkbook(Plantilla);
             var worksheet = workbook.Worksheets.Worksheet(1);
             worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + " " + Fecha.Year;
-            var facilitaciones = db.Facilitacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var facilitaciones = db.Facilitacions.Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Month == Fecha.Month).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
             var rngDates = worksheet.Range("A12:A582");
             rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
             worksheet.Cell("A12").Value = facilitaciones;
@@ -94,7 +224,76 @@ namespace RegionalFF.Controllers
             var path = Descargar;
             TempData["path"] = path;
             TempData["archivo"] = archivo;
-            return RedirectToAction("Index", "Facilitaciones");
+            return RedirectToAction("PaisesPrincipales10", "Facilitaciones");
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FiltrarReporte(DateTime Desde, DateTime Hasta, bool Incluir)
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var UserId = User.Identity.GetUserId();
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + " " + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            if (Incluir == true)
+            {
+                ViewBag.Filtro = "Todos los usuarios";
+                var facilitaciones = db.Facilitacions.Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+                worksheet.Cell("A12").Value = facilitaciones;
+            }
+            else
+            {
+                ViewBag.Filtro = User.Identity.GetUserId();
+                var facilitaciones = db.Facilitacions.Where(u => u.UserId == UserId).Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+                worksheet.Cell("A12").Value = facilitaciones;
+            }
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            ViewBag.Desde = Desde;
+            ViewBag.Hasta = Hasta;
+            return RedirectToAction("PaisesPrincipales10", "Facilitaciones");
+        }
+
+        public ActionResult ResultadoReporte(DateTime Desde,DateTime Hasta)
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Plantilla.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES - Desde: " + Desde.ToString("dd/MMMM/yyyy").ToUpper() + " Hasta: " + Hasta.ToString("dd/MMMM/yyyy").ToUpper();
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            ViewBag.Filtro = "Todos los usuarios";
+            var facilitaciones = db.Facilitacions.Where(u => u.Fecha >= Desde).Where(u => u.Fecha <= Hasta).Select(g => new { Fecha = g.Fecha, Cantidad = g.Cantidad, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Estadia = g.Estadia, Usuario = g.Usuario.Nombre + " " + g.Usuario.Apellido }).OrderBy(x => x.Fecha);
+            worksheet.Cell("A12").Value = facilitaciones;
+
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + Desde.ToString("dd-MMMM-yyyy").ToUpper() + "_" + Hasta.ToString("dd-MMMM-yyyy").ToUpper();
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            TempData["Desde"] = Desde.ToString("dd/MMMM/yyyy").ToUpper();
+            TempData["Hasta"] = Hasta.ToString("dd/MMMM/yyyy").ToUpper();
+            return RedirectToAction("Generado", "Facilitaciones");
         }
 
         // GET: Facilitaciones
@@ -798,6 +997,13 @@ namespace RegionalFF.Controllers
 
             ViewBag.Mes = Fecha.ToString("MMMM");
             ViewBag.Año = Fecha.Year;
+
+
+            ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre");
+            ViewBag.PaisId = new SelectList(db.Pais, "Id", "Nombre");
+            var UserId = User.Identity.GetUserId();
+            ViewBag.Fecha = Fecha;
+
             return View();
         }
 

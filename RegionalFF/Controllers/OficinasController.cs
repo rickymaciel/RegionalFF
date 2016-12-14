@@ -198,6 +198,16 @@ namespace RegionalFF.Controllers
             var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Documento).FirstOrDefault();
             return mostrar;
         }
+        public string getEmpresaCiudadUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Ciudad).FirstOrDefault();
+            return mostrar;
+        }
+        public string getEmpresaDepartamentoUsers(string term)
+        {
+            var mostrar = db.Users.Where(r => r.Email.Trim() == term.Trim()).Select(c => c.Oficina.Departamento).FirstOrDefault();
+            return mostrar;
+        }
 
         //public String getUsersRoles(string term)
         //{

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<RegionalFF.Models.Facilitacion>
+@using Microsoft.AspNet.Identity
+@using RegionalFF.Controllers
+
+@{
+    Layout = "~/Views/Shared/_LayoutEstado.cshtml";
+    ViewBag.Title = "Facilitación";
+    ViewBag.SubTitle = "Reporte de Facilitación - Desde: " + @TempData["Desde"] + " Hasta: " + @TempData["Hasta"];
+}
+
+<div class="col-md-12">
+    <div class="col-middle">
+        <div class="text-center">
+            <h1 class="error-number"><i class="fa fa-file-excel-o"></i></h1>
+            <h2>@ViewBag.Title</h2>
+            <h3 class="alert">
+                <i class="fa fa-check-circle-o"></i> El archivo Excel fue generado con éxito.
+            </h3>
+            <h5>@ViewBag.SubTitle</h5>
+            <div class="mid_center">
+                <div class="col-xs-12 form-group pull-right top_search">
+                    <div class="btn-group">
+                        @{
+                            <a type="button" id="volver" title="Volver" href="@Url.Action("PaisesPrincipales10", "Facilitaciones")" class="btn btn-primary btn-lg tip" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> "><i class="fa fa-reply"></i> </a>
+                            if (TempData["path"] != null)
+                            {
+                                var path = @TempData["path"];
+                                <a id="descargar" type="button" title="Descargar" data-toggle="tooltip" data-placement="top" data-original-title="Descargar" href="@path" download="@TempData["archivo"]" class="btn btn-primary btn-lg tip" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Descargando"><i class="fa fa-download"></i> Descargar</a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
