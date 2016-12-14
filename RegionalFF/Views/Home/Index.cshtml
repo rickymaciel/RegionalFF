@@ -2,6 +2,9 @@
 @using RegionalFF.Controllers
 
 @{
+    HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+    ViewBag.Title = "Informes";
+    ViewBag.SubTitle = "Panel de informes - Facilitación y Fiscalización";
     string Usuario = "";
     if (User.Identity.GetUserName() != "")
     {
@@ -12,10 +15,6 @@
         ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
         ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
 
-        ViewBag.Facilitacion = "Facilitación";
-        ViewBag.Fiscalizacion = "Fiscalización";
-        ViewBag.Title = "Inicio";
-        ViewBag.SubTitle = "Resumen - Hoy";
 
         FacilitacionesController hoyFacilitaciones = new FacilitacionesController();
 
@@ -60,67 +59,85 @@
         Usuario = Email.Substring(0, Index);
     }
 }
-@if (!User.IsInRole("Administrador") && !User.IsInRole("Fiscalizador") && !User.IsInRole("Facilitador"))
-{
-    <div class="right_col" role="main">
-        <div class="">
-            <div class="page-title">
-                <div class="">
-                    <h3>Este usuario no cuenta con los privilegios necesarios.</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
 
 @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
 {
+
     <div class="page-title">
         <div class="title_left">
-            <h3>Resúmen - @ViewBag.Facilitacion</h3>
+            <h3>@ViewBag.Title</h3>
         </div>
-
         <div class="title_right">
             <div class="pull-right">
                 <div class="btn-group">
-                    <a href="@Url.Action("Index", "Facilitaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Facilitaciones">
-                        <i class="fa fa-reply"></i>
-                        <strong>Ir a Facilitaciones</strong>
-                    </a>
+                    <button type="button" class="btn btn-default tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-primary tip" title="Exportar a Excel" data-toggle="modal" data-target="#abrirexportar">
+                        <i class="fa fa-file-excel-o"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="clearfix"></div>
-
+    <div class="page-header">
+        <h4><span class="label label-primary">Informe de Facilitación Global</span> </h4>
+    </div>
+    <div class="row top_tiles  tile_count">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats tip" title="Datos de la Oficina">
+                <div class="icon"><i class="fa fa-building text-info"></i></div>
+                <div class="count">
+                    <i class="fa fa-home"></i> @RegionalFF.Values["Sigla"]
+                </div>
+                <h3>@RegionalFF.Values["Rol"]</h3>
+                <p>@RegionalFF.Values["Oficina"]</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats tip" title="Total de turistas registrados - Hoy">
+                <div class="icon"><i class="fa fa-pencil text-info"></i></div>
+                <div class="count">
+                    @RegionalFF.Values["CantRegistroHoy"]
+                </div>
+                <h3>Hoy</h3>
+                <p>Total turistas Registrados</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
+                <div class="count">
+                    @RegionalFF.Values["CantTotalMes"]
+                </div>
+                <h3>Este Mes</h3>
+                <p>Total turistas Registrados</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
+                <div class="count">
+                    @RegionalFF.Values["CantTotalAnio"]
+                </div>
+                <h3>Este Año</h3>
+                <p>Total Turistas Registrados</p>
+            </div>
+        </div>
+    </div>
+    <div class="page-header">
+        <h4><span class="label label-primary">Informe de Facilitación - @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"] - @RegionalFF.Values["Rol"]</span></h4>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="x_content">
-                <ul class="stats-overview">
-                    <li>
-                        <span class="name"> Total de Turistas - Hoy</span>
-                        <span class="value text-success"> @ViewBag.SumCantHoyGlobal </span>
-                    </li>
-                    <li>
-                        <span class="name"> Total de Turistas - Este Mes </span>
-                        <span class="value text-success"> @ViewBag.SumCantMesGlobal </span>
-                    </li>
-                    <li>
-                        <span class="name"> Total de Turistas - Este Año</span>
-                        <span class="value text-success"> @ViewBag.SumCantAnioGlobal </span>
-                    </li>
-                </ul>
                 <div class="row">
                     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="ion-person text-info"></i></div>
-                            <div class="count" title="@ViewBag.Oficina">
-                                <i class="fa fa-home"></i> @ViewBag.Sigla
+                        <div class="tile-stats tip" title="Datos del Funcionario">
+                            <div class="icon"><i class="fa fa-user-circle text-info"></i></div>
+                            <div class="count">
+                                @RegionalFF.Values["CantTotalAnio"] 
                             </div>
-                            <h3>@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario </h3>
-                            <p>@ViewBag.Oficina</p>
+                            <h3> Usuario N° @RegionalFF.Values["Numero"]</h3>
+                            <p>@RegionalFF.Values["Rol"]</p>
                         </div>
                     </div>
                     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -157,33 +174,12 @@
             </div>
         </div>
     </div>
-    <hr class="clearfix">
 
 }
 
 
 @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
 {
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Resúmen - @ViewBag.Fiscalizacion</h3>
-        </div>
-
-        <div class="title_right">
-            <div class="pull-right">
-                <div class="btn-group">
-                    <a href="@Url.Action("Index", "Fiscalizaciones")" class="btn btn-default visible-lg" data-toggle="tooltip" title="Fiscalizaciones">
-                        <i class="fa fa-reply"></i>
-                        <strong>Ir a Fiscalizaciones</strong>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="clearfix"></div>
-
 
     <div class="row">
         <div class="col-md-12">
@@ -248,8 +244,6 @@
             </div>
         </div>
     </div>
-
-    <hr class="clearfix">
-
 }
 
+@Html.Partial("_PartialFacilitacion")
