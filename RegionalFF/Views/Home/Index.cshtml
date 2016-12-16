@@ -65,6 +65,9 @@
                 {
                     <button type="button" class="btn btn-default btn-sm tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
                 }
+                <a type="button" class="btn btn-primary btn-sm tip" title="Cantidad de turistas por año" href="#verCantidadTuristas">
+                    <i class="fa fa-bar-chart"></i>
+                </a>
                 <button type="button" class="btn btn-primary btn-sm tip" title="Exportar a Excel" data-toggle="modal" data-target="#abrirexportar">
                     <i class="fa fa-file-excel-o"></i>
                 </button>
@@ -74,10 +77,7 @@
 </div>
 @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
 {
-
-    @*<div class="page-header">
-            <h4><span class="">Informe de Facilitación Global</span> </h4>
-        </div>*@
+    
     <div class="row top_tiles  tile_count">
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats tip" title="Datos de la Oficina">
@@ -120,13 +120,9 @@
             </div>
         </div>
     </div>
-
-
-    @*<div class="page-header">
-            <h4><span class="label label-primary">Informe de Facilitación - @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"] - @RegionalFF.Values["Rol"]</span></h4>
-        </div>*@
+    
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="x_content">
                 <div class="row">
                     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -173,56 +169,10 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Transaction Summary <small>Weekly progress</small></h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="demo-container" style="height:350px">
-                            <div id="cantidadFecha" class="demo-placeholder"></div>
-                        </div>
-                        <div class="tiles">
-                            <div class="col-md-4 tile">
-                                <span>Total Sessions</span>
-                                <h2>231,809</h2>
-                                <span class="sparkline11 graph" style="height: 160px;">
-                                    <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                                </span>
-                            </div>
-                            <div class="col-md-4 tile">
-                                <span>Total Revenue</span>
-                                <h2>$231,809</h2>
-                                <span class="sparkline22 graph" style="height: 160px;">
-                                    <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                                </span>
-                            </div>
-                            <div class="col-md-4 tile">
-                                <span>Total Sessions</span>
-                                <h2>231,809</h2>
-                                <span class="sparkline11 graph" style="height: 160px;">
-                                    <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 }
 
 @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
 {
-    <div class="page-header">
-        <h4><span class="label label-primary">Informe de Fiscalización Global</span> </h4>
-    </div>
     <div class="row top_tiles  tile_count">
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats tip" title="Datos de la Oficina">
@@ -265,9 +215,7 @@
             </div>
         </div>
     </div>
-    <div class="page-header">
-        <h4><span class="label label-primary">Informe de Fiscalización - @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"] - @RegionalFF.Values["Rol"]</span></h4>
-    </div>
+    
     <div class="row">
         <div class="col-md-12">
             <div class="x_content">
@@ -318,6 +266,25 @@
     </div>
 
 }
+
+<div class="row" id="verCantidadTuristas">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Cantidad de Turistas <small>por año</small></h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="demo-container" style="height:350px">
+                        <div id="cantidadFecha" class="demo-placeholder"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/amcharts")
     <script>
@@ -335,7 +302,7 @@
                 }],
                 "graphs": [{
                     "id":"g1",
-                    "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+                    "balloonText": "<b><span style='font-size:11px;'>Ingreso de Turistas</span></b><br /><b><span style='font-size:15px;'>[[value]]</span></b>",
                     "bullet": "round",
                     "bulletSize": 8,
                     "lineColor": "#d1655d",
@@ -386,9 +353,9 @@
                 chart.zoomChart();
             }
 
-            function zoomChart(){
-                chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
-            }
+            //function zoomChart(){
+            //    chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
+            //}
         });
     </script>
 }

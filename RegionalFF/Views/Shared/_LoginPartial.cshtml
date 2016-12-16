@@ -5,7 +5,7 @@
     {
 
         var imagen = RegionalFF.Values["Imagen"];
-        
+
         var archivo = Path.GetFileName(imagen);
         var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
         byte[] imageByteData = System.IO.File.ReadAllBytes(path);
@@ -55,14 +55,31 @@
             </li>
 
             <li>
-                <a href="javascript:;" class="user-profile visible-lg tip" title="@RegionalFF.Values["Oficina"]">
+                <a href="javascript:;" title="@RegionalFF.Values["Oficina"]" class="user-profile visible-lg tip dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="@ViewBag.I" alt="@RegionalFF.Values["Oficina"]" />
                     @RegionalFF.Values["Oficina"]
                 </a>
-                <a href="javascript:;" class="user-profile hidden-lg" title="@RegionalFF.Values["Oficina"]">
+                <a href="javascript:;" title="@RegionalFF.Values["Oficina"]" class="user-profile hidden-lg tip dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="@ViewBag.I" alt="@RegionalFF.Values["Oficina"]" />
                 </a>
-            </li>
+                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li>
+                        <a href="@Url.Action("Index", "Home")">
+                            <i class="fa fa-home"></i>
+                            <span> Inicio</span>
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Facilitaciones")">
+                                <i class="fa fa-pencil"></i>
+                                <span> Facilitaciones</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+</li>
         </ul>
     }
 }
