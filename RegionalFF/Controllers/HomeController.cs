@@ -11,6 +11,20 @@ namespace RegionalFF.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public ActionResult ReturnTo()
+        {
+            if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+            {
+                return RedirectToAction("Index","Facilitaciones");
+            }
+            if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
+            {
+                return RedirectToAction("Index","Fiscalizaciones");
+            }
+            return RedirectToAction("Index");
+        }
+
+
         public ActionResult Index()
         {
             DateTime Fecha = DateTime.Now;

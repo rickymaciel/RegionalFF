@@ -81,28 +81,7 @@ namespace RegionalFF.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    ApplicationUser user = await UserManager.FindAsync(model.Email, model.Password);
-                    if (user != null)
-                    {
-                        ActualizarCookies(user.Email);
-                        // Redirect to User landing page on SignIn, according to Role
-                        if ((UserManager.IsInRole(user.Id, "Administrador")))
-                        {
-                            return RedirectToAction("Index", "Admin");
-                        }
-                        if ((UserManager.IsInRole(user.Id, "Facilitador")))
-                        {
-                            return RedirectToAction("Index", "Facilitaciones");
-                        }
-                        if ((UserManager.IsInRole(user.Id, "Fiscalizador")))
-                        {
-                            return RedirectToAction("Index", "Fiscalizaciones");
-                        }
-                        else
-                        {
-                            return RedirectToLocal(returnUrl);
-                        }
-                    }
+                    ActualizarCookies(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -485,7 +464,7 @@ namespace RegionalFF.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             Session.Abandon();
             Session.RemoveAll();
-            return RedirectToAction("Index", "Facilitaciones");
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /Account/ExternalLoginFailure
@@ -541,7 +520,7 @@ namespace RegionalFF.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Facilitaciones");
+            return RedirectToAction("ReturnTo", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
