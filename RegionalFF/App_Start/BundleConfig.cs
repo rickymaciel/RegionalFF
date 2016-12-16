@@ -33,8 +33,8 @@ namespace RegionalFF
                       "~/Scripts/datatables/buttons.print.min.js",
                       "~/Scripts/datatables/jszip.min.js",
                       "~/Scripts/datatables/pdfmake.min.js",
-                      "~/Scripts/datatables/ScriptDatatables.js",
-                      "~/Scripts/datatables/vfs_fonts.js"));
+                      "~/Scripts/datatables/vfs_fonts.js",
+                      "~/Scripts/datatables/ScriptDatatables.js"));
 
 
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
@@ -59,17 +59,11 @@ namespace RegionalFF
 
 
             bundles.Add(new ScriptBundle("~/bundles/amcharts").Include(
-                      "~/Scripts/amcharts/amcharts.js",
-                      "~/Scripts/amcharts/serial.js",
-                      "~/Scripts/amcharts/pie.js",
-                      "~/Scripts/amcharts/themes/light.js",
-                      "~/Scripts/amcharts/plugins/export/libs/fabric.js/fabric.min.js",
-                      "~/Scripts/amcharts/plugins/export/libs/FileSaver.js/FileSaver.min.js",
-                      "~/Scripts/amcharts/plugins/export/libs/jszip/jszip.min.js",
-                      "~/Scripts/amcharts/plugins/export/libs/pdfmake/pdfmake.min.js",
-                      "~/Scripts/amcharts/plugins/export/libs/xlsx/xlsx.min.js",
-                      "~/Scripts/amcharts/plugins/export/libs/xlsx/vfs_fonts.js",
-                      "~/Scripts/amcharts/plugins/export/export.js"
+                      "~/amcharts/amcharts.js",
+                      "~/amcharts/serial.js",
+                      "~/amcharts/pie.js",
+                      "~/amcharts/themes/light.js",
+                      "~/amcharts/plugins/export/export.js"
             ));
 
 
@@ -87,7 +81,7 @@ namespace RegionalFF
                       "~/Content/nprogress.css",
                       "~/Content/custom.css",
                       "~/Scripts/Selectize/css/selectize.bootstrap3.css",
-                      "~/Scripts/amcharts/plugins/export/export.css",
+                      "~/amcharts/plugins/export/export.css",
                       "~/Content/docs.min.css"
                       ));
 

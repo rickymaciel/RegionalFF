@@ -9,13 +9,6 @@
     if (User.Identity.GetUserName() != "")
     {
 
-        OficinasController oficinacur = new OficinasController();
-        ViewBag.Sigla = oficinacur.getEmpresaSiglaUsers(User.Identity.GetUserName());
-        ViewBag.Oficina = oficinacur.getEmpresaUsers(User.Identity.GetUserName());
-        ViewBag.NombreUsuario = oficinacur.getEmpresaNombreUsuario(User.Identity.GetUserName());
-        ViewBag.ApellidoUsuario = oficinacur.getEmpresaApellidoUsuario(User.Identity.GetUserName());
-
-
         FacilitacionesController hoyFacilitaciones = new FacilitacionesController();
 
         ViewBag.TotalRegistroHoyGlobal = hoyFacilitaciones.getTotalRegistroHoy();
@@ -60,27 +53,31 @@
     }
 }
 
-@if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
-{
 
-    <div class="page-title">
-        <div class="title_left">
-            <h3>@ViewBag.Title</h3>
-        </div>
-        <div class="title_right">
-            <div class="pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
-                    <button type="button" class="btn btn-primary tip" title="Exportar a Excel" data-toggle="modal" data-target="#abrirexportar">
-                        <i class="fa fa-file-excel-o"></i>
-                    </button>
-                </div>
+<div class="page-title">
+    <div class="title_left">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    <div class="title_right">
+        <div class="pull-right">
+            <div class="btn-group">
+                @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+                {
+                    <button type="button" class="btn btn-default btn-sm tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
+                }
+                <button type="button" class="btn btn-primary btn-sm tip" title="Exportar a Excel" data-toggle="modal" data-target="#abrirexportar">
+                    <i class="fa fa-file-excel-o"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div class="page-header">
-        <h4><span class="label label-primary">Informe de Facilitación Global</span> </h4>
-    </div>
+</div>
+@if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
+{
+
+    @*<div class="page-header">
+            <h4><span class="">Informe de Facilitación Global</span> </h4>
+        </div>*@
     <div class="row top_tiles  tile_count">
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats tip" title="Datos de la Oficina">
@@ -123,8 +120,153 @@
             </div>
         </div>
     </div>
+
+
+    @*<div class="page-header">
+            <h4><span class="label label-primary">Informe de Facilitación - @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"] - @RegionalFF.Values["Rol"]</span></h4>
+        </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_content">
+                <div class="row">
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats tip" title="Datos del Funcionario">
+                            <div class="icon"><i class="fa fa-user-circle text-info"></i></div>
+                            <div class="count">
+                                @RegionalFF.Values["CantTotalAnio"]
+                            </div>
+                            <h3> Usuario N° @RegionalFF.Values["Numero"]</h3>
+                            <p>@RegionalFF.Values["Rol"]</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.SumCantHoyUsuario
+                            </div>
+                            <h3>Hoy</h3>
+                            <p>Turistas Registrados por @Usuario</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.SumCantMesUsuario
+                            </div>
+                            <h3>Este Mes</h3>
+                            <p>Turistas Registrados por @Usuario</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-users text-info"></i></div>
+                            <div class="count">
+                                @ViewBag.SumCantAnioUsuario
+                            </div>
+                            <h3>Este Año</h3>
+                            <p>Turistas Registrados por @Usuario</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Transaction Summary <small>Weekly progress</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="demo-container" style="height:350px">
+                            <div id="cantidadFecha" class="demo-placeholder"></div>
+                        </div>
+                        <div class="tiles">
+                            <div class="col-md-4 tile">
+                                <span>Total Sessions</span>
+                                <h2>231,809</h2>
+                                <span class="sparkline11 graph" style="height: 160px;">
+                                    <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
+                                </span>
+                            </div>
+                            <div class="col-md-4 tile">
+                                <span>Total Revenue</span>
+                                <h2>$231,809</h2>
+                                <span class="sparkline22 graph" style="height: 160px;">
+                                    <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
+                                </span>
+                            </div>
+                            <div class="col-md-4 tile">
+                                <span>Total Sessions</span>
+                                <h2>231,809</h2>
+                                <span class="sparkline11 graph" style="height: 160px;">
+                                    <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
+{
     <div class="page-header">
-        <h4><span class="label label-primary">Informe de Facilitación - @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"] - @RegionalFF.Values["Rol"]</span></h4>
+        <h4><span class="label label-primary">Informe de Fiscalización Global</span> </h4>
+    </div>
+    <div class="row top_tiles  tile_count">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats tip" title="Datos de la Oficina">
+                <div class="icon"><i class="fa fa-building text-info"></i></div>
+                <div class="count">
+                    <i class="fa fa-home"></i> @RegionalFF.Values["Sigla"]
+                </div>
+                <h3>@RegionalFF.Values["Rol"]</h3>
+                <p>@RegionalFF.Values["Oficina"]</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bus text-info"></i></div>
+                <div class="count">
+                    @ViewBag.CantidadBusesHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p>Buses Registrados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-bell text-info"></i></div>
+                <div class="count">
+                    @ViewBag.NotificadosHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p>Buses Notificados - @Usuario</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users text-info"></i></div>
+                <div class="count">
+                    @ViewBag.PasajerosHoyUsuario
+                </div>
+                <h3>Hoy</h3>
+                <p>Pasajeros - @Usuario</p>
+            </div>
+        </div>
+    </div>
+    <div class="page-header">
+        <h4><span class="label label-primary">Informe de Fiscalización - @RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"] - @RegionalFF.Values["Rol"]</span></h4>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -134,7 +276,7 @@
                         <div class="tile-stats tip" title="Datos del Funcionario">
                             <div class="icon"><i class="fa fa-user-circle text-info"></i></div>
                             <div class="count">
-                                @RegionalFF.Values["CantTotalAnio"] 
+                                @RegionalFF.Values["CantTotalAnio"]
                             </div>
                             <h3> Usuario N° @RegionalFF.Values["Numero"]</h3>
                             <p>@RegionalFF.Values["Rol"]</p>
@@ -176,74 +318,79 @@
     </div>
 
 }
+@section Scripts {
+    @Scripts.Render("~/bundles/amcharts")
+    <script>
+        $(function () {
+            var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
+            var chart = AmCharts.makeChart("cantidadFecha", {
+                "type": "serial",
+                "theme": "light",
+                "marginTop":0,
+                "marginRight": 80,
+                "dataProvider": SeriesData,
+                "valueAxes": [{
+                    "axisAlpha": 0,
+                    "position": "left"
+                }],
+                "graphs": [{
+                    "id":"g1",
+                    "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+                    "bullet": "round",
+                    "bulletSize": 8,
+                    "lineColor": "#d1655d",
+                    "lineThickness": 2,
+                    "negativeLineColor": "#637bb6",
+                    "type": "smoothedLine",
+                    "valueField": "value"
+                }],
+                "chartScrollbar": {
+                    "graph":"g1",
+                    "gridAlpha":0,
+                    "color":"#888888",
+                    "scrollbarHeight":55,
+                    "backgroundAlpha":0,
+                    "selectedBackgroundAlpha":0.1,
+                    "selectedBackgroundColor":"#888888",
+                    "graphFillAlpha":0,
+                    "autoGridCount":true,
+                    "selectedGraphFillAlpha":0,
+                    "graphLineAlpha":0.2,
+                    "graphLineColor":"#c2c2c2",
+                    "selectedGraphLineColor":"#888888",
+                    "selectedGraphLineAlpha":1
 
+                },
+                "chartCursor": {
+                    "categoryBalloonDateFormat": "YYYY",
+                    "cursorAlpha": 0,
+                    "valueLineEnabled":true,
+                    "valueLineBalloonEnabled":true,
+                    "valueLineAlpha":0.5,
+                    "fullWidth":true
+                },
+                "dataDateFormat": "YYYY",
+                "categoryField": "year",
+                "categoryAxis": {
+                    "minPeriod": "YYYY",
+                    "parseDates": true,
+                    "minorGridAlpha": 0.1,
+                    "minorGridEnabled": true
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+            chart.addListener("rendered", zoomChart);
+            if(chart.zoomChart){
+                chart.zoomChart();
+            }
 
-@if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
-{
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="x_content">
-                <ul class="stats-overview">
-                    <li>
-                        <span class="name"> Total de Buses Fiscalizados - Hoy</span>
-                        <span class="value text-success"> @ViewBag.CantidadBusesHoyGlobal </span>
-                    </li>
-                    <li>
-                        <span class="name"> Total de Pasajeros - Hoy</span>
-                        <span class="value text-success"> @ViewBag.PasajerosHoyGlobal </span>
-                    </li>
-                    <li>
-                        <span class="name"> Total de Buses Notificados - Hoy</span>
-                        <span class="value text-success"> @ViewBag.NotificadosHoyGlobal </span>
-                    </li>
-                </ul>
-                <div class="row">
-
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="ion-person text-info"></i></div>
-                            <div class="count" title="@ViewBag.Oficina">
-                                <i class="fa fa-home"></i> @ViewBag.Sigla
-                            </div>
-                            <h3>@ViewBag.NombreUsuario @ViewBag.ApellidoUsuario </h3>
-                            <p>@ViewBag.Oficina</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-bus text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.CantidadBusesHoyUsuario
-                            </div>
-                            <h3>Hoy</h3>
-                            <p>Buses Registrados - @Usuario</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-bell text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.NotificadosHoyUsuario
-                            </div>
-                            <h3>Hoy</h3>
-                            <p>Buses Notificados - @Usuario</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.PasajerosHoyUsuario
-                            </div>
-                            <h3>Hoy</h3>
-                            <p>Pasajeros - @Usuario</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+            function zoomChart(){
+                chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
+            }
+        });
+    </script>
 }
 
 @Html.Partial("_PartialFacilitacion")

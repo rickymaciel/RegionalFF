@@ -270,6 +270,10 @@
     <Compile Include="Models\PieMapViewModel.cs" />
     <Compile Include="Models\Transporte.cs" />
     <Compile Include="Models\UsuarioRoles.cs" />
+    <Compile Include="Models\VisitasMes.cs" />
+    <Compile Include="Models\VisitasMesViewModel.cs" />
+    <Compile Include="Models\VisitasYearViewModel.cs" />
+    <Compile Include="Models\VisitaYear.cs" />
     <Compile Include="Models\VisitSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -336,14 +340,6 @@
     <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <Content Include="Content\Archivos\Plantilla\Plantilla.xlsx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\amcharts\amcharts.js" />
-    <Content Include="Scripts\amcharts\funnel.js" />
-    <Content Include="Scripts\amcharts\gantt.js" />
-    <Content Include="Scripts\amcharts\gauge.js" />
-    <Content Include="Scripts\amcharts\pie.js" />
-    <Content Include="Scripts\amcharts\radar.js" />
-    <Content Include="Scripts\amcharts\serial.js" />
-    <Content Include="Scripts\amcharts\xy.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
