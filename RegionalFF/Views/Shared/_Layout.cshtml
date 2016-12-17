@@ -16,18 +16,18 @@
         TempData["imageDataURL"] = imageDataURL;
     }
 
-    if (User.IsInRole("Administrador"))
-    {
-        urlpath = Url.Action("Index", "Admin");
-    }
-    if (User.IsInRole("Facilitador"))
-    {
-        urlpath = Url.Action("Index", "Facilitaciones");
-    }
-    if (User.IsInRole("Fiscalizador"))
-    {
-        urlpath = Url.Action("Index", "Fiscalizaciones");
-    }
+    //if (User.IsInRole("Administrador"))
+    //{
+    //    urlpath = Url.Action("Index", "Admin");
+    //}
+    //if (User.IsInRole("Facilitador"))
+    //{
+    //    urlpath = Url.Action("Index", "Facilitaciones");
+    //}
+    //if (User.IsInRole("Fiscalizador"))
+    //{
+    //    urlpath = Url.Action("Index", "Fiscalizaciones");
+    //}
 }
 @using Microsoft.AspNet.Identity
 @using RegionalFF.Controllers

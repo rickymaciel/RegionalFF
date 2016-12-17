@@ -2,6 +2,7 @@
 @using RegionalFF.Controllers
 
 @{
+
     HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
     ViewBag.Title = "Informes";
     ViewBag.SubTitle = "Panel de informes - Facilitación y Fiscalización";
@@ -63,11 +64,12 @@
             <div class="btn-group">
                 @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
                 {
-                    <button type="button" class="btn btn-default btn-sm tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
+                <button type="button" class="btn btn-default btn-sm tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nueva Facilitación"><i class="fa fa-pencil"></i></button>
                 }
-                <a type="button" class="btn btn-primary btn-sm tip" title="Cantidad de turistas por año" href="#verCantidadTuristas">
-                    <i class="fa fa-bar-chart"></i>
-                </a>
+                @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
+                {
+                <button type="button" class="btn btn-default btn-sm tip" data-toggle="modal" data-target="#crearFiscalizacion" title="Nueva Fiscalización"><i class="fa fa-pencil"></i></button>
+                }
                 <button type="button" class="btn btn-primary btn-sm tip" title="Exportar a Excel" data-toggle="modal" data-target="#abrirexportar">
                     <i class="fa fa-file-excel-o"></i>
                 </button>
@@ -75,96 +77,39 @@
         </div>
     </div>
 </div>
+
 @if (User.IsInRole("Administrador") || User.IsInRole("Facilitador"))
 {
-    
-    <div class="row top_tiles  tile_count">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats tip" title="Datos de la Oficina">
-                <div class="icon"><i class="fa fa-building text-info"></i></div>
-                <div class="count">
-                    <i class="fa fa-home"></i> @RegionalFF.Values["Sigla"]
-                </div>
-                <h3>@RegionalFF.Values["Rol"]</h3>
-                <p>@RegionalFF.Values["Oficina"]</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats tip" title="Total de turistas registrados - Hoy">
-                <div class="icon"><i class="fa fa-pencil text-info"></i></div>
-                <div class="count">
-                    @RegionalFF.Values["CantRegistroHoy"]
-                </div>
-                <h3>Hoy</h3>
-                <p>Total turistas Registrados</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
-                <div class="count">
-                    @RegionalFF.Values["CantTotalMes"]
-                </div>
-                <h3>Este Mes</h3>
-                <p>Total turistas Registrados</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
-                <div class="count">
-                    @RegionalFF.Values["CantTotalAnio"]
-                </div>
-                <h3>Este Año</h3>
-                <p>Total Turistas Registrados</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="x_content">
-                <div class="row">
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats tip" title="Datos del Funcionario">
-                            <div class="icon"><i class="fa fa-user-circle text-info"></i></div>
-                            <div class="count">
-                                @RegionalFF.Values["CantTotalAnio"]
-                            </div>
-                            <h3> Usuario N° @RegionalFF.Values["Numero"]</h3>
-                            <p>@RegionalFF.Values["Rol"]</p>
-                        </div>
+    <div class="row top_tiles tile_count text-info">
+        <div class="animated flipInY">
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="tile-stats tip" title="Total de turistas registrados - Hoy">
+                    <div class="icon"><i class="fa fa-edit text-info"></i></div>
+                    <div class="count">
+                        @RegionalFF.Values["CantRegistroHoy"]
                     </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.SumCantHoyUsuario
-                            </div>
-                            <h3>Hoy</h3>
-                            <p>Turistas Registrados por @Usuario</p>
-                        </div>
+                    <h3>Hoy</h3>
+                    <p>Total turistas Registrados</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-edit text-info"></i></div>
+                    <div class="count">
+                        @RegionalFF.Values["CantTotalMes"]
                     </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.SumCantMesUsuario
-                            </div>
-                            <h3>Este Mes</h3>
-                            <p>Turistas Registrados por @Usuario</p>
-                        </div>
+                    <h3>Este Mes</h3>
+                    <p>Total turistas Registrados</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-edit text-info"></i></div>
+                    <div class="count">
+                        @RegionalFF.Values["CantTotalAnio"]
                     </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.SumCantAnioUsuario
-                            </div>
-                            <h3>Este Año</h3>
-                            <p>Turistas Registrados por @Usuario</p>
-                        </div>
-                    </div>
+                    <h3>Este Año</h3>
+                    <p>Total Turistas Registrados</p>
                 </div>
             </div>
         </div>
@@ -173,113 +118,118 @@
 
 @if (User.IsInRole("Administrador") || User.IsInRole("Fiscalizador"))
 {
-    <div class="row top_tiles  tile_count">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats tip" title="Datos de la Oficina">
-                <div class="icon"><i class="fa fa-building text-info"></i></div>
-                <div class="count">
-                    <i class="fa fa-home"></i> @RegionalFF.Values["Sigla"]
-                </div>
-                <h3>@RegionalFF.Values["Rol"]</h3>
-                <p>@RegionalFF.Values["Oficina"]</p>
+<div class="row top_tiles tile_count text-primary">
+    <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-bus text-primary"></i></div>
+            <div class="count">
+                @ViewBag.CantidadBusesHoyUsuario
             </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bus text-info"></i></div>
-                <div class="count">
-                    @ViewBag.CantidadBusesHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p>Buses Registrados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-bell text-info"></i></div>
-                <div class="count">
-                    @ViewBag.NotificadosHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p>Buses Notificados - @Usuario</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users text-info"></i></div>
-                <div class="count">
-                    @ViewBag.PasajerosHoyUsuario
-                </div>
-                <h3>Hoy</h3>
-                <p>Pasajeros - @Usuario</p>
-            </div>
+            <h3>Hoy</h3>
+            <p>Buses Registrados - @Usuario</p>
         </div>
     </div>
-    
-    <div class="row">
-        <div class="col-md-12">
-            <div class="x_content">
-                <div class="row">
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats tip" title="Datos del Funcionario">
-                            <div class="icon"><i class="fa fa-user-circle text-info"></i></div>
-                            <div class="count">
-                                @RegionalFF.Values["CantTotalAnio"]
-                            </div>
-                            <h3> Usuario N° @RegionalFF.Values["Numero"]</h3>
-                            <p>@RegionalFF.Values["Rol"]</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.SumCantHoyUsuario
-                            </div>
-                            <h3>Hoy</h3>
-                            <p>Turistas Registrados por @Usuario</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.SumCantMesUsuario
-                            </div>
-                            <h3>Este Mes</h3>
-                            <p>Turistas Registrados por @Usuario</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-users text-info"></i></div>
-                            <div class="count">
-                                @ViewBag.SumCantAnioUsuario
-                            </div>
-                            <h3>Este Año</h3>
-                            <p>Turistas Registrados por @Usuario</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-bell text-primary"></i></div>
+            <div class="count">
+                @ViewBag.NotificadosHoyUsuario
             </div>
+            <h3>Hoy</h3>
+            <p>Buses Notificados - @Usuario</p>
         </div>
     </div>
-
+    <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="tile-stats">
+            <div class="icon"><i class="fa fa-users text-primary"></i></div>
+            <div class="count">
+                @ViewBag.PasajerosHoyUsuario
+            </div>
+            <h3>Hoy</h3>
+            <p>Pasajeros - @Usuario</p>
+        </div>
+    </div>
+</div>
 }
 
-<div class="row" id="verCantidadTuristas">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="row">
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2>Cantidad de Turistas <small>por año</small></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="demo-container" style="height:350px">
+                <div class="">
+                    <div class="demo-container">
                         <div id="cantidadFecha" class="demo-placeholder"></div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 widget widget_tally_box">
+        <div class="x_panel">
+            <div class="x_content">
+                <div class="flex">
+                    <ul class="list-inline widget_profile_box">
+                        <li>
+                            <a>
+                                @if (User.IsInRole("Facilitador"))
+                                {
+                                    <i class="fa fa-user-plus text-info"></i>
+                                }
+
+                                @if (User.IsInRole("Fiscalizador"))
+                                {
+                                    <i class="fa fa-bus text-primary"></i>
+                                }
+                                @if (User.IsInRole("Administrador"))
+                                {
+                                    <i class="fa fa-shield text-warning"></i>
+                                }
+                            </a>
+                        </li>
+                        <li>
+                            <img src="@TempData["imagedataurl"]" alt="..." class="img-circle profile_img">
+                        </li>
+                        <li>
+                            <a>
+                                <i class="fa fa-user-circle text-muted"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <h3 class="name">@RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"]</h3>
+
+                <div class="flex">
+                    <ul class="list-inline count2">
+                        <li>
+                            <h3>@ViewBag.SumCantHoyUsuario</h3>
+                            <span>Hoy</span>
+                        </li>
+                        <li>
+                            <h3>@ViewBag.SumCantMesUsuario</h3>
+                            <span>
+                                Mes
+                            </span>
+                        </li>
+                        <li>
+                            <h3>@ViewBag.SumCantAnioUsuario</h3>
+                            <span>Año</span>
+                        </li>
+                    </ul>
+                </div>
+                <p>
+                    Función: <b>@RegionalFF.Values["Rol"]</b>
+                </p>
+                <p>
+                    N° de Funcionario: <b>@RegionalFF.Values["Numero"]</b>
+                </p>
+                <p>
+                    Oficina: <b>@RegionalFF.Values["Oficina"]</b>
+                </p>
             </div>
         </div>
     </div>
@@ -287,77 +237,77 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/amcharts")
-    <script>
-        $(function () {
-            var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
-            var chart = AmCharts.makeChart("cantidadFecha", {
-                "type": "serial",
-                "theme": "light",
-                "marginTop":0,
-                "marginRight": 80,
-                "dataProvider": SeriesData,
-                "valueAxes": [{
-                    "axisAlpha": 0,
-                    "position": "left"
-                }],
-                "graphs": [{
-                    "id":"g1",
-                    "balloonText": "<b><span style='font-size:11px;'>Ingreso de Turistas</span></b><br /><b><span style='font-size:15px;'>[[value]]</span></b>",
-                    "bullet": "round",
-                    "bulletSize": 8,
-                    "lineColor": "#d1655d",
-                    "lineThickness": 2,
-                    "negativeLineColor": "#637bb6",
-                    "type": "smoothedLine",
-                    "valueField": "value"
-                }],
-                "chartScrollbar": {
-                    "graph":"g1",
-                    "gridAlpha":0,
-                    "color":"#888888",
-                    "scrollbarHeight":55,
-                    "backgroundAlpha":0,
-                    "selectedBackgroundAlpha":0.1,
-                    "selectedBackgroundColor":"#888888",
-                    "graphFillAlpha":0,
-                    "autoGridCount":true,
-                    "selectedGraphFillAlpha":0,
-                    "graphLineAlpha":0.2,
-                    "graphLineColor":"#c2c2c2",
-                    "selectedGraphLineColor":"#888888",
-                    "selectedGraphLineAlpha":1
+<script>
+    $(function () {
+        var SeriesData = @Html.Raw(Json.Encode(ViewBag.SeriesData));
+        var chart = AmCharts.makeChart("cantidadFecha", {
+            "type": "serial",
+            "theme": "light",
+            "marginTop":0,
+            "marginRight": 80,
+            "dataProvider": SeriesData,
+            "valueAxes": [{
+                "axisAlpha": 0,
+                "position": "left"
+            }],
+            "graphs": [{
+                "id":"g1",
+                "balloonText": "<b><span style='font-size:11px;'>Ingreso de Turistas</span></b><br /><b><span style='font-size:15px;'>[[value]]</span></b>",
+                "bullet": "round",
+                "bulletSize": 8,
+                "lineColor": "#d1655d",
+                "lineThickness": 2,
+                "negativeLineColor": "#637bb6",
+                "type": "smoothedLine",
+                "valueField": "value"
+            }],
+            "chartScrollbar": {
+                "graph":"g1",
+                "gridAlpha":0,
+                "color":"#888888",
+                "scrollbarHeight":55,
+                "backgroundAlpha":0,
+                "selectedBackgroundAlpha":0.1,
+                "selectedBackgroundColor":"#888888",
+                "graphFillAlpha":0,
+                "autoGridCount":true,
+                "selectedGraphFillAlpha":0,
+                "graphLineAlpha":0.2,
+                "graphLineColor":"#c2c2c2",
+                "selectedGraphLineColor":"#888888",
+                "selectedGraphLineAlpha":1
 
-                },
-                "chartCursor": {
-                    "categoryBalloonDateFormat": "YYYY",
-                    "cursorAlpha": 0,
-                    "valueLineEnabled":true,
-                    "valueLineBalloonEnabled":true,
-                    "valueLineAlpha":0.5,
-                    "fullWidth":true
-                },
-                "dataDateFormat": "YYYY",
-                "categoryField": "year",
-                "categoryAxis": {
-                    "minPeriod": "YYYY",
-                    "parseDates": true,
-                    "minorGridAlpha": 0.1,
-                    "minorGridEnabled": true
-                },
-                "export": {
-                    "enabled": true
-                }
-            });
-            chart.addListener("rendered", zoomChart);
-            if(chart.zoomChart){
-                chart.zoomChart();
+            },
+            "chartCursor": {
+                "categoryBalloonDateFormat": "YYYY",
+                "cursorAlpha": 0,
+                "valueLineEnabled":true,
+                "valueLineBalloonEnabled":true,
+                "valueLineAlpha":0.5,
+                "fullWidth":true
+            },
+            "dataDateFormat": "YYYY",
+            "categoryField": "year",
+            "categoryAxis": {
+                "minPeriod": "YYYY",
+                "parseDates": true,
+                "minorGridAlpha": 0.1,
+                "minorGridEnabled": true
+            },
+            "export": {
+                "enabled": true
             }
-
-            //function zoomChart(){
-            //    chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
-            //}
         });
-    </script>
+        chart.addListener("rendered", zoomChart);
+        if(chart.zoomChart){
+            chart.zoomChart();
+        }
+
+        //function zoomChart(){
+        //    chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
+        //}
+    });
+</script>
 }
 
 @Html.Partial("_PartialFacilitacion")
