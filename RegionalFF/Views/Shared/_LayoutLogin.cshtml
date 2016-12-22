@@ -119,36 +119,18 @@
         })
     </script>
 
-
-    @if (TempData["notice"] != null)
+    @if (TempData["mensaje"] != null)
     {
         <script id="mensaje">
             $(function () {
                 new PNotify({
-                    title: "@TempData["noticeTitle"]",
-                    type: "error",
-                    text: "@TempData["notice"]",
-                    addclass: 'error',
+                    title: "@TempData["titulo"]",
+                    type: "@TempData["tipo"]",
+                    text: "@TempData["mensaje"]",
+                    //addclass: 'dark',
                     styling: 'bootstrap3',
                 });
 
-                $('#Email').focus();
-                $('#Password').focus();
-
-            });
-        </script>
-    }
-    @if (TempData["confirmacion"] != null)
-    {
-        <script id="mensaje">
-            $(function () {
-                new PNotify({
-                    title: "@TempData["confirmacionTitle"]",
-                    type: "info",
-                    text: "@TempData["confirmacion"].",
-                    addclass: 'info',
-                    styling: 'bootstrap3',
-                });
             });
         </script>
     }

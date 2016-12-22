@@ -366,10 +366,16 @@ namespace RegionalFF.Controllers
                     {
                         return HttpNotFound();
                     }
-                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
+                    ActualizarCookies(objExpandedUserDTO.Email);
+                    TempData["title"] = "Operación exitosa";
+                    TempData["type"] = "success";
                     TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
+                    ViewBag.OficinaId = new SelectList(db.Oficinas, "Id", "Nombre", objExpandedUserDTO.OficinaId);
                     return RedirectToAction("Index", "Manage");
                 }
+
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "warning";
                 TempData["notice"] = "La Imagen es requerida!";
                 return RedirectToAction("Index", "Manage");
             }
@@ -377,6 +383,11 @@ namespace RegionalFF.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex); ;
                 TempData["notice"] = "Error: " + ex;
+
+                TempData["title"] = "Operación fallida";
+                TempData["type"] = "error";
+                TempData["notice"] = "Error: " + ex;
+
                 return View("Index");
             }
         }
@@ -403,13 +414,19 @@ namespace RegionalFF.Controllers
                 {
                     return HttpNotFound();
                 }
+                ActualizarCookies(paramExpandedUserDTO.Email);
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Imagen de Perfil fue modificado satisfactoriamente!";
                 return RedirectToAction("Index", "Manage");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Error: " + ex); ;
-                TempData["notice"] = "Error: " + ex;
+
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "success";
+                TempData["notice"] = "Ocurrió un error y no se guardaron los cambios";
                 return View("ModificarUsuario");
             }
         }
@@ -858,7 +875,7 @@ namespace RegionalFF.Controllers
         #endregion
 
 
-        #region public ActionResult ActualizarCookies(UsuarioAmpliado parametros)
+        #region public ActionResult ActualizarCookies(String parametros)
         public bool ActualizarCookies(String a)
         {
             ApplicationUser user = UserManager.FindByEmail(a);

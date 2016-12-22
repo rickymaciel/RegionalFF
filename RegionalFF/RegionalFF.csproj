@@ -532,12 +532,12 @@
     <Content Include="Views\Facilitaciones\ResultadosDestinos.cshtml" />
     <Content Include="Views\Facilitaciones\Generado.cshtml" />
     <Content Include="Views\Shared\_LayoutEstado.cshtml" />
+    <Content Include="Views\Shared\_PartialFiscalizacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\Uploads\Usuarios\Perfil\" />
     <Folder Include="Content\img\Uploads\Usuarios\Thumbnail\" />
-    <Folder Include="Views\Excel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

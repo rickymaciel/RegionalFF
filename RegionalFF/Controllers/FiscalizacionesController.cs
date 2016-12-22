@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using RegionalFF.Models;
 using Microsoft.AspNet.Identity;
+using ClosedXML.Excel;
 
 namespace RegionalFF.Controllers
 {
@@ -163,10 +164,14 @@ namespace RegionalFF.Controllers
                 fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
             }
             else
             {
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "error";
                 TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
                 return RedirectToAction("Index", "Fiscalizaciones");
             }
@@ -187,10 +192,14 @@ namespace RegionalFF.Controllers
                 fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
             }
             else
             {
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "error";
                 TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
                 return RedirectToAction("EsteMes", "Fiscalizaciones");
             }
@@ -211,10 +220,14 @@ namespace RegionalFF.Controllers
                 fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
             }
             else
             {
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "error";
                 TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
                 return RedirectToAction("EsteAño", "Fiscalizaciones");
             }
@@ -235,11 +248,15 @@ namespace RegionalFF.Controllers
                 fiscalizacion.Activo = true;
                 db.Fiscalizacions.Add(fiscalizacion);
                 db.SaveChanges();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Fiscalización fue registrada correctamente";
             }
             else
             {
-                TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada correctamente";
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "error";
+                TempData["notice"] = "Hubo un error y la Fiscalización no fue registrada";
                 return RedirectToAction("VerTodo", "Fiscalizaciones");
             }
             return RedirectToAction("VerTodo", "Fiscalizaciones");
@@ -288,6 +305,9 @@ namespace RegionalFF.Controllers
             {
                 db.Entry(fiscalizacion).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
+                TempData["notice"] = "La Fiscalización fue modificada correctamente";
                 return RedirectToAction("Index");
             }
             ViewBag.CiudadId = new SelectList(db.Ciudads, "Id", "Nombre", fiscalizacion.CiudadId);
@@ -472,6 +492,178 @@ namespace RegionalFF.Controllers
             DateTime Fecha = DateTime.Now;
             int hoy = db.Fiscalizacions.Where(x => x.Fiscal.Email == usuario).Where(x => x.Fecha.Year == Fecha.Year).DefaultIfEmpty().Sum(x => x == null ? 0 : x.CantidadPasajeros);
             return hoy;
+        }
+
+        public ActionResult GenerarReporteHoy()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var usuario = RegionalFF.Values["usuario"];
+            var UserId = User.Identity.GetUserId();
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Fiscalizacion.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "FISCALIZACION " + Fecha.Day + "/" + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year + " (" + usuario + ")";
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var fiscalizaciones = db.Fiscalizacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year)
+                .Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Day == Fecha.Day)
+                .Select(g => new { Fecha = g.Fecha, RazonSocial = g.Transporte.RazonSocial, ChapaNro = g.Transporte.ChapaNro, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Cantidad = g.CantidadPasajeros, Fiscal = g.Fiscal.Nombre + " " + g.Fiscal.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = fiscalizaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "FISCALIZACION_" + usuario + "_" + Fecha.Day + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year + "_" + usuario;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Fiscalizaciones");
+        }
+
+        //Reporte Mes (usuario)
+        public ActionResult GenerarReporteEsteMes()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var usuario = RegionalFF.Values["usuario"];
+            var UserId = User.Identity.GetUserId();
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Fiscalizacion.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "FISCALIZACION " + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year + " (" + usuario + ")";
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var fiscalizaciones = db.Fiscalizacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year)
+                 .Where(u => u.Fecha.Month == Fecha.Month)
+                 .Select(g => new { Fecha = g.Fecha, RazonSocial = g.Transporte.RazonSocial, ChapaNro = g.Transporte.ChapaNro, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Cantidad = g.CantidadPasajeros, Fiscal = g.Fiscal.Nombre + " " + g.Fiscal.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = fiscalizaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "REGISTRO_DE_VISITANTES_" + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year + "_" + usuario;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Fiscalizaciones");
+        }
+
+        //Reporte Año (usuario)
+        public ActionResult GenerarReporteAño()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            var usuario = RegionalFF.Values["usuario"];
+            var UserId = User.Identity.GetUserId();
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Fiscalizacion.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Year + " (" + usuario + ")";
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var fiscalizaciones = db.Fiscalizacions.Where(u => u.UserId == UserId).Where(u => u.Fecha.Year == Fecha.Year)
+                 .Select(g => new { Fecha = g.Fecha, RazonSocial = g.Transporte.RazonSocial, ChapaNro = g.Transporte.ChapaNro, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Cantidad = g.CantidadPasajeros, Fiscal = g.Fiscal.Nombre + " " + g.Fiscal.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = fiscalizaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "FISCALIZACION_" + Fecha.Year + "_" + usuario;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Fiscalizaciones");
+        }
+
+        //Reporte Hoy (todos)
+        public ActionResult GenerarReporteHoyTodos()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Fiscalizacion.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Day + "/" + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var fiscalizaciones = db.Fiscalizacions.Where(u => u.Fecha.Year == Fecha.Year)
+                .Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Day == Fecha.Day)
+                .Select(g => new { Fecha = g.Fecha, RazonSocial = g.Transporte.RazonSocial, ChapaNro = g.Transporte.ChapaNro, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Cantidad = g.CantidadPasajeros, Fiscal = g.Fiscal.Nombre + " " + g.Fiscal.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = fiscalizaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "FISCALIZACION_" + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Fiscalizaciones");
+        }
+
+
+        //Reporte Mes (todos)
+        public ActionResult GenerarReporteMesTodos()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Fiscalizacion.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.ToString("MMMM").ToUpper() + "/" + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var fiscalizaciones = db.Fiscalizacions.Where(u => u.Fecha.Year == Fecha.Year)
+                .Where(u => u.Fecha.Month == Fecha.Month)
+                .Select(g => new { Fecha = g.Fecha, RazonSocial = g.Transporte.RazonSocial, ChapaNro = g.Transporte.ChapaNro, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Cantidad = g.CantidadPasajeros, Fiscal = g.Fiscal.Nombre + " " + g.Fiscal.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = fiscalizaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "FISCALIZACION_" + Fecha.ToString("MMMM").ToUpper() + "_" + Fecha.Year;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Fiscalizaciones");
+        }
+
+        //Reporte Año (todos)
+        public ActionResult GenerarReporteAñoTodos()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            DateTime Fecha = DateTime.Now;
+            var Plantilla = Server.MapPath("~/Content/Archivos/Plantilla/Fiscalizacion.xlsx");
+            var workbook = new XLWorkbook(Plantilla);
+            var worksheet = workbook.Worksheets.Worksheet(1);
+            worksheet.Cell("A7").Value = "REGISTRO DE VISITANTES " + Fecha.Year;
+            worksheet.Cell("A8").Value = RegionalFF.Values["Oficina"];
+            worksheet.Cell("A9").Value = RegionalFF.Values["Ciudad"] + " - " + RegionalFF.Values["Departamento"];
+            var fiscalizaciones = db.Fiscalizacions.Where(u => u.Fecha.Year == Fecha.Year)
+               .Select(g => new { Fecha = g.Fecha, RazonSocial = g.Transporte.RazonSocial, ChapaNro = g.Transporte.ChapaNro, Origen = g.Pais.Nombre, Destino = g.Ciudad.Nombre, Cantidad = g.CantidadPasajeros, Fiscal = g.Fiscal.Nombre + " " + g.Fiscal.Apellido }).OrderBy(x => x.Fecha);
+            var rngDates = worksheet.Range("A12:A582");
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            worksheet.Cell("A12").Value = fiscalizaciones;
+            rngDates.Style.DateFormat.Format = "dd/MM/yyyy";
+            var archivo = "FISCALIZACION_" + Fecha.Year;
+            var Exportar = Server.MapPath("~/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx");
+            var Descargar = "http://localhost:2491/Content/Archivos/Plantilla/Exportar/" + archivo + ".xlsx";
+            workbook.SaveAs(Exportar);
+            var path = Descargar;
+            TempData["path"] = path;
+            TempData["archivo"] = archivo;
+            return RedirectToAction("Index", "Fiscalizaciones");
         }
 
         //Total de pasajeros Este año Global

@@ -63,6 +63,25 @@ namespace RegionalFF.Controllers
             return View();
         }
 
+        public void CargarSesion()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            if (RegionalFF != null)
+            {
+                var imagen = "";
+                var archivo = "";
+                var path = "";
+                imagen = RegionalFF.Values["Imagen"];
+                archivo = Path.GetFileName(imagen);
+                path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
+                byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+                string imageBase64Data = Convert.ToBase64String(imageByteData);
+                string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+                ViewBag.ImagenUsuarioCurrent = imageDataURL;
+                TempData["imageDataURL"] = imageDataURL;
+            }
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -82,6 +101,7 @@ namespace RegionalFF.Controllers
             {
                 case SignInStatus.Success:
                     ActualizarCookies(model.Email);
+                    CargarSesion();
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -89,8 +109,9 @@ namespace RegionalFF.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    TempData["noticeTitle"] = "No se pudo iniciar sesión.";
-                    TempData["notice"] = "El correo electrónico o la contraseña es incorrecta. Por favor, inténtelo de nuevo. Si tiene dificultad puede recuperar su contraseña.";
+                    TempData["titulo"] = "No se pudo iniciar sesión";
+                    TempData["tipo"] = "error";
+                    TempData["mensaje"] = "El correo electrónico o la contraseña es incorrecta. Por favor, inténtelo de nuevo. Si tiene dificultad puede recuperar su contraseña";
                     return View(model);
             }
         }
@@ -133,9 +154,9 @@ namespace RegionalFF.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    //ModelState.AddModelError("", "Invalid code.");
-                    TempData["noticeTitle"] = "Error.";
-                    TempData["notice"] = "Codigo inválido";
+                    TempData["titulo"] = "Opercaión cancelada";
+                    TempData["tipo"] = "error";
+                    TempData["mensaje"] = "Codigo inválido";
                     return View(model);
             }
         }
@@ -196,7 +217,9 @@ namespace RegionalFF.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-           // TempData["notice"] = "Recuperar cuenta";
+            TempData["titulo"] = "Informe";
+            TempData["tipo"] = "info";
+            TempData["mensaje"] = "Introduzca su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña.";
             return View();
         }
 
@@ -215,24 +238,25 @@ namespace RegionalFF.Controllers
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    TempData["noticeTitle"] = "No encontrado!";
-                    TempData["notice"] = "No se encontró el usuario";
+                    TempData["titulo"] = "Operación cancelada";
+                    TempData["tipo"] = "error";
+                    TempData["mensaje"] = "No se encontró el usuario";
                     return View("ForgotPasswordConfirmation");
                 }
 
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", callbackUrl);
-
-                TempData["confirmacionTitle"] = "Correo enviado";
-                TempData["confirmacion"] = "Te enviamos un enlace para restablecer tu contraseña. Si no aparece dentro de unos minutos, revisa tu carpeta de correo no deseado.";
-                
+                TempData["titulo"] = "Correo enviado";
+                TempData["tipo"] = "success";
+                TempData["mensaje"] = "Te enviamos un enlace para restablecer tu contraseña. Si no aparece dentro de unos minutos, revisa tu carpeta de correo no deseado.";
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
-            TempData["noticeTitle"] = "Ocurrió un error.";
-            TempData["notice"] = "No válido";
+            TempData["titulo"] = "Ocurrió un error.";
+            TempData["tipo"] = "error";
+            TempData["mensaje"] = "No válido";
             return View(model);
         }
 
@@ -272,8 +296,9 @@ namespace RegionalFF.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                TempData["noticeTitle"] = "Contraseña restablecida";
-                TempData["notice"] = "Su contraseña ha sido restablecida.";
+                TempData["titulo"] = "Contraseña restablecida";
+                TempData["tipo"] = "success";
+                TempData["mensaje"] = "Su contraseña ha sido restablecida.";
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);

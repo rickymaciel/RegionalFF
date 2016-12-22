@@ -18,8 +18,8 @@ namespace RegionalFF
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
-                      "~/Scripts/custom.min.js"
-                      //"~/Scripts/respond.min.js"
+                      "~/Scripts/custom.min.js",
+                      "~/Scripts/respond.min.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include(
@@ -63,12 +63,14 @@ namespace RegionalFF
                       "~/amcharts/serial.js",
                       "~/amcharts/pie.js",
                       "~/amcharts/themes/light.js",
-                      "~/amcharts/plugins/export/export.js"
+                      "~/amcharts/plugins/export/export.min.js"
             ));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/bootstrap.css",
                       "~/Content/font-awesome.min.css",
+                      "~/Content/nprogress.css",
                       "~/Content/animate.min.css",
                       "~/Content/jquery.mCustomScrollbar.min.css",
                       "~/Content/skins/minimal/blue.css",
@@ -76,13 +78,11 @@ namespace RegionalFF
                       "~/Scripts/Pnotify/pnotify.buttons.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/bootstrap-fileinput/css/fileinput.min.css",
-                      "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.min.css",
-                      "~/Content/nprogress.css",
-                      "~/Content/custom.css",
                       "~/Scripts/Selectize/css/selectize.bootstrap3.css",
                       "~/amcharts/plugins/export/export.css",
-                      "~/Content/docs.min.css"
+                      //"~/Content/docs.min.css",
+                      "~/Content/custom.css"
                       ));
 
 

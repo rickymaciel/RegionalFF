@@ -9,12 +9,29 @@ using System.Web.Mvc;
 using RegionalFF.Models;
 using Microsoft.AspNet.Identity;
 using ClosedXML.Excel;
+using System.IO;
 
 namespace RegionalFF.Controllers
 {
     public class FacilitacionesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public void CargarSesion()
+        {
+            HttpCookie RegionalFF = Request.Cookies["RegionalFF"];
+            if (RegionalFF != null)
+            {
+                var imagen = RegionalFF.Values["Imagen"];
+                var archivo = Path.GetFileName(imagen);
+                var path = Path.Combine(Server.MapPath("~/Content/img/Uploads/Usuarios/Thumbnail/" + archivo), archivo + ".png");
+                byte[] imageByteData = System.IO.File.ReadAllBytes(path);
+                string imageBase64Data = Convert.ToBase64String(imageByteData);
+                string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+                ViewBag.ImagenUsuarioCurrent = imageDataURL;
+                TempData["imageDataURL"] = imageDataURL;
+
+            }
+        }
 
         // GET: Facilitaciones
         public ActionResult Index()
@@ -24,6 +41,8 @@ namespace RegionalFF.Controllers
             DateTime Fecha = DateTime.Now;
             var UserId = User.Identity.GetUserId();
             ViewBag.Fecha = Fecha;
+
+            CargarSesion();
             //var facilitacions = db.Facilitacions.Include(f => f.Ciudad).Include(f => f.Pais).Include(f => f.Usuario);
             return View(db.Facilitacions.ToList().Where(u => u.UserId == UserId).Where(u => u.Fecha.Month == Fecha.Month).Where(u => u.Fecha.Year == Fecha.Year).Where(u => u.Fecha.Day == Fecha.Day).OrderByDescending(f => f.Fecha));
         }
@@ -608,12 +627,16 @@ namespace RegionalFF.Controllers
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
                 ActualizarCookiesFacilitacion();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
                 return RedirectToAction("Index", "Facilitaciones");
             }
             else
             {
-                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "error";
+                TempData["notice"] = "Por favor compruebe que los campos requeridos esten ingresados y vuelva a intentarlo";
                 return RedirectToAction("Index", "Facilitaciones");
             }
         }
@@ -629,12 +652,17 @@ namespace RegionalFF.Controllers
             {
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
+                ActualizarCookiesFacilitacion();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
                 return RedirectToAction("EsteMes", "Facilitaciones");
             }
             else
             {
-                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "error";
+                TempData["notice"] = "Por favor compruebe que los campos requeridos esten ingresados y vuelva a intentarlo";
                 return RedirectToAction("EsteMes", "Facilitaciones");
             }
         }
@@ -650,12 +678,17 @@ namespace RegionalFF.Controllers
             {
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
+                ActualizarCookiesFacilitacion();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
                 return RedirectToAction("EsteAño", "Facilitaciones");
             }
             else
             {
-                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "error";
+                TempData["notice"] = "Por favor compruebe que los campos requeridos esten ingresados y vuelva a intentarlo";
                 return RedirectToAction("EsteAño", "Facilitaciones");
             }
         }
@@ -670,12 +703,17 @@ namespace RegionalFF.Controllers
             {
                 db.Facilitacions.Add(facilitacion);
                 db.SaveChanges();
+                ActualizarCookiesFacilitacion();
+                TempData["title"] = "Operación exitosa";
+                TempData["type"] = "success";
                 TempData["notice"] = "La Facilitación fue registrada correctamente";
                 return RedirectToAction("VerTodo", "Facilitaciones");
             }
             else
             {
-                TempData["notice"] = "Hubo un error y la Facilitación no fue registrada correctamente";
+                TempData["title"] = "Operación cancelada";
+                TempData["type"] = "error";
+                TempData["notice"] = "Por favor compruebe que los campos requeridos esten ingresados y vuelva a intentarlo";
                 return RedirectToAction("VerTodo", "Facilitaciones");
             }
         }
@@ -792,11 +830,15 @@ namespace RegionalFF.Controllers
                     db.Entry(facilitacion).State = EntityState.Modified;
                     db.SaveChanges();
                     ActualizarCookiesFacilitacion();
+                    TempData["title"] = "Operación exitosa";
+                    TempData["type"] = "success";
                     TempData["notice"] = "La Facilitación fue modificada correctamente";
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    TempData["title"] = "Operación cancelada";
+                    TempData["type"] = "notice";
                     TempData["notice"] = "La Facilitación ya no puede ser modificada";
                     return RedirectToAction("Index");
                 }
@@ -952,7 +994,7 @@ namespace RegionalFF.Controllers
             return scopeNames.ToList();
         }
 
-        [Authorize(Roles = "Facilitador,Administrador")]
+        //[Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult PaisesPrincipales10()
         {
             DateTime Fecha = DateTime.Now;
@@ -1139,7 +1181,7 @@ namespace RegionalFF.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Facilitador,Administrador")]
+        //[Authorize(Roles = "Facilitador,Administrador")]
         public ActionResult DestinosPrincipales10()
         {
             string fecha = DateTime.Now.ToString("yyyy-MM-dd");

@@ -12,8 +12,7 @@
     <div class="title_right">
         <div class="pull-right">
             <div class="btn-group">
-                <button type="button" class="btn btn-primary tip visible-lg" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil-square-o"></i> Nuevo Registro</button>
-                <button type="button" class="btn btn-primary tip hidden-lg" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil-square-o"></i></button>
+                <button type="button" class="btn btn-primary tip" data-toggle="modal" data-target="#crearFacilitacion" title="Nuevo Registro"><i class="fa fa-pencil"></i></button>
                 <button type="button" class="btn btn-default tip" title="Exportar" data-toggle="modal" data-target="#abrirexportar">
                     <i class="fa fa-file-excel-o"></i>
                 </button>
@@ -24,7 +23,9 @@
 <div class="row top_tiles  tile_count">
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
-            <div class="icon"><i class="ion-person text-info"></i></div>
+            <div class="widget_profile_box col-xs-5 pull-right">
+                <img src="@TempData["imagedataurl"]" alt="@RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"]" class="img-circle profile_img">
+            </div>
             <div class="count">
                 @RegionalFF.Values["Sigla"]
             </div>
@@ -44,7 +45,7 @@
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
-            <div class="icon"><i class="fa fa-pencil-square-o text-info"></i></div>
+            <div class="icon"><i class="fa fa-pencil text-info"></i></div>
             <div class="count">
                 @RegionalFF.Values["CantTotalMes"]
             </div>
@@ -54,7 +55,7 @@
     </div>
     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="tile-stats">
-            <div class="icon"><i class="fa fa-pencil-square text-info"></i></div>
+            <div class="icon"><i class="fa fa-pencil text-info"></i></div>
             <div class="count">
                 @RegionalFF.Values["CantTotalAnio"]
             </div>
@@ -178,6 +179,7 @@
                 <img class="edit" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA5FBMVEUAAABua2xXVFWbmJliX2C0s7P///9pZ2d6eHjX1taXlJX5+fn8/Pywr6/29vZaV1iQjo+FgoMwLC1iX2DU09Tv7+/n5+e4trcEAQHf3t75+Pns7Oy6ublpZ2d5d3j5+fn////t7e3NzMxfXF3Y19fn5ua5t7j9/f3////9/f34+PhdWlvY1tf5+fnt7Oy1tLT///////////+4t7f9/f3////////v7u7Pzs7+/v74+Pj///////+DgYLZ2Nn09PT7+/v////////////////////////////////////////+/v7p3CnTAAAASnRSTlMAAAAAAAAAAAAAAAAAAAAIJxsBCW/bvjsBZu/MOgkWXOu5EAlyrzBg6tEWCXHuvC7sXwIwW1sEqg1jA2IDBW8Z2xzjGcrl5NphGGLptgIAAACVSURBVBjTtclFAsIwEEDRwQZ396ItVtyLhKKT+9+HDZs02QF/+T7Av3LFE8mUW3ZPOpPN5cHrdF+hWCJerqBf9EC1VteIeKMZFDzUane6ukHU64cFHwxH3Bzr2mQ6Q4cTcXO+WK5kJ+LrDaictO0uonJjb+EXHj0clQ6x01npgOyi9M+QHdC+3u6Pp+SAls3YS/af9QbjVSRDRv3NPgAAAABJRU5ErkJggg==">
             </div>
         </div>
+
     </div>
 </div>
 

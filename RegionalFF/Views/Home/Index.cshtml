@@ -191,11 +191,11 @@
                             </a>
                         </li>
                         <li>
-                            <img src="@TempData["imagedataurl"]" alt="..." class="img-circle profile_img">
+                            <img src="@TempData["imagedataurl"]" alt="@RegionalFF.Values["Nombre"] @RegionalFF.Values["Apellido"]" class="img-circle profile_img">
                         </li>
                         <li>
                             <a>
-                                <i class="fa fa-user-circle text-muted"></i>
+                                <i class="fa fa-user-circle"></i>
                             </a>
                         </li>
                     </ul>
@@ -303,11 +303,12 @@
             chart.zoomChart();
         }
 
-        //function zoomChart(){
-        //    chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.4), Math.round(chart.dataProvider.length * 0.55));
-        //}
+        function zoomChart(){
+            chart.zoomToIndexes(Math.round(chart.dataProvider.length * 0.6), Math.round(chart.dataProvider.length * 1));
+        }
     });
 </script>
 }
 
 @Html.Partial("_PartialFacilitacion")
+@Html.Partial("_PartialFiscalizacion")
