@@ -63,7 +63,7 @@ namespace RegionalFF.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("REGIONALFF", throwIfV1Schema: false)
         {
         }
 
