@@ -23,12 +23,12 @@ namespace RegionalFF
         public async Task SendAsync(IdentityMessage message)
         {
             // Credentials:
-            string smtpServer = "smtp.gmail.com";
+            string smtpServer = "";
             int smtpPort = 587;
             bool enableSsl = true;
-            string smtpUsername = "regionalff.info@gmail.com";
-            string smtpPassword = "1Regional/";
-            string sentFrom = "regionalff.info@gmail.com";
+            string smtpUsername = "";
+            string smtpPassword = "";
+            string sentFrom = "";
 
             // Configure the client:
             var client = new SmtpClient(smtpServer, smtpPort);
@@ -58,9 +58,7 @@ namespace RegionalFF
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            TwilioRestClient client = new TwilioRestClient("AC2d2d0eb15eee114402b4d82c69f95597", "158d2ffd3a4428c75f5db94860ce1798");
-            client.SendMessage("+12017938913", message.Destination, message.Body);
+            //twilioTxt
             return Task.FromResult(0);
         }
     }
